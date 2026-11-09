@@ -25,5 +25,13 @@ Anchoring, availability, confirmation bias, base-rate neglect, survivorship and 
 
 This is a working checklist, not a definitive canonical “52” list. Distinguish cognitive biases from formal logical fallacies and reconcile duplicates.
 
+## Case-based reasoning
+For every substantive decision, retrieve a small set of relevant historical cases after the conclusion and rationale. Prioritize structural/causal similarity over keyword overlap. Include the context, action/outcome, transferable lesson, and crucial differences. When useful, include counterexamples and failed cases.
+
+Case sources must be labeled: user-personal, authorized team, verified public history, empirical research, or synthetic illustration. Synthetic examples must never be presented as historical fact. Do not force a fixed number if reliable cases are unavailable.
+
 ## Model record template
 ID/name/aliases; category/tags; plain explanation; usefulness and limits; diagnostic questions; practical steps; original example; related/conflicting models; source/author/publication/URL/page; evidence status; source claim vs OS synthesis; version/date; feedback and linked decisions.
+
+## Case record template
+ID/title/type/date; source and citation; facts/context/constraints; options; action and outcomes; result reliability/attribution; mechanism/lesson; applicability and limits; counterexample; links to models and decisions; notes/version.
