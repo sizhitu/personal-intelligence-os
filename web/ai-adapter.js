@@ -70,18 +70,38 @@ async function aiRun(){
   const payload=await response.json().catch(()=>({}));if(!response.ok)throw new Error((payload.error&&payload.error.message)||("API 请求失败："+response.status));
   const content=payload.choices?.[0]?.message?.content;if(!content)throw new Error("服务商响应中没有 choices[0].message.content；请确认接口兼容 Chat Completions。");
   PIOS_LAST_AI_REPORT={content:content,model:model,endpointHost:url.host,provider:"OpenAI-compatible",generatedAt:new Date().toISOString(),modelLibraryVersion:ctx.modelVersion,caseIds:ctx.cases.map(x=>x.id),question:aiReadText("problem"),domain:aiReadText("domain")};
-  aiEl("aiOutput").textContent=content;aiEl("aiOutputWrap").style.display="block";aiStatus("分析完成。请核对事实、案例来源和约束；API Key 仅保留在当前页面内存。");
- }catch(e){aiStatus("调用失败："+e.message+"。部分服务商可能不允许浏览器跨域请求（CORS），或要求不同接口格式。",true);}finally{PIOS_AI_KEY="";const secret=aiEl("aiApiKey");if(secret)secret.value="";btn.disabled=false;}
+  aiEl("aiOutput").textContent=content;aiEl("aiOutputWrap").style.display="block";aiSaveSnapshot();aiStatus("分析完成，已自动保存到决策记录。请核对事实、案例来源和约束。");
+ }catch(e){aiStatus("调用失败："+e.message+"。部分服务商可能不允许浏览器跨域请求（CORS），或要求不同接口格式。",true);}finally{PIOS_AI_KEY="";btn.disabled=false;}
 }
 function aiSaveSnapshot(){
  if(!PIOS_LAST_AI_REPORT){aiEl("aiSaveStatus").textContent="当前没有可保存的 AI 分析。";return;}
- const id=aiReadText("aiSaveDecision");if(!id){aiEl("aiSaveStatus").textContent="请先选择一条已登记决策。";return;}
- const decision=wb.decisions.find(x=>x.id===id);if(!decision){aiEl("aiSaveStatus").textContent="找不到这条决策，请刷新选择。";return;}
- if(!Array.isArray(decision.aiSnapshots))decision.aiSnapshots=[];
- decision.aiSnapshots.push({...PIOS_LAST_AI_REPORT,expectedFailures:aiReadText("aiExpectedFailures"),failureBudget:aiReadText("aiFailureBudget")});
- if(wbSave())aiEl("aiSaveStatus").textContent="已保存到决策记录。API Key 未保存；可在记录库导出 JSON 备份。";
+ const report=PIOS_LAST_AI_REPORT;
+ const question=report.question||"未命名决策";
+ const title=("AI决策："+question).slice(0,120);
+ const decision={
+  id:typeof wbId==="function"?wbId("D"):"D-"+Date.now().toString(36),
+  createdAt:new Date().toISOString(),
+  title,domain:report.domain||"跨领域",
+  objective:question,
+  constraints:aiReadText("constraints"),
+  options:aiReadText("engineOptions"),
+  hypothesis:"AI 首选建议："+String(report.content||"").slice(0,1600),
+  confidence:"",probability:"",timeEstimate:"",baseRate:"",
+  metrics:"",riskCap:aiReadText("aiFailureBudget"),
+  stopRule:aiReadText("aiExpectedFailures"),
+  weights:[],factors:[],experimentCount:0,resources:[],
+  aiSnapshots:[{...report,expectedFailures:aiReadText("aiExpectedFailures"),failureBudget:aiReadText("aiFailureBudget")}],
+  source:"ai_decision"
+ };
+ if(!Array.isArray(wb.decisions))wb.decisions=[];
+ wb.decisions.push(decision);
+ if(wbSave()){
+  const status=aiEl("aiSaveStatus");
+  if(status)status.textContent="已自动保存为一条新决策，并附上完整 AI 分析。以后可在决策记录中追踪、复盘和导出；API Key 不会保存。";
+  const select=aiEl("aiSaveDecision");if(select)select.value=decision.id;
+ }
 }
 window.piosRunDecisionAI=aiRun;
 aiEl("saveAiSnapshot")?.addEventListener("click",aiSaveSnapshot);
 aiEl("aiApiKey")?.addEventListener("input",e=>{PIOS_AI_KEY=e.target.value;});
-window.addEventListener("pagehide",()=>{PIOS_AI_KEY="";});
+window.addEventListener("pagehide",()=>{PIOS_AI_KEY="";const secret=aiEl("aiApiKey");if(secret)secret.value="";});
