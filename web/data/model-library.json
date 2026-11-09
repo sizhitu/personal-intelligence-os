@@ -1,0 +1,446 @@
+{
+  "schema_version": "1.0",
+  "dataset_version": "2026-11-09",
+  "purpose": "Curated original summaries and diagnostic prompts for the Personal Intelligence OS. Not a reproduction of copyrighted books.",
+  "governance": {
+    "status": "research_seed",
+    "weights": "Model selection can suggest factors but must not set user values. Weights are contextual proposals, not objective truth.",
+    "sources": "Source names identify intellectual lineage; verify exact editions and passages before quoting.",
+    "limits": "No single model proves a conclusion. Preserve boundary conditions and countermodels."
+  },
+  "models": [
+    {
+      "id": "COG-001",
+      "name": "双系统思考",
+      "family": "cognitive_psychology",
+      "summary": "区分快速、自动、低成本的直觉判断与较慢、费力、受控的分析过程。",
+      "use_when": [
+        "高压、时间紧、直觉很强",
+        "判断复杂且容易受框架影响"
+      ],
+      "avoid_when": [
+        "把系统1/2误当成脑内两个独立器官或固定人格类型"
+      ],
+      "diagnostics": [
+        "我是否在用熟悉感替代证据？",
+        "这件事的风险是否值得慢下来？"
+      ],
+      "failure_modes": [
+        "过度分析导致瘫痪",
+        "把直觉一概视为错误"
+      ],
+      "sources": [
+        "Daniel Kahneman, Thinking, Fast and Slow"
+      ]
+    },
+    {
+      "id": "COG-002",
+      "name": "锚定效应",
+      "family": "cognitive_psychology",
+      "summary": "初始数字、方案或叙事会不成比例地影响后续判断。",
+      "use_when": [
+        "谈判、估值、预算、预测、首次报价"
+      ],
+      "avoid_when": [
+        "把所有初始信息都当成无效；锚点也可能含有真实信息"
+      ],
+      "diagnostics": [
+        "不看初始报价，我会独立估算多少？",
+        "是否用不同方法和外部基准重新估计？"
+      ],
+      "failure_modes": [
+        "刻意反锚定后走向另一个极端"
+      ],
+      "sources": [
+        "Daniel Kahneman, Thinking, Fast and Slow"
+      ]
+    },
+    {
+      "id": "COG-003",
+      "name": "基准率与外部视角",
+      "family": "cognitive_psychology",
+      "summary": "先查看同类事件总体发生频率，再调整到当前个案。",
+      "use_when": [
+        "项目工期、创业成功率、预测、风险估计"
+      ],
+      "avoid_when": [
+        "参考组定义不当或当前环境发生结构性变化"
+      ],
+      "diagnostics": [
+        "类似项目通常结果如何？",
+        "我为什么认为自己会显著偏离基准率？"
+      ],
+      "failure_modes": [
+        "参考组选择偏差",
+        "忽略新证据"
+      ],
+      "sources": [
+        "Daniel Kahneman, Thinking, Fast and Slow"
+      ]
+    },
+    {
+      "id": "MGR-001",
+      "name": "逆向思维",
+      "family": "munger_latticework",
+      "summary": "先问什么会导致失败、毁灭或不可接受结果，再设计避免机制。",
+      "use_when": [
+        "高风险、不可逆、复杂项目启动前"
+      ],
+      "avoid_when": [
+        "只列风险却不评估机会和可控性"
+      ],
+      "diagnostics": [
+        "一年后项目失败，最可能的五个原因是什么？",
+        "哪些风险必须被消除而非加权抵消？"
+      ],
+      "failure_modes": [
+        "风险清单无限膨胀",
+        "把可能性误当必然性"
+      ],
+      "sources": [
+        "Charlie Munger, Poor Charlie's Almanack"
+      ]
+    },
+    {
+      "id": "MGR-002",
+      "name": "激励机制",
+      "family": "munger_latticework",
+      "summary": "理解参与者实际受到什么奖励、惩罚与约束，预测行为而不只听口头意图。",
+      "use_when": [
+        "组织、客户、合作、团队、平台和治理"
+      ],
+      "avoid_when": [
+        "用激励解释一切，忽略价值、制度和偶然因素"
+      ],
+      "diagnostics": [
+        "每个参与者的真实收益与成本是什么？",
+        "指标会诱导什么非预期行为？"
+      ],
+      "failure_modes": [
+        "过度犬儒化",
+        "误判他人动机"
+      ],
+      "sources": [
+        "Charlie Munger, Poor Charlie's Almanack"
+      ]
+    },
+    {
+      "id": "MGR-003",
+      "name": "机会成本",
+      "family": "munger_latticework",
+      "summary": "选择一条路径意味着放弃最好的替代用途，包括时间、注意力和资本。",
+      "use_when": [
+        "资源稀缺、项目排序、职业和投资配置"
+      ],
+      "avoid_when": [
+        "把难以量化的关系、信仰和健康价值强行折算为金额"
+      ],
+      "diagnostics": [
+        "不做这件事，最好的替代选择是什么？",
+        "被占用的稀缺资源是什么？"
+      ],
+      "failure_modes": [
+        "忽略沉没成本与不可比价值的区别"
+      ],
+      "sources": [
+        "Charlie Munger, Poor Charlie's Almanack"
+      ]
+    },
+    {
+      "id": "MGR-004",
+      "name": "安全边际",
+      "family": "munger_latticework",
+      "summary": "在估计误差、环境变化和不利情景下仍保留足够缓冲。",
+      "use_when": [
+        "杠杆、现金流、估值、产能、时间预算"
+      ],
+      "avoid_when": [
+        "缓冲过大导致错失机会，或缓冲无法覆盖尾部风险"
+      ],
+      "diagnostics": [
+        "关键假设错 20% 时还能承受吗？",
+        "是否存在单点故障？"
+      ],
+      "failure_modes": [
+        "把历史波动当作最大风险"
+      ],
+      "sources": [
+        "Benjamin Graham, The Intelligent Investor; Charlie Munger, Poor Charlie's Almanack"
+      ]
+    },
+    {
+      "id": "MGR-005",
+      "name": "二阶思考",
+      "family": "munger_latticework",
+      "summary": "不仅评估直接结果，还评估他人反应、反馈和后续连锁影响。",
+      "use_when": [
+        "政策、激励、扩张、竞争和系统性决策"
+      ],
+      "avoid_when": [
+        "无止境推演遥远且低概率的连锁反应"
+      ],
+      "diagnostics": [
+        "然后会发生什么？谁会如何回应？",
+        "哪些成本被转移到未来或其他人？"
+      ],
+      "failure_modes": [
+        "复杂叙事替代可验证因果"
+      ],
+      "sources": [
+        "Howard Marks, The Most Important Thing; Charlie Munger, Poor Charlie's Almanack"
+      ]
+    },
+    {
+      "id": "SCI-001",
+      "name": "可证伪假设",
+      "family": "scientific_method",
+      "summary": "把观点写成可被观察结果推翻的预测，并事先说明反证条件。",
+      "use_when": [
+        "新业务、学习实验、产品和因果主张"
+      ],
+      "avoid_when": [
+        "无法合理测量的价值承诺不应伪装成实验假设"
+      ],
+      "diagnostics": [
+        "什么结果会让我承认当前假设错了？",
+        "观察窗口和数据来源是什么？"
+      ],
+      "failure_modes": [
+        "事后移动成功标准",
+        "选择性报告"
+      ],
+      "sources": [
+        "Karl Popper, The Logic of Scientific Discovery"
+      ]
+    },
+    {
+      "id": "SCI-002",
+      "name": "贝叶斯更新",
+      "family": "scientific_method",
+      "summary": "依据新证据调整信念，同时考虑先验概率、证据强度和替代解释。",
+      "use_when": [
+        "不确定性、诊断、预测和持续学习"
+      ],
+      "avoid_when": [
+        "没有可靠先验或似然依据却给出精确概率"
+      ],
+      "diagnostics": [
+        "观察到这个证据，在假设为真/假时分别有多常见？",
+        "新证据改变了多少信念？"
+      ],
+      "failure_modes": [
+        "伪精确概率",
+        "忽略相关证据的重复计数"
+      ],
+      "sources": [
+        "Thomas Bayes; modern Bayesian decision theory"
+      ]
+    },
+    {
+      "id": "SCI-003",
+      "name": "因果推断与反事实",
+      "family": "scientific_method",
+      "summary": "区分同时发生、相关性和真正因果，思考如果没有采取行动会怎样。",
+      "use_when": [
+        "评估营销、流程、团队或产品措施是否有效"
+      ],
+      "avoid_when": [
+        "样本很小、对照不成立却声称因果确定"
+      ],
+      "diagnostics": [
+        "若不做这件事，结果可能怎样？",
+        "还有哪些混杂因素？"
+      ],
+      "failure_modes": [
+        "结果偏差",
+        "幸存者偏差"
+      ],
+      "sources": [
+        "Donald Rubin, causal inference framework"
+      ]
+    },
+    {
+      "id": "SYS-001",
+      "name": "反馈回路",
+      "family": "systems_control",
+      "summary": "识别强化反馈与平衡反馈，理解增长、抑制、稳定和失控机制。",
+      "use_when": [
+        "复利增长、团队规模、客户循环、自动化系统"
+      ],
+      "avoid_when": [
+        "只看正反馈，忽略饱和、延迟和制衡"
+      ],
+      "diagnostics": [
+        "什么会自我强化？什么会抑制？",
+        "增长何时触及容量上限？"
+      ],
+      "failure_modes": [
+        "失控增长",
+        "把相关变化误判为反馈因果"
+      ],
+      "sources": [
+        "Norbert Wiener, Cybernetics; Donella Meadows, Thinking in Systems"
+      ]
+    },
+    {
+      "id": "SYS-002",
+      "name": "存量、流量与延迟",
+      "family": "systems_control",
+      "summary": "区分累积状态与流入流出，并识别反馈延迟造成的过度纠正。",
+      "use_when": [
+        "现金流、库存、人才培养、客户关系和健康习惯"
+      ],
+      "avoid_when": [
+        "系统边界与数据定义不清"
+      ],
+      "diagnostics": [
+        "真正的存量是什么？流入流出有哪些？",
+        "决策效果多久才会显现？"
+      ],
+      "failure_modes": [
+        "短期指标驱动过度调整"
+      ],
+      "sources": [
+        "Donella Meadows, Thinking in Systems"
+      ]
+    },
+    {
+      "id": "SYS-003",
+      "name": "Goodhart 定律",
+      "family": "systems_control",
+      "summary": "当代理指标成为目标，指标可能失去原本代表真实目标的价值。",
+      "use_when": [
+        "KPI、销售目标、增长、绩效和自动化"
+      ],
+      "avoid_when": [
+        "把所有量化管理都视为有害"
+      ],
+      "diagnostics": [
+        "指标改善是否真的改善了用户/系统结果？",
+        "谁可能通过优化指标而损害真实目标？"
+      ],
+      "failure_modes": [
+        "指标替代使命",
+        "忽略质量和长期副作用"
+      ],
+      "sources": [
+        "Charles Goodhart; Marilyn Strathern"
+      ]
+    },
+    {
+      "id": "SYS-004",
+      "name": "全局优化与系统边界",
+      "family": "systems_control",
+      "summary": "把利益相关者、跨领域依赖、时间尺度、外部性和不行动基线纳入同一系统边界。",
+      "use_when": [
+        "家庭与事业冲突、跨团队流程、复杂长期决策"
+      ],
+      "avoid_when": [
+        "低风险、独立、可逆的小任务不必过度系统化"
+      ],
+      "diagnostics": [
+        "谁承担成本？哪些影响被排除在边界之外？",
+        "局部 KPI 是否牺牲整体韧性？"
+      ],
+      "failure_modes": [
+        "系统边界无限扩张导致无法决策"
+      ],
+      "sources": [
+        "Russell Ackoff, systems thinking; Donella Meadows, Thinking in Systems"
+      ]
+    },
+    {
+      "id": "RSK-001",
+      "name": "可逆性与期权价值",
+      "family": "risk_decision",
+      "summary": "优先考虑能够分阶段试验、保留选择权和低成本撤回的路径。",
+      "use_when": [
+        "高不确定性、长期承诺、资本投入和职业选择"
+      ],
+      "avoid_when": [
+        "延迟本身代价很高或机会窗口短暂"
+      ],
+      "diagnostics": [
+        "能否先做一个小规模、可撤回的测试？",
+        "等待能否带来有价值的新信息？"
+      ],
+      "failure_modes": [
+        "无限试点、不敢承诺"
+      ],
+      "sources": [
+        "Jeff Bezos, 2015 Letter to Shareholders; real options theory"
+      ]
+    },
+    {
+      "id": "RSK-002",
+      "name": "尾部风险与生存优先",
+      "family": "risk_decision",
+      "summary": "关注低概率但破坏性极大的结果，避免破产、伤害和不可恢复损失。",
+      "use_when": [
+        "杠杆、健康安全、法律、家庭与关键基础设施"
+      ],
+      "avoid_when": [
+        "用极端情景压制所有合理行动"
+      ],
+      "diagnostics": [
+        "最坏合理情景是什么？会不会失去生存能力？",
+        "风险是否可隔离、限额和恢复？"
+      ],
+      "failure_modes": [
+        "忽略概率与成本比例",
+        "灾难想象失控"
+      ],
+      "sources": [
+        "Nassim Nicholas Taleb, The Black Swan; Antifragile"
+      ]
+    },
+    {
+      "id": "RSK-003",
+      "name": "事前验尸",
+      "family": "risk_decision",
+      "summary": "假设计划已经失败，提前找出可能原因并设计预防和应急措施。",
+      "use_when": [
+        "项目启动、重大变更、团队扩张和发布前"
+      ],
+      "avoid_when": [
+        "把想象的失败当作预测事实"
+      ],
+      "diagnostics": [
+        "如果失败，最可能的机制是什么？",
+        "哪个早期信号可触发停止？"
+      ],
+      "failure_modes": [
+        "只列常见风险，遗漏系统性风险"
+      ],
+      "sources": [
+        "Gary Klein, Sources of Power; pre-mortem method"
+      ]
+    },
+    {
+      "id": "RSK-004",
+      "name": "有边界的失败与信息价值",
+      "family": "risk_decision",
+      "summary": "把失败作为学习机制的一部分，但只有事先登记假设、损失上限、停止条件且不伤害他人的可控实验失败，才属于值得庆祝的学习事件。",
+      "use_when": [
+        "原型测试、研发、产品探索、可逆的小规模试验"
+      ],
+      "avoid_when": [
+        "安全/法律/伦理红线、隐瞒风险、重复可避免错误、无学习价值的损失"
+      ],
+      "diagnostics": [
+        "失败前是否预测到？",
+        "结果是否回答了一个重要问题？",
+        "损失是否在预设边界内？",
+        "是否改变下一步行动？"
+      ],
+      "failure_modes": [
+        "浪漫化失败",
+        "用学习之名为鲁莽开脱",
+        "只记录成功而不记录失败"
+      ],
+      "sources": [
+        "Amy Edmondson, Right Kind of Wrong; Eric Ries, The Lean Startup"
+      ]
+    }
+  ]
+}

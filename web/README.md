@@ -2,3 +2,11 @@
 
 ## Decision engine v0.3
 `engine.js` runs a transparent deterministic model router and decision comparison flow. It loads static case seeds from `data/`, proposes contextual factors and weights, lists non-compensatory hard gates, prompts whole-system checks, retrieves candidate cases, and lets the user rate options. It is not an LLM or live search. The option score is only a weighted calculation of user-entered ratings. Read [ENGINE_ARCHITECTURE.md](../ENGINE_ARCHITECTURE.md) for scope and limitations.
+
+
+## AI reasoning adapter v0.4
+- Optional OpenAI-compatible Chat Completions adapter; deterministic local engine remains usable without a key.
+- API key is held only in page memory, is never written to localStorage or exported JSON, and is cleared on page exit/field blur. The provider receives the decision context only after explicit consent.
+- HTTPS endpoints only. Browser CORS/provider compatibility may vary. Never paste secrets or sensitive third-party/customer/health data into the prompt.
+- AI snapshots can be attached to an existing local decision record and included in a user-created JSON backup. Model library and public case seeds are sent as context; citations must be verified.
+- The prompt enforces pre-registered, bounded, safe, ethical, informative failures as learning; it does not celebrate preventable harm, reckless failures, or breaches of guardrails.

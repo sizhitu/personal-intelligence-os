@@ -60,3 +60,7 @@ The system is designed to amplify verified mechanisms, not lucky outcomes. It re
 ## Disciplined experimentation and intelligent failure
 
 A failed experiment can be progress when it tests a clear hypothesis, stays within a bounded risk envelope, respects hard constraints, and changes what we know or do next. The system distinguishes informative failure from preventable and poorly designed failure. It celebrates honest learning and early detection—not damage or failure counts. See [Experimentation & Intelligent Failure](EXPERIMENTATION_AND_INTELLIGENT_FAILURE.md).
+
+
+## AI-assisted decision engine v0.4
+The optional browser-side AI adapter supports OpenAI-compatible Chat Completions endpoints, curated mental-model context, public historical-case seeds, explicit consent, and saved analysis snapshots attached to decision records. API keys are never persisted. See [ENGINE_ARCHITECTURE.md](ENGINE_ARCHITECTURE.md) and [web/README.md](web/README.md) for limitations and privacy details.

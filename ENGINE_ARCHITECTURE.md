@@ -36,3 +36,13 @@ The engine runs in the browser. Decision text and ratings remain local unless th
 - Replace keyword case ranking with embeddings or a controlled retrieval service.
 - Add an optional LLM adapter with explicit user-provided key, provider isolation, redaction, and source citations.
 - Add automated unit tests for routing, gate precedence, score calculations, and sensitivity.
+
+
+## AI adapter v0.4
+
+- `web/ai-adapter.js` implements an optional OpenAI-compatible Chat Completions adapter. It is isolated from the deterministic router and can be replaced by another provider adapter without changing the decision ledger.
+- The user supplies an HTTPS endpoint, model ID, and API key. No key is committed, stored in localStorage, or included in exported records. Browser CORS and provider-specific request compatibility are explicit limitations; a server-side proxy is a later, separately secured option.
+- The user must explicitly consent before decision context is transmitted. The context includes problem, goals, constraints, options, deterministic engine output, curated model metadata, and a small set of public case seeds. Sensitive information should not be entered.
+- AI output is untrusted analysis, not a verdict. It must distinguish facts, assumptions, unknowns, evidence confidence, factor importance, and option performance; use only supplied case IDs and source URLs; identify counterevidence and uncertainty.
+- AI snapshots attach to a user-selected decision record and are included in manual JSON exports. They do not automatically alter values, weights, or methodology.
+- Bounded learning failures: celebrate only pre-registered, foreseeable, controlled, lawful, safe, ethical experiments with capped exposure and genuine information value. Preventable failures, repeated avoidable errors, concealed risks, and harm beyond guardrails are not celebrated.
