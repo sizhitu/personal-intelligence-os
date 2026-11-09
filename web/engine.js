@@ -75,8 +75,9 @@ function routeExplanation(ids){return ids.map(id=>'<div class="engine-card"><h4>
 function getKeywords(s){return norm(s).replace(/[，。！？、；：,.!?;:()（）]/g," ").split(" ").filter(x=>x.length>1);}
 function caseScore(c,q,domain){
  const text=norm([c.title,c.question,c.facts,c.models,c.mechanism,c.trigger,c.domain].join(" "));
- const qwords=getKeywords(q).filter(x=>x.length>1);
- let overlap=0;qwords.forEach(w=>{if(text.includes(w))overlap+=1;});
+ const vocabulary=[...new Set(Object.values(terms).flat())];
+ let overlap=0;vocabulary.forEach(w=>{if(norm(q).includes(norm(w))&&text.includes(norm(w)))overlap+=2;});
+ const qwords=getKeywords(q).filter(x=>x.length>2);qwords.forEach(w=>{if(text.includes(w))overlap+=1;});
  const qDomain=domain.hits[0];
  const d=(c.domain||"").toLowerCase();
  let domainBonus=qDomain&&d===qDomain?5:0;
@@ -176,7 +177,7 @@ function run(){
  const gates=["用户明确的信仰承诺与其他不可妥协事项","法律与监管要求","人身安全、健康与知情同意","家庭责任及关键利益相关者的重大影响"];
  const opts=optionText.split(/\n/).map(x=>x.trim()).filter(Boolean).slice(0,6);
  const report=$("engineReport");report.style.display="block";
- let html='<div class="engine-report"><div class="eyebrow">MODEL ROUTER · EXPLAINABLE ENGINE V0.3</div><h2>智能决策分析报告</h2><div class="engine-conclusion"><b>当前结论：</b>'+(high?"这是高影响或较难逆转的决策。先完成硬约束核查和关键事实验证，再比较方案；不建议仅凭当前描述直接作不可逆承诺。":"当前适合先做结构化比较。若信息不足，优先设计低成本、可逆的验证步骤。")+'<br><span class="engine-muted">领域识别："+esc(domain.label)+" · 决策期限："+esc($("engineHorizon").selectedOptions[0].text)+" · 可逆性："+esc($("engineReversibility").selectedOptions[0].text)+'</span></div>';
+ let html='<div class="engine-report"><div class="eyebrow">MODEL ROUTER · EXPLAINABLE ENGINE V0.3</div><h2>智能决策分析报告</h2><div class="engine-conclusion"><b>当前结论：</b>'+(high?"这是高影响或较难逆转的决策。先完成硬约束核查和关键事实验证，再比较方案；不建议仅凭当前描述直接作不可逆承诺。":"当前适合先做结构化比较。若信息不足，优先设计低成本、可逆的验证步骤。")+'<br><span class="engine-muted">领域识别：'+esc(domain.label)+' · 决策期限：'+esc($("engineHorizon").selectedOptions[0].text)+' · 可逆性：'+esc($("engineReversibility").selectedOptions[0].text)+'</span></div>';
  html+='<h3>一、自动选择的思维模型</h3><p class="engine-muted">系统选择少量模型，不追求模型越多越好；你可以纠正领域识别和模型选择。</p>'+routeExplanation(ids);
  html+='<h3>二、硬约束门槛（先于权重）</h3><ul>'+gates.map(g=>'<li>'+esc(g)+'</li>').join("")+'</ul><div class="engine-warning">硬约束不是普通评分因素。任何方案若违反明确底线、法律、安全或知情同意，不得用收益、效率或其他高分抵消。此版本列出核查清单，不自动判断事实是否违反。</div>';
  html+='<h3>三、模型驱动的动态因素与权重</h3><div class="engine-grid"><div><svg id="engineRadar" class="engine-chart" viewBox="0 0 360 310" role="img" aria-label="当前决策因素权重雷达图"></svg><p class="engine-muted">仅表示本次决策的初步重要性结构，不代表方案表现或证据可信度。</p></div><div>'+factors.map(f=>'<div class="engine-factor"><span>'+esc(f.name)+'<br><small>'+esc(f.why)+'</small><br><small>模型来源：'+esc(f.models.map(x=>models[x].name.split("：")[0]).join("、"))+'</small></span><strong>'+f.weight+'%</strong></div>').join("")+'</div></div><div class="engine-warning">这些百分比由透明启发式生成，是待用户校准的起点，不是统计学习得出的客观权重。证据可信度单独记录，不与重要性混为一谈。</div>';
