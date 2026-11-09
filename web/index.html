@@ -290,6 +290,7 @@ function piosRenderLibrary(){
  host.innerHTML=filtered.length?filtered.map(x=>'<article class="library-item"><div class="library-meta">'+wbEsc(x.id)+' · '+wbEsc(x.meta||"")+'</div><h4>'+wbEsc(x.title)+'</h4><p>'+wbEsc(x.summary||"")+'</p><button class="workspace-link" type="button" data-library-open="'+wbEsc(x.id)+'">查看详情</button></article>').join(""):'<div class="library-empty">没有找到匹配的资源。试试更短的关键词。</div>';
  host.querySelectorAll("[data-library-open]").forEach(b=>b.addEventListener("click",()=>piosOpenLibraryDetail(filtered.find(x=>x.id===b.dataset.libraryOpen))));
 }
+
 function piosOpenLibraryDetail(item){
  if(!item)return;
  const raw=item.raw,host=document.getElementById("libraryDetail");let extra="";
@@ -297,11 +298,28 @@ function piosOpenLibraryDetail(item){
   extra='<h4>适用情境</h4><ul>'+((raw.use_when||[]).map(x=>'<li>'+wbEsc(x)+'</li>').join("")||"<li>暂无记录</li>")+'</ul><h4>不适用 / 失效边界</h4><ul>'+((raw.avoid_when||[]).map(x=>'<li>'+wbEsc(x)+'</li>').join("")||"<li>暂无记录</li>")+'</ul><h4>诊断问题</h4><ul>'+((raw.diagnostics||[]).map(x=>'<li>'+wbEsc(x)+'</li>').join("")||"<li>暂无记录</li>")+'</ul><h4>来源线索</h4><p>'+wbEsc((raw.sources||[]).join("；")||"待补充")+'</p>';
  }else if(piosLibraryTab==="cases"){
   const actors=raw.actors||[];extra='<h4>机制 / 事实</h4><p>'+wbEsc(raw.mechanism||raw.facts||"")+'</p>'+actors.map(a=>'<h4>'+wbEsc(a.role||"相关视角")+'</h4><p>'+wbEsc(a.conclusion||"")+'</p><p><b>反面提醒：</b>'+wbEsc(a.redteam||"")+'</p>').join("")+'<h4>适用边界</h4><p>'+wbEsc(raw.limits||"类比不是证明；请核对情境差异。")+'</p>'+(raw.source?'<p><a href="'+wbEsc(raw.source)+'" target="_blank" rel="noopener">查看原始来源 ↗</a></p>':"");
+ }else if(piosLibraryTab==="knowledge"){
+  extra='<h4>完整笔记</h4><p style="white-space:pre-wrap">'+wbEsc(raw.content||"")+'</p><h4>来源</h4><p>'+wbEsc(raw.source||"个人记录 / 未注明")+'</p><h4>标签</h4><p>'+wbEsc((raw.tags||[]).join(" · ")||"无")+'</p><h4>关联资源</h4><p>'+((raw.linkedResources||[]).map(x=>'<span class="resource-ref">'+wbEsc(x.title||x.id)+'</span>').join("")||"尚未关联")+'</p><button class="workspace-link" type="button" id="knowledgeDelete">删除这条个人知识</button>';
  }else extra='<p>'+wbEsc(item.summary)+'</p>';
- host.innerHTML='<div class="library-detail"><div class="library-meta">'+wbEsc(item.id)+' · '+wbEsc(item.meta||"")+'</div><h3>'+wbEsc(item.title)+'</h3><p>'+wbEsc(item.summary||"")+'</p>'+extra+'<div class="workspace-links"><button class="workspace-link" type="button" id="libraryBack">返回资源列表</button><button class="workspace-link" type="button" id="libraryUse">用于一次决策</button></div></div>';
+ const decisions=wb.decisions||[];
+ const linked=decisions.filter(d=>(d.resources||[]).some(x=>x.id===item.id));
+ const relationHtml='<div class="resource-relations"><b>与真实决策建立关联</b><p class="sub">把当前资源加入某条决策档案，后续可以回看当时参考了什么。</p>'+(decisions.length?'<div class="relation-row"><select id="libraryDecisionLink" class="resource-link-select"><option value="">选择一条决策……</option>'+decisions.slice().reverse().map(d=>'<option value="'+wbEsc(d.id)+'">'+wbEsc(d.title)+'</option>').join("")+'</select><button class="workspace-link" type="button" id="libraryAttach">关联到决策</button></div>':'<p class="sub">当前还没有决策记录。先登记一条决策即可建立关联。</p>')+(linked.length?'<p class="sub">已被 '+linked.length+' 条决策引用：'+linked.map(d=>wbEsc(d.title)).join("、")+'</p>':"")+'</div>';
+ host.innerHTML='<div class="library-detail"><div class="library-meta">'+wbEsc(item.id)+' · '+wbEsc(item.meta||"")+'</div><h3>'+wbEsc(item.title)+'</h3><p>'+wbEsc(item.summary||"")+'</p>'+extra+relationHtml+'<div class="workspace-links" style="margin-top:14px"><button class="workspace-link" type="button" id="libraryBack">返回资源列表</button><button class="workspace-link" type="button" id="libraryUse">用于一次决策</button><button class="workspace-link" type="button" id="libraryMakeNote">围绕此资源写笔记</button></div></div>';
  host.style.display="block";document.getElementById("libraryBack").onclick=()=>{host.style.display="none";};
  document.getElementById("libraryUse").onclick=()=>{show("decision");const p=document.getElementById("problem");if(p)p.value="请在本次决策中参考资源："+item.title+"（"+item.id+"）。请检查其适用条件、失效边界和反证。";};
+ document.getElementById("libraryMakeNote").onclick=()=>{const f=document.getElementById("libraryNoteForm");f.elements.title.value="关于「"+item.title+"」的个人笔记";f.elements.source.value=item.id+" · "+item.title;f.elements.linkedResourceId.value=item.id;f.elements.linkedResourceTitle.value=item.title;f.scrollIntoView({behavior:"smooth",block:"start"});f.elements.content.focus();};
+ const attach=document.getElementById("libraryAttach");if(attach)attach.onclick=()=>{const id=document.getElementById("libraryDecisionLink").value;if(!id){alert("请先选择一条决策。");return;}const d=wb.decisions.find(x=>x.id===id);if(!d)return;d.resources=Array.isArray(d.resources)?d.resources:[];if(!d.resources.some(x=>x.id===item.id))d.resources.push({id:item.id,title:item.title,type:piosLibraryTab});if(piosLibraryTab==="knowledge"){raw.linkedDecisions=Array.isArray(raw.linkedDecisions)?raw.linkedDecisions:[];if(!raw.linkedDecisions.includes(id))raw.linkedDecisions.push(id);}if(wbSave()){piosOpenLibraryDetail(item);}};
+ const del=document.getElementById("knowledgeDelete");if(del)del.onclick=()=>{if(!confirm("删除这条个人知识？已关联决策中的引用记录会保留为历史引用。"))return;wb.knowledge=wb.knowledge.filter(x=>x.id!==raw.id);wbSave();piosRenderLibrary();document.getElementById("libraryDetail").style.display="none";};
 }
+
+document.getElementById("libraryNoteForm").addEventListener("submit",e=>{
+ e.preventDefault();const f=new FormData(e.target),title=String(f.get("title")||"").trim(),content=String(f.get("content")||"").trim();if(!title||!content)return;
+ const linkedId=String(f.get("linkedResourceId")||"").trim(),linkedTitle=String(f.get("linkedResourceTitle")||"").trim();
+ const note={id:wbId("K"),createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),title,kind:f.get("kind"),domain:f.get("domain"),source:String(f.get("source")||"").trim(),content,tags:String(f.get("tags")||"").split(/[,，]/).map(x=>x.trim()).filter(Boolean),linkedResources:linkedId?[{id:linkedId,title:linkedTitle}]:[],linkedDecisions:[]};
+ wb.knowledge=Array.isArray(wb.knowledge)?wb.knowledge:[];wb.knowledge.push(note);
+ if(wbSave()){e.target.reset();document.getElementById("knowledgeSaveMsg").textContent="已保存到当前浏览器的个人知识库。";piosShowLibrary("knowledge");}
+});
+
 document.querySelectorAll("[data-library-tab]").forEach(b=>b.addEventListener("click",()=>piosShowLibrary(b.dataset.libraryTab)));
 document.getElementById("librarySearch")?.addEventListener("input",e=>{piosLibraryQuery=e.target.value.trim();document.getElementById("libraryDetail").style.display="none";piosRenderLibrary();});
 document.querySelectorAll("[data-go]").forEach(n=>n.onclick=()=>piosOpenDomain(n.dataset.go));
