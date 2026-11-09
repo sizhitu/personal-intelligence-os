@@ -193,8 +193,11 @@ function retrievePersonalContext(query,domain,modelIds){
   (wb.experiments||[]).forEach(x=>{const d=(wb.decisions||[]).find(y=>y.id===x.decisionId);const r=(wb.reviews||[]).find(y=>y.experimentId===x.id);history.push({id:x.id,title:x.title,type:"experiment",domain:d?.domain,content:[x.hypothesis,x.expected,x.failureModes,x.learning,r?.result,r?.learning,r?.nextStep].join(" "),raw:x,decision:d,review:r});});
  }
  const rank=arr=>arr.map(x=>({...x,...personalScore(query,{text:[x.title,x.content,x.source,x.domain,(x.tags||[]).join(" ")].join(" "),tags:x.tags,domain:x.domain},domain)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score);
- const k=rank(knowledge).slice(0,5),m=rank(models).slice(0,4),c=rank(cases).slice(0,4),h=rank(history).slice(0,4);
- const selectedModels=new Set(modelIds||[]);m.forEach(x=>{if(selectedModels.has(x.id))x.score+=2;});
+ const k=rank(knowledge).slice(0,5),m0=rank(models),c=rank(cases).slice(0,4),h=rank(history).slice(0,4);
+ const selectedModels=new Set(modelIds||[]);
+ const m=m0.map(x=>({...x,score:x.score+(selectedModels.has(x.id)?2:0)}));
+ selectedModels.forEach(id=>{if(!m.some(x=>x.id===id)){const x=models.find(y=>y.id===id);if(x)m.push({...x,score:2,matched:[]});}});
+ m.sort((a,b)=>b.score-a.score);m.splice(4);
  latestPersonalMatches={knowledge:k,models:m,cases:c,history:h,all:[...k,...m,...c]};
  window.PIOS_LAST_PERSONAL_CONTEXT={
   knowledge:k.map(x=>({id:x.id,title:x.title,domain:x.domain,source:x.source,content:String(x.content||"").slice(0,900),tags:x.tags,matched:x.matched})),
