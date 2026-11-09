@@ -71,4 +71,4 @@ The optional browser-side AI adapter supports OpenAI-compatible Chat Completions
 
 ## Personal expression and video workflow
 
-A Mac-first workflow for turning Chinese spoken reflections into polished Chinese–English videos is documented in [media-workflow/README.md](media-workflow/README.md). It covers local transcription with MacWhisper, natural English subtitle translation, timestamp-validated bilingual SRT merging, reusable subtitle styling in CapCut / 剪映专业版 or Final Cut Pro, and a privacy/quality checklist. The SRT merger and translation prompt are included under `media-workflow/`.
+A Mac-first, local-first workflow turns Chinese spoken reflections into reviewed long-form videos and 9:16 short candidates. It includes whisper.cpp transcription, Auto-Editor → Shotcut rough cuts, ChatGPT-assisted highlight selection without requiring an API key, original-timeline validation, FFmpeg extraction, and bilingual SRT tools. See [media-workflow/README.md](media-workflow/README.md) for setup and commands.
