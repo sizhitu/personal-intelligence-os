@@ -1,9 +1,1 @@
-# Tests
-
-Planned test categories:
-- Priority conflict and value-alignment behavior
-- Provenance and confidence propagation
-- Domain permission boundaries
-- Sensitive-data minimization and deletion
-- Decision feedback quality and methodology versioning
-- Recommendation explainability and uncertainty
+# Tests and acceptance checks\n\n## Current local-first workbench manual checks\n1. Open the GitHub Pages preview on desktop and mobile widths; verify navigation and responsive forms.\n2. Register a decision with a review date, objective, hard constraints, alternatives, hypothesis, metrics, exposure cap, and stop rule.\n3. Verify the decision appears in the workbench records and the decision-history view.\n4. Register an experiment linked to that decision; verify it appears with its hypothesis, failure modes, exposure cap, and rollback condition.\n5. Review the experiment using each classification and an evidence tier; verify it no longer appears as pending review.\n6. Reload the page and verify browser-local records persist.\n7. Export JSON, clear only the prototype's test records if desired, import the backup, and verify all records return.\n8. Delete a decision and verify its linked experiments and reviews are also removed.\n9. Verify that a decision with no experiments and a decision with multiple experiments render correctly.\n10. Confirm the UI never describes an informative failure as proof of success or permits hard-constraint violations to be offset by weighted benefits.\n\n## Planned automated tests\n- Priority conflict and value-alignment behavior\n- Provenance and confidence propagation\n- Domain permission boundaries\n- Sensitive-data minimization and deletion\n- Decision feedback quality and methodology versioning\n- Recommendation explainability and uncertainty\n- Experiment lifecycle, failure classification, and evidence-gated scale-up\n

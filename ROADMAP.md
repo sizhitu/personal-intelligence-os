@@ -10,7 +10,7 @@
 ## Phase 1 — Personal context and decision ledger
 - [ ] Validated data schemas
 - [ ] Profile CRUD with provenance and confidence
-- [ ] Decision records and review dates
+- [x] Decision records and review dates (local-first web prototype)
 - [ ] Export, correction, and deletion workflows
 - [ ] Authentication and private deployment baseline
 
@@ -29,8 +29,8 @@
 - [ ] Consent and role-based access
 
 ## Phase 4 — Feedback and relationship graph
-- [ ] Decision review workflow
-- [ ] Judgment vs execution vs luck review
+- [x] Decision review workflow (local-first experiment review)
+- [x] Judgment vs execution vs luck review capture
 - [ ] User-approved methodology versioning
 - [ ] Interactive relationship graph
 - [ ] User-controlled proactive recommendations

@@ -1,14 +1,1 @@
-# Web prototype
-
-A responsive, static front-end prototype for Personal Intelligence OS.
-
-## Preview locally
-Open `web/index.html` in a browser. No build step or API key is required.
-
-## Publish with GitHub Pages
-1. In the repository, open **Settings → Pages**.
-2. Under **Build and deployment → Source**, select **GitHub Actions**.
-3. The workflow in `.github/workflows/pages.yml` deploys the `web/` directory on pushes to `main`.
-4. The public URL will be `https://sizhitu.github.io/personal-intelligence-os/`.
-
-This is a UI prototype with local interactions and illustrative content. It does not yet connect to an AI model, database, authentication, or real personal records.
+# Web workbench\n\nA responsive, local-first static prototype. No build step, API key, or backend is required.\n\n## Live preview\n\nhttps://sizhitu.github.io/personal-intelligence-os/\n\n## Features\n- Register decisions with goals, domains, hard constraints, alternatives, success hypotheses, metrics, exposure limits, stop/rollback rules, and review dates.\n- Capture the current decision factor weights and visualize their relative profile.\n- Pre-register experiments linked to decisions, including anticipated failure modes, exposure caps, stop conditions, and expected information value.\n- Review outcomes and classify informative, preventable, poorly designed, successful, or mixed results; record evidence tier and next action.\n- Persist records in the current browser using localStorage; export/import JSON backups.\n- Surface saved decision records in the history view.\n\n## Data and privacy\n\nRecords stay in the browser profile on the device where they were entered. They are not synchronized to a server, account, or other device. Clearing browser storage can erase them; export JSON backups regularly. This prototype has no authentication, encryption-at-rest layer, multi-user access control, or cloud backup. Do not enter highly sensitive personal, customer, health, financial-account, or third-party data.\n\n## Publish\n\nGitHub Actions deploys the `web/` directory to GitHub Pages on pushes to `main`. Workflow: `.github/workflows/pages.yml`.\n\n## Current limitation\n\nThe workbench captures structured records and guides review; it does not yet call an AI model, automatically retrieve historical cases, calculate evidence-based recommendations, or sync to a private database. Those are subsequent implementation phases.\n
