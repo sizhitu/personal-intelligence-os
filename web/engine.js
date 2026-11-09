@@ -1,6 +1,3 @@
-
-/* Local-first personal knowledge retrieval panel */
-.engine-personal-context{margin:24px 0;padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}.personal-match-group{margin:16px 0}.personal-match{margin:9px 0;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--panel,white)}.personal-match h4{margin:6px 0}.personal-match p{font-size:12px;line-height:1.6;margin:5px 0}.personal-match small{color:var(--muted);font-size:11px}.personal-link-box{margin-top:18px;padding:14px;border-radius:10px;background:var(--surface-2,#f6f7f9)}.personal-link-row{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.personal-link-row select{flex:1;min-width:200px}.personal-link-box p{margin:6px 0 10px}
 /* Explainable, local-first Model Router and Decision Engine v0.3.
    It is a transparent heuristic, not an LLM, legal/medical advice, or validated predictor. */
 (function(){
