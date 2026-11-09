@@ -164,7 +164,7 @@ async function loadCases(){
 }
 
 /* Local-first retrieval across the user's own knowledge and decision history. */
-let latestPersonalMatches={knowledge:[],models:[],cases:[],history:[],all:[]};
+let latestPersonalMatches={knowledge:[],models:[],cases:[],history:[],playbooks:[],all:[]};
 function personalTerms(text){
  const t=norm(text),out=new Set();
  Object.values(terms).flat().forEach(w=>{const z=norm(w);if(z.length>1&&t.includes(z))out.add(z);});
@@ -184,7 +184,9 @@ function personalScore(query,record,domain){
  return {score,matched:matched.slice(0,5)};
 }
 function retrievePersonalContext(query,domain,modelIds){
- const knowledge=(typeof wb!=="undefined"?(wb.knowledge||[]):[]).map(x=>({id:x.id,title:x.title,type:"knowledge",domain:x.domain,source:x.source,content:x.content,tags:x.tags||[],raw:x}));
+ const allKnowledge=(typeof wb!=="undefined"?(wb.knowledge||[]):[]);
+ const knowledge=allKnowledge.filter(x=>x.kind!=="playbook").map(x=>({id:x.id,title:x.title,type:"knowledge",domain:x.domain,source:x.source,content:x.content,tags:x.tags||[],raw:x}));
+ const playbookRecords=allKnowledge.filter(x=>x.kind==="playbook"&&["approved","active"].includes(x.status)).map(x=>({id:x.id,title:x.title,type:"playbook",domain:x.domain,source:x.source,content:[x.content,x.contexts,x.necessaryConditions,x.failureModes,x.counterexamples].join(" "),tags:x.tags||[],raw:x}));
  const models=(typeof piosLibrary!=="undefined"?(piosLibrary.models||[]):[]).map(x=>({id:x.id,title:x.name,type:"model",domain:x.family,source:(x.sources||[]).join(" · "),content:[x.summary,...(x.use_when||[]),...(x.avoid_when||[])].join(" "),raw:x}));
  const cases=(caseRecords||[]).map(x=>({id:x.id,title:x.title,type:"case",domain:x.domain,source:x.source,content:[x.facts,x.mechanism,x.question,x.limits].join(" "),raw:x}));
  const history=[];
@@ -193,25 +195,27 @@ function retrievePersonalContext(query,domain,modelIds){
   (wb.experiments||[]).forEach(x=>{const d=(wb.decisions||[]).find(y=>y.id===x.decisionId);const r=(wb.reviews||[]).find(y=>y.experimentId===x.id);history.push({id:x.id,title:x.title,type:"experiment",domain:d?.domain,content:[x.hypothesis,x.expected,x.failureModes,x.learning,r?.result,r?.learning,r?.nextStep].join(" "),raw:x,decision:d,review:r});});
  }
  const rank=arr=>arr.map(x=>({...x,...personalScore(query,{text:[x.title,x.content,x.source,x.domain,(x.tags||[]).join(" ")].join(" "),tags:x.tags,domain:x.domain},domain)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score);
- const k=rank(knowledge).slice(0,5),m0=rank(models),c=rank(cases).slice(0,4),h=rank(history).slice(0,4);
+ const k=rank(knowledge).slice(0,5),p=rank(playbookRecords).slice(0,4),m0=rank(models),c=rank(cases).slice(0,4),h=rank(history).slice(0,4);
  const selectedModels=new Set(modelIds||[]);
  const m=m0.map(x=>({...x,score:x.score+(selectedModels.has(x.id)?2:0)}));
  selectedModels.forEach(id=>{if(!m.some(x=>x.id===id)){const x=models.find(y=>y.id===id);if(x)m.push({...x,score:2,matched:[]});}});
  m.sort((a,b)=>b.score-a.score);m.splice(4);
- latestPersonalMatches={knowledge:k,models:m,cases:c,history:h,all:[...k,...m,...c]};
+ latestPersonalMatches={knowledge:k,models:m,cases:c,history:h,playbooks:p,all:[...k,...p,...m,...c]};
  window.PIOS_LAST_PERSONAL_CONTEXT={
   knowledge:k.map(x=>({id:x.id,title:x.title,domain:x.domain,source:x.source,content:String(x.content||"").slice(0,900),tags:x.tags,matched:x.matched})),
   models:m.map(x=>({id:x.id,title:x.title,domain:x.domain,summary:String(x.content||"").slice(0,700),matched:x.matched})),
   cases:c.map(x=>({id:x.id,title:x.title,domain:x.domain,source:x.source,mechanism:String(x.content||"").slice(0,700),matched:x.matched})),
+  playbooks:p.map(x=>({id:x.id,title:x.title,domain:x.domain,source:x.source,content:String(x.content||"").slice(0,900),evidenceLevel:x.raw.evidenceLevel,replicationCount:x.raw.replicationCount,status:x.raw.status,matched:x.matched})),
   history:h.map(x=>({id:x.id,title:x.title,type:x.type,domain:x.domain,content:String(x.content||"").slice(0,700),matched:x.matched}))
  };
  return latestPersonalMatches;
 }
 function renderPersonalContext(query,domain,modelIds){
- const found=retrievePersonalContext(query,domain,modelIds),label={knowledge:"个人知识",model:"思维模型",case:"历史案例",decision:"历史决策",experiment:"实验 / 复盘"};
+ const found=retrievePersonalContext(query,domain,modelIds),label={knowledge:"个人知识",playbook:"已批准方法",model:"思维模型",case:"历史案例",decision:"历史决策",experiment:"实验 / 复盘"};
  let html='<section class="engine-personal-context"><div class="eyebrow">YOUR KNOWLEDGE · LOCAL RETRIEVAL</div><h3>六、从你的知识与历史中检索</h3><p class="engine-muted">只检索当前浏览器本地记录和已加载的仓库资源。按关键词、标签、领域及模型路由进行启发式排序；匹配表示可供复核，不代表因果关系或结论正确。</p>';
  const block=(title,arr)=>'<div class="personal-match-group"><b>'+title+'（'+arr.length+'）</b>'+(arr.length?arr.map(x=>'<article class="personal-match"><div class="engine-tag">'+(label[x.type]||x.type)+' · '+esc(x.id)+'</div><h4>'+esc(x.title)+'</h4><p>'+esc(String(x.content||"").slice(0,260))+'</p><small>匹配词：'+esc((x.matched||[]).join("、")||"模型路由相关")+(x.source?' · 来源：'+esc(x.source):"")+'</small></article>').join(""):'<p class="engine-muted">没有找到达到匹配阈值的记录。</p>')+'</div>';
- html+=block("个人知识",found.knowledge)+block("思维模型",found.models)+block("历史案例",found.cases)+block("历史决策 / 实验",found.history);
+ html+=block("个人知识",found.knowledge)+block("已批准 / 启用的方法论",found.playbooks)+block("思维模型",found.models)+block("历史案例",found.cases)+block("历史决策 / 实验",found.history);
+ const draftCount=(typeof wb!=="undefined"?(wb.knowledge||[]).filter(x=>x.kind==="playbook"&&!["approved","active"].includes(x.status)).length:0);if(draftCount)html+='<p class="engine-muted">另有 '+draftCount+' 条候选 / 未采用方法论未参与本次推荐；可在资源中心「方法库」中审核。</p>';
  html+='<div class="personal-link-box"><b>把本次检索结果沉淀到一条决策</b><p class="engine-muted">选择已登记的决策，明确保存本次实际参考的知识、模型和案例。不会自动改写旧决策的结论。</p>';
  const decisions=(typeof wb!=="undefined"?(wb.decisions||[]):[]);
  html+=decisions.length?'<div class="personal-link-row"><select id="personalContextDecision" class="field"><option value="">选择决策记录……</option>'+decisions.slice().reverse().map(d=>'<option value="'+esc(d.id)+'">'+esc(d.title)+'</option>').join("")+'</select><button type="button" class="primary" id="personalContextAttach">保存引用关系</button></div>':'<p class="engine-muted">当前还没有决策记录。请先登记一条决策，再回来建立引用。</p>';
@@ -226,7 +230,7 @@ function attachPersonalContext(){
  let added=0;
  latestPersonalMatches.all.forEach(x=>{
   if(!d.resources.some(r=>r.id===x.id)){d.resources.push({id:x.id,title:x.title,type:x.type});added++;}
-  if(x.type==="knowledge"&&x.raw){x.raw.linkedDecisions=Array.isArray(x.raw.linkedDecisions)?x.raw.linkedDecisions:[];if(!x.raw.linkedDecisions.includes(id))x.raw.linkedDecisions.push(id);}
+  if((x.type==="knowledge"||x.type==="playbook")&&x.raw){x.raw.linkedDecisions=Array.isArray(x.raw.linkedDecisions)?x.raw.linkedDecisions:[];if(!x.raw.linkedDecisions.includes(id))x.raw.linkedDecisions.push(id);}
  });
  if(wbSave()){if(status)status.textContent="已保存 "+added+" 条新引用关系；可在关系图谱和决策历史中追溯。";if(typeof piosGraphRender==="function")piosGraphRender();}
 }
