@@ -36,23 +36,29 @@
 </main></div><script>
 const nav=[...document.querySelectorAll('[data-view]')];function show(id){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));nav.forEach(n=>n.classList.toggle('active',n.dataset.view===id));window.scrollTo({top:0,behavior:'smooth'})}nav.forEach(n=>n.onclick=()=>show(n.dataset.view));document.querySelectorAll('[data-go]').forEach(n=>n.onclick=()=>{show('decision');document.getElementById('domain').value=({faith:'信仰 Faith',family:'家庭 Family',business:'事业 Business',life:'生活 Life'})[n.dataset.go]});document.getElementById('start').onclick=()=>{document.getElementById('problem').value=document.getElementById('quick').value;show('decision')};document.getElementById('analyze').onclick=()=>{const p=document.getElementById('problem').value.trim(),d=document.getElementById('domain').value,c=document.getElementById('constraints').value.trim();const out=document.getElementById('analysisResult');if(!p){out.textContent='请先描述你要解决的问题。';return}out.innerHTML='<b>问题摘要</b><p>'+escapeHtml(p)+'</p><b>领域</b><p>'+escapeHtml(d)+'</p><b>关键约束</b><p>'+escapeHtml(c||'尚未填写，需要进一步澄清。')+'</p><b>建议下一步</b><p>① 区分事实与假设；② 写出至少两个可行选项；③ 明确不可妥协条件；④ 评估长期影响和可逆性；⑤ 设定复盘时间与成功标准。</p><small>当前为前端交互原型，尚未连接真实 AI、数据库或个人数据。</small>';};function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 
+
 const factorNames=['价值观一致性','预期收益','风险与下行','长期影响','可行性','证据可信度'];
 let factorWeights=[24,20,20,16,12,8];
-function renderRadar(){
+function drawRadar(){
  const svg=document.getElementById('weightRadar');if(!svg)return;
  const cx=180,cy=155,R=112,n=factorWeights.length;
  const point=(i,v)=>{const a=-Math.PI/2+i*2*Math.PI/n,r=R*v/100;return [cx+Math.cos(a)*r,cy+Math.sin(a)*r]};
  let s='';
  for(let level=20;level<=100;level+=20){const pts=Array.from({length:n},(_,i)=>point(i,level).join(',')).join(' ');s+='<polygon points="'+pts+'" fill="none" stroke="#dfe5ec" stroke-width="1"/>';}
  for(let i=0;i<n;i++){const [x,y]=point(i,100);s+='<line x1="'+cx+'" y1="'+cy+'" x2="'+x+'" y2="'+y+'" stroke="#dfe5ec"/>';const [lx,ly]=point(i,124);let anchor=lx<cx-8?'end':lx>cx+8?'start':'middle';s+='<text x="'+lx+'" y="'+ly+'" text-anchor="'+anchor+'" dominant-baseline="middle" font-size="10" fill="#66758a">'+factorNames[i]+'</text>';}
- const max=Math.max(...factorWeights,1);const vals=factorWeights.map(w=>w/max*100);const pts=vals.map((v,i)=>point(i,v).join(',')).join(' ');
+ const max=Math.max(...factorWeights,1),vals=factorWeights.map(w=>w/max*100),pts=vals.map((v,i)=>point(i,v).join(',')).join(' ');
  s+='<polygon points="'+pts+'" fill="#c6a56a" fill-opacity=".28" stroke="#ad8950" stroke-width="2.5"/>';
  vals.forEach((v,i)=>{const [x,y]=point(i,v);s+='<circle cx="'+x+'" cy="'+y+'" r="4" fill="#ad8950" stroke="white" stroke-width="1.5"/>';});
  svg.innerHTML=s;
  const total=factorWeights.reduce((a,b)=>a+b,0)||1;
+ document.querySelectorAll('[data-factor]').forEach(el=>{const i=+el.dataset.factor;const label=el.parentElement.querySelector('strong');if(label)label.textContent=Math.round(factorWeights[i]/total*100)+'%';});
  document.getElementById('weightTotal').textContent='100%';
- document.getElementById('factorControls').innerHTML=factorNames.map((name,i)=>'<label class="factor-row"><span>'+name+'</span><input type="range" min="0" max="100" value="'+factorWeights[i]+'" data-factor="'+i+'"><strong>'+Math.round(factorWeights[i]/total*100)+'%</strong></label>').join('');
- document.querySelectorAll('[data-factor]').forEach(el=>el.addEventListener('input',e=>{factorWeights[+e.target.dataset.factor]=+e.target.value;renderRadar();}));
 }
-renderRadar();
+function initRadar(){
+ const controls=document.getElementById('factorControls');if(!controls)return;
+ controls.innerHTML=factorNames.map((name,i)=>'<label class="factor-row"><span>'+name+'</span><input type="range" min="0" max="100" value="'+factorWeights[i]+'" data-factor="'+i+'"><strong>0%</strong></label>').join('');
+ document.querySelectorAll('[data-factor]').forEach(el=>el.addEventListener('input',e=>{factorWeights[+e.target.dataset.factor]=+e.target.value;drawRadar();}));
+ drawRadar();
+}
+initRadar();
 </script></body></html>
