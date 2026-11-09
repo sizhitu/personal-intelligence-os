@@ -31,5 +31,11 @@ Python + FastAPI, PostgreSQL, and a lightweight web frontend. Keep model, search
 ## Build strategy
 Start with the smallest complete vertical slice: capture a goal, reason through a decision, record the user's choice, create an action, and review the outcome. Runtime services follow after the product charter and data boundaries are validated.
 
+## Historical stress-test case library
+
+The initial case set contains 12 U.S. equity / semiconductor drawdown events from the recent three-year window. Each record includes an event fact pattern, source link, holder and potential-beneficiary perspectives, model families, and illustrative adaptive factor weights. See [case library](cases/README.md), [event dataset](cases/events.json), [case template](cases/CASE_TEMPLATE.md), and [validation protocol](cases/VALIDATION_PROTOCOL.md).
+
+**Important:** the current weights are retrospective research starting points, not actual historical actor weights or statistically calibrated parameters. Blind, as-known-at-the-time validation and sensitivity testing remain required before claiming the engine is validated.
+
 ## Status
-Foundation and product charter. See [ROADMAP.md](ROADMAP.md).
+Foundation, product charter, and v0.1 historical case benchmark. See [ROADMAP.md](ROADMAP.md).
