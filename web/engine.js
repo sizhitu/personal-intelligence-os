@@ -1,4 +1,6 @@
 
+/* Local-first personal knowledge retrieval panel */
+.engine-personal-context{margin:24px 0;padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}.personal-match-group{margin:16px 0}.personal-match{margin:9px 0;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--panel,white)}.personal-match h4{margin:6px 0}.personal-match p{font-size:12px;line-height:1.6;margin:5px 0}.personal-match small{color:var(--muted);font-size:11px}.personal-link-box{margin-top:18px;padding:14px;border-radius:10px;background:var(--surface-2,#f6f7f9)}.personal-link-row{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.personal-link-row select{flex:1;min-width:200px}.personal-link-box p{margin:6px 0 10px}
 /* Explainable, local-first Model Router and Decision Engine v0.3.
    It is a transparent heuristic, not an LLM, legal/medical advice, or validated predictor. */
 (function(){
@@ -163,6 +165,72 @@ async function loadCases(){
  for(const u of urls){try{const r=await fetch(new URL(u,base));if(!r.ok)continue;const j=await r.json();all.push(...(j.cases||j.events||[]));}catch(e){console.warn("Case dataset unavailable",u,e);}}
  caseRecords=all;
 }
+
+/* Local-first retrieval across the user's own knowledge and decision history. */
+let latestPersonalMatches={knowledge:[],models:[],cases:[],history:[],all:[]};
+function personalTerms(text){
+ const t=norm(text),out=new Set();
+ Object.values(terms).flat().forEach(w=>{const z=norm(w);if(z.length>1&&t.includes(z))out.add(z);});
+ (t.match(/[a-z0-9][a-z0-9._-]{1,}/g)||[]).forEach(w=>out.add(w));
+ const compact=t.replace(/[\s，。！？、；：,.!?;:()（）【】《》“”"']/g,"");
+ for(let i=0;i<compact.length-1;i++){const z=compact.slice(i,i+2);if(/[\u4e00-\u9fff]{2}/.test(z))out.add(z);}
+ return [...out].filter(x=>x.length>1);
+}
+function personalScore(query,record,domain){
+ const q=personalTerms(query),text=norm(record.text||"");
+ if(!q.length||!text)return {score:0,matched:[]};
+ const matched=q.filter(w=>text.includes(w));
+ let score=matched.reduce((n,w)=>n+(w.length>3?2:1),0);
+ (record.tags||[]).map(norm).forEach(tag=>{if(tag&&norm(query).includes(tag))score+=3;});
+ const d=norm(record.domain||"");
+ if(domain&&d&&((domain.hits||[]).some(x=>d.includes(x))||d.includes(norm(domain.label))))score+=2;
+ return {score,matched:matched.slice(0,5)};
+}
+function retrievePersonalContext(query,domain,modelIds){
+ const knowledge=(typeof wb!=="undefined"?(wb.knowledge||[]):[]).map(x=>({id:x.id,title:x.title,type:"knowledge",domain:x.domain,source:x.source,content:x.content,tags:x.tags||[],raw:x}));
+ const models=(typeof piosLibrary!=="undefined"?(piosLibrary.models||[]):[]).map(x=>({id:x.id,title:x.name,type:"model",domain:x.family,source:(x.sources||[]).join(" · "),content:[x.summary,...(x.use_when||[]),...(x.avoid_when||[])].join(" "),raw:x}));
+ const cases=(caseRecords||[]).map(x=>({id:x.id,title:x.title,type:"case",domain:x.domain,source:x.source,content:[x.facts,x.mechanism,x.question,x.limits].join(" "),raw:x}));
+ const history=[];
+ if(typeof wb!=="undefined"){
+  (wb.decisions||[]).forEach(d=>history.push({id:d.id,title:d.title,type:"decision",domain:d.domain,content:[d.objective,d.constraints,d.hypothesis,d.metrics].join(" "),raw:d}));
+  (wb.experiments||[]).forEach(x=>{const d=(wb.decisions||[]).find(y=>y.id===x.decisionId);const r=(wb.reviews||[]).find(y=>y.experimentId===x.id);history.push({id:x.id,title:x.title,type:"experiment",domain:d?.domain,content:[x.hypothesis,x.expected,x.failureModes,x.learning,r?.result,r?.learning,r?.nextStep].join(" "),raw:x,decision:d,review:r});});
+ }
+ const rank=arr=>arr.map(x=>({...x,...personalScore(query,{text:[x.title,x.content,x.source,x.domain,(x.tags||[]).join(" ")].join(" "),tags:x.tags,domain:x.domain},domain)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score);
+ const k=rank(knowledge).slice(0,5),m=rank(models).slice(0,4),c=rank(cases).slice(0,4),h=rank(history).slice(0,4);
+ const selectedModels=new Set(modelIds||[]);m.forEach(x=>{if(selectedModels.has(x.id))x.score+=2;});
+ latestPersonalMatches={knowledge:k,models:m,cases:c,history:h,all:[...k,...m,...c]};
+ window.PIOS_LAST_PERSONAL_CONTEXT={
+  knowledge:k.map(x=>({id:x.id,title:x.title,domain:x.domain,source:x.source,content:String(x.content||"").slice(0,900),tags:x.tags,matched:x.matched})),
+  models:m.map(x=>({id:x.id,title:x.title,domain:x.domain,summary:String(x.content||"").slice(0,700),matched:x.matched})),
+  cases:c.map(x=>({id:x.id,title:x.title,domain:x.domain,source:x.source,mechanism:String(x.content||"").slice(0,700),matched:x.matched})),
+  history:h.map(x=>({id:x.id,title:x.title,type:x.type,domain:x.domain,content:String(x.content||"").slice(0,700),matched:x.matched}))
+ };
+ return latestPersonalMatches;
+}
+function renderPersonalContext(query,domain,modelIds){
+ const found=retrievePersonalContext(query,domain,modelIds),label={knowledge:"个人知识",model:"思维模型",case:"历史案例",decision:"历史决策",experiment:"实验 / 复盘"};
+ let html='<section class="engine-personal-context"><div class="eyebrow">YOUR KNOWLEDGE · LOCAL RETRIEVAL</div><h3>六、从你的知识与历史中检索</h3><p class="engine-muted">只检索当前浏览器本地记录和已加载的仓库资源。按关键词、标签、领域及模型路由进行启发式排序；匹配表示可供复核，不代表因果关系或结论正确。</p>';
+ const block=(title,arr)=>'<div class="personal-match-group"><b>'+title+'（'+arr.length+'）</b>'+(arr.length?arr.map(x=>'<article class="personal-match"><div class="engine-tag">'+(label[x.type]||x.type)+' · '+esc(x.id)+'</div><h4>'+esc(x.title)+'</h4><p>'+esc(String(x.content||"").slice(0,260))+'</p><small>匹配词：'+esc((x.matched||[]).join("、")||"模型路由相关")+(x.source?' · 来源：'+esc(x.source):"")+'</small></article>').join(""):'<p class="engine-muted">没有找到达到匹配阈值的记录。</p>')+'</div>';
+ html+=block("个人知识",found.knowledge)+block("思维模型",found.models)+block("历史案例",found.cases)+block("历史决策 / 实验",found.history);
+ html+='<div class="personal-link-box"><b>把本次检索结果沉淀到一条决策</b><p class="engine-muted">选择已登记的决策，明确保存本次实际参考的知识、模型和案例。不会自动改写旧决策的结论。</p>';
+ const decisions=(typeof wb!=="undefined"?(wb.decisions||[]):[]);
+ html+=decisions.length?'<div class="personal-link-row"><select id="personalContextDecision" class="field"><option value="">选择决策记录……</option>'+decisions.slice().reverse().map(d=>'<option value="'+esc(d.id)+'">'+esc(d.title)+'</option>').join("")+'</select><button type="button" class="primary" id="personalContextAttach">保存引用关系</button></div>':'<p class="engine-muted">当前还没有决策记录。请先登记一条决策，再回来建立引用。</p>';
+ html+='<span class="engine-muted" id="personalContextStatus"></span></div><p class="engine-small">匹配规则：显式标签 / 领域 / 关键词 / 当前模型路由；没有匹配时不强行推荐。历史资料只作为待核对的经验，不自动当作事实证据。</p></section>';
+ return html;
+}
+function attachPersonalContext(){
+ const select=$("personalContextDecision"),status=$("personalContextStatus"),id=select?.value;
+ if(!id){if(status)status.textContent="请先选择一条决策。";return;}
+ const d=(wb.decisions||[]).find(x=>x.id===id);if(!d)return;
+ d.resources=Array.isArray(d.resources)?d.resources:[];
+ let added=0;
+ latestPersonalMatches.all.forEach(x=>{
+  if(!d.resources.some(r=>r.id===x.id)){d.resources.push({id:x.id,title:x.title,type:x.type});added++;}
+  if(x.type==="knowledge"&&x.raw){x.raw.linkedDecisions=Array.isArray(x.raw.linkedDecisions)?x.raw.linkedDecisions:[];if(!x.raw.linkedDecisions.includes(id))x.raw.linkedDecisions.push(id);}
+ });
+ if(wbSave()){if(status)status.textContent="已保存 "+added+" 条新引用关系；可在关系图谱和决策历史中追溯。";if(typeof piosGraphRender==="function")piosGraphRender();}
+}
+
 function run(){
  const problem=$("problem").value.trim(),constraints=$("constraints").value.trim(),goal=$("engineGoal").value.trim();
  const optionText=$("engineOptions").value.trim(),stakeholders=$("engineStakeholders").value.trim();
@@ -185,11 +253,13 @@ function run(){
  html+='<h3>三、模型驱动的动态因素与权重</h3><div class="engine-grid"><div><svg id="engineRadar" class="engine-chart" viewBox="0 0 360 310" role="img" aria-label="当前决策因素权重雷达图"></svg><p class="engine-muted">仅表示本次决策的初步重要性结构，不代表方案表现或证据可信度。</p></div><div>'+factors.map(f=>'<div class="engine-factor"><span>'+esc(f.name)+'<br><small>'+esc(f.why)+'</small><br><small>模型来源：'+esc(f.models.map(x=>models[x].name.split("：")[0]).join("、"))+'</small></span><strong>'+f.weight+'%</strong></div>').join("")+'</div></div><div class="engine-warning">这些百分比由透明启发式生成，是待用户校准的起点，不是统计学习得出的客观权重。证据可信度单独记录，不与重要性混为一谈。</div>';
  html+='<h3>四、全局优化与风险检查</h3><ul><li>系统边界：'+esc(stakeholders||"尚未指定利益相关者；需要检查本人、家庭、团队/客户及其他受影响方。")+'</li><li>检查局部指标是否偏离真正目标（Goodhart 风险）。</li><li>检查成本是否转移给家庭、客户、团队、未来或其他领域。</li><li>检查二阶影响、反馈延迟、瓶颈、路径依赖与锁定效应。</li><li>保留不行动/等待作为基线；多个步骤相互依赖时比较完整路径。</li><li>'+(high?"高影响护栏：先做下行情景、专业核实、分阶段承诺和回滚设计。":"低风险策略：优先小规模试验，保留调整空间。")+'</li></ul>';
  html+='<h3>五、历史案例参考与反例</h3><p class="engine-muted">按当前问题、领域和机制关键词从本地案例种子中检索。案例是对照，不是证明；案例库目前是研究种子，尚未盲测验证。</p>'+renderCases(combined,domain);
- html+='<h3>六、方案表现评分（由你提供证据）</h3>';
+ html+=renderPersonalContext(combined,domain,ids);
+ html+='<h3>七、方案表现评分（由你提供证据）</h3>';
  if(opts.length){html+='<div id="engineScoring"></div><div id="engineResults"></div><p class="engine-muted">只有通过硬约束且完成所有因素评分的方案才进入排序。任何缺失评分都不会被自动补值。</p>';}
  else html+='<div class="engine-warning">尚未填写候选方案。请在上方输入至少两个方案，并包含“不行动 / 等待”基线，再运行一次引擎。</div>';
  html+='<h3>七、下一步行动</h3><ol><li>核实最可能改变结论的 1–3 个关键事实。</li><li>优先做能区分竞争假设、且损失边界明确的小实验。</li><li>记录预期指标、停止条件和复盘日期。</li><li>高风险或专业领域问题，取得合格专业意见后再行动。</li></ol><p class="engine-small">引擎模式：本地规则路由 v0.3；无外部 AI 推理、无实时网络检索。历史案例匹配为启发式，非语义向量检索。权重和建议均可编辑、质疑，不构成专业意见。</p></div>';
  report.innerHTML=html;
+ const attach=$("personalContextAttach");if(attach)attach.addEventListener("click",attachPersonalContext);
  if(opts.length){buildScoreTable(opts,factors);drawEngineRadar(factors);}
  $("engineStatus").textContent="已完成初步路由与分析；方案排序等待你补充门槛和评分。";
  report.scrollIntoView({behavior:"smooth",block:"start"});

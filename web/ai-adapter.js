@@ -41,6 +41,7 @@ function aiBuildPrompt(ctx){
  "【事先识别的失败模式】",aiReadText("aiExpectedFailures"),
  "【失败暴露上限】",aiReadText("aiFailureBudget"),
  "【历史决策与复盘记忆（仅在用户勾选后提供）】",memory,
+ "【本次检索到的个人知识 / 模型 / 案例（仅在用户单独勾选后提供）】",aiEl("aiIncludePersonalKnowledge")?.checked?JSON.stringify(window.PIOS_LAST_PERSONAL_CONTEXT||{}):"未授权共享个人知识检索结果；不得推断或假设用户个人知识。",
  "【规则引擎结果】",deterministic,
  "【可用思维模型库】",JSON.stringify(ctx.models),
  "【候选历史案例资料】",JSON.stringify(ctx.cases),
