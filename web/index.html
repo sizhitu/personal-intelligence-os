@@ -53,7 +53,30 @@ html,body{height:100%;overflow:hidden}
  .main{height:100%;min-height:0;overflow-x:hidden;overflow-y:auto;padding:24px 17px}
 }
 @media(max-width:430px){.main{padding:20px 10px}}
-</style></head><body><div class="shell"><aside class="side"><div class="side-head"><div class="brand"><span class="brand-name">PERSONAL INTELLIGENCE OS</span><small>A PERSONAL DECISION SYSTEM</small></div><button class="nav-toggle" id="navToggle" type="button" aria-label="收起导航栏" title="收起导航栏"><span aria-hidden="true">‹</span></button></div><div class="navlabel">WORKSPACE</div><nav class="nav"><button class="active" data-view="home" title="总览"><span class="ico">⌂</span><span class="nav-text">总览</span></button><button data-view="decision" title="决策工作台"><span class="ico">◇</span><span class="nav-text">决策工作台</span></button><button data-view="graph" title="关系图谱"><span class="ico">⌘</span><span class="nav-text">关系图谱</span></button><button data-view="history" title="决策历史"><span class="ico">◷</span><span class="nav-text">决策历史</span></button><button data-view="ai" title="AI 扩展（可选）"><span class="ico">✧</span><span class="nav-text">AI 扩展（可选）</span></button></nav><div class="sidefoot">一个持续学习、校准与进化的个人系统<br>Local-first · v0.4</div></aside><main class="main">
+
+/* Domain workspaces and shared resource center */
+.domain-workspace{display:flex;flex-direction:column;gap:16px}
+.workspace-hero{background:linear-gradient(115deg,#17263b,#304760);color:#fff;padding:24px 26px;border-radius:15px}
+.workspace-hero .eyebrow{color:#dfc38e}.workspace-hero h2{margin:6px 0;font-size:21px}.workspace-hero p{margin:0;color:#d0d9e4;font-size:13px;max-width:760px}
+.workspace-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.workspace-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px;min-width:0}
+.workspace-card h3{font-size:14px;margin:0 0 6px}.workspace-card p{font-size:12px;color:var(--muted);margin:0 0 12px}
+.workspace-links{display:flex;flex-wrap:wrap;gap:8px}
+.workspace-link,.library-tab{border:1px solid var(--line);background:#fff;color:#34445a;border-radius:8px;padding:8px 11px;font-size:12px;cursor:pointer}
+.workspace-link:hover,.library-tab.active{background:#1e3047;color:#fff;border-color:#1e3047}
+.library-toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.library-search{flex:1;min-width:180px;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:#fff}
+.library-tabs{display:flex;gap:8px;flex-wrap:wrap}
+.library-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.library-item{border:1px solid var(--line);background:#fff;border-radius:11px;padding:15px;min-width:0}
+.library-item h4{font-size:14px;margin:5px 0}.library-item p{font-size:12px;color:var(--muted);margin:5px 0}
+.library-meta{font-size:10px;color:#987b48;letter-spacing:.04em}
+.library-detail{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px}
+.library-detail h3{margin:4px 0 10px;font-size:17px}.library-detail p,.library-detail li{font-size:13px;color:#536174}
+.library-detail ul{padding-left:20px}.library-empty{padding:28px;text-align:center;color:var(--muted);background:#fff;border:1px dashed var(--line);border-radius:12px}
+@media(max-width:900px){.workspace-grid,.library-list{grid-template-columns:1fr}.workspace-hero{padding:20px}.workspace-hero h2{font-size:19px}}
+
+</style></head><body><div class="shell"><aside class="side"><div class="side-head"><div class="brand"><span class="brand-name">PERSONAL INTELLIGENCE OS</span><small>A PERSONAL DECISION SYSTEM</small></div><button class="nav-toggle" id="navToggle" type="button" aria-label="收起导航栏" title="收起导航栏"><span aria-hidden="true">‹</span></button></div><div class="navlabel">WORKSPACE</div><nav class="nav"><button class="active" data-view="home" title="总览"><span class="ico">⌂</span><span class="nav-text">总览</span></button><button data-view="decision" title="决策工作台"><span class="ico">◇</span><span class="nav-text">决策工作台</span></button><button data-view="graph" title="关系图谱"><span class="ico">⌘</span><span class="nav-text">关系图谱</span></button><button data-view="history" title="决策历史"><span class="ico">◷</span><span class="nav-text">决策历史</span></button><button data-view="library" title="知识与模型资源"><span class="ico">▤</span><span class="nav-text">资源中心</span></button><button data-view="ai" title="AI 扩展（可选）"><span class="ico">✧</span><span class="nav-text">AI 扩展（可选）</span></button></nav><div class="sidefoot">一个持续学习、校准与进化的个人系统<br>Local-first · v0.4</div></aside><main class="main">
 <section id="home" class="view active"><div class="view-content"><header class="top"><div><div class="eyebrow">YOUR PERSONAL OPERATING SYSTEM</div><h1>让重要的事，始终保持清晰。</h1><div class="sub">以价值观为起点，以事实为依据，以反馈持续进化。</div></div><div class="date">● 本地原型 · 演示数据</div></header>
 <div class="hero"><div><div class="eyebrow" style="color:#dfc38e">NORTH STAR</div><h2>先对齐价值，再优化决策。</h2><p>不是收集更多信息，而是更清楚地知道什么重要、为什么重要，以及下一步做什么。</p></div><div class="order">01 信仰　→　02 家庭<br>03 事业　→　04 生活</div></div>
 <div class="sectionhead"><h3>四个生活领域</h3><span>一个智能核心 · 四个应用场景</span></div><div class="domains"><article class="domain" data-go="faith"><div class="dicon">✧</div><h4>信仰 Faith</h4><p>原则、承诺、意义与内在校准</p><div class="priority">优先级 01 · 根本方向</div></article><article class="domain" data-go="family"><div class="dicon">⌂</div><h4>家庭 Family</h4><p>关系、责任、共同目标与福祉</p><div class="priority">优先级 02 · 重要责任</div></article><article class="domain" data-go="business"><div class="dicon">↗</div><h4>事业 Business</h4><p>客户价值、团队、经营与创造</p><div class="priority">优先级 03 · 创造价值</div></article><article class="domain" data-go="life"><div class="dicon">◎</div><h4>生活 Life</h4><p>健康、学习、成长、时间与休息</p><div class="priority">持续支撑 · 长期续航</div></article></div>
@@ -82,6 +105,14 @@ html,body{height:100%;overflow:hidden}
 <section id="graph" class="view"><div class="view-content"><header class="top"><div><div class="eyebrow">RELATIONSHIP MAP</div><h1>关系图谱</h1><div class="sub">看见目标、原则、决策、行动与结果之间的联系。</div></div></header><div class="panel"><div class="graph"><div class="nodes"><div class="node">信仰原则<br><small>定义边界与方向</small></div><div class="node">家庭目标<br><small>重要责任与福祉</small></div><div class="node core">个人智能核心<br><small>价值对齐 · 推理 · 反馈</small></div><div class="node">事业系统<br><small>客户价值与创造</small></div><div class="node">证据 / 心智模型</div><div class="node">行动 / 结果 / 复盘<br><small id="graphReviewCount">0 个实验 · 0 次复盘</small></div></div></div><p class="sub" id="graphSummary" style="text-align:center;margin:16px 0 0">关系图展示系统结构；登记决策后会同步显示本机记录数量。</p></div></div></section>
 <section id="history" class="view"><div class="view-content"><header class="top"><div><div class="eyebrow">DECISION JOURNAL</div><h1>决策历史</h1><div class="sub">保留当时的信息、理由与结果，让经验可以被检验。</div></div></header><div class="panel"><h3>决策记录</h3><p class="sub" id="historySummary">仅显示当前浏览器本地登记的决策，不会自动导入其他设备或历史对话。</p><div id="historyList"><div class="historyitem"><b>个人智能决策系统的总体架构</b><p>确认一个共享智能核心，应用于信仰、家庭、事业、生活四个领域。</p><span class="tag">已记录 · 项目初始化</span></div><div class="historyitem"><b>价值优先级的定义</b><p>信仰第一、家庭第二、事业第三；生活保障长期可持续性。</p><span class="tag">已确认 · 原则</span></div></div></div></div></section>
 <section id="ai" class="view"><div class="view-content"><header class="top"><div><div class="eyebrow">OPTIONAL AI EXTENSION</div><h1>AI 增强工具</h1><div class="sub">独立可选的外部推理服务。关闭、断网或不配置 API Key，不影响决策、记录、关系图谱、历史、复盘和导出。</div></div></header><div class="panel"><h3>系统独立运行原则</h3><p class="sub">本系统的价值约束、模型路由、权重调整、硬约束检查、实验登记、复盘、关系图谱和本地记录由本地程序执行。AI 只提供第二意见，不拥有决策权，也不是系统运行条件。</p></div><div id="aiReasoningPanel" class="panel"><h3>AI 推理适配层 · 可选连接</h3><p class="sub">规则引擎继续免费本地运行。连接模型后，当前问题、约束、候选方案、引擎结果和选取的公开案例会发送给你指定的 API 服务商。不要提交密码、账号、客户隐私或其他敏感信息。</p><div class="wb-two"><label class="engine-label">接口类型<select id="aiProvider" class="field"><option value="openai-compatible">OpenAI 兼容 Chat Completions</option></select></label><label class="engine-label">模型名称<input id="aiModel" class="field" value="gpt-4.1-mini" autocomplete="off" placeholder="填写服务商提供的模型 ID"></label></div><label class="engine-label">API Endpoint<input id="aiEndpoint" class="field" type="url" value="https://api.openai.com/v1/chat/completions" autocomplete="url"></label><label class="engine-label">API Key（仅当前页面内存，不保存）<input id="aiApiKey" class="field" type="password" autocomplete="new-password" spellcheck="false" placeholder="粘贴你自己的 API Key"></label><div class="wb-two"><label class="engine-label">预先识别的失败模式<textarea id="aiExpectedFailures" class="field" rows="2" placeholder="哪些失败是可预见、可控、能带来信息的？哪些属于不可接受的伤害？"></textarea></label><label class="engine-label">失败暴露上限<textarea id="aiFailureBudget" class="field" rows="2" placeholder="时间、资金、范围、人员、安全边界；触发何种阈值必须停止？"></textarea></label></div><label class="engine-label" style="display:flex;gap:9px;align-items:flex-start"><input id="aiIncludeHistory" type="checkbox" style="margin-top:4px"> 可选：附带最近最多 5 条历史决策及复盘摘要。默认关闭；历史记录可能含敏感信息，只有确认适合共享时才勾选。</label><label class="engine-label" style="display:flex;gap:9px;align-items:flex-start"><input id="aiConsent" type="checkbox" style="margin-top:4px"> 我确认将本次决策内容发送给上述 API 服务商，并已移除不应共享的敏感信息。</label><div class="wb-two" style="align-items:center"><button class="primary" id="runAiReasoning" type="button" style="padding:12px 18px">调用 AI 深度分析</button><span class="sub" id="aiStatus">未连接。API Key 不会写入浏览器存储或备份。</span></div><div id="aiOutputWrap" style="display:none;margin-top:14px"><h4>AI 推理结果</h4><pre id="aiOutput" style="white-space:pre-wrap;overflow-wrap:anywhere;max-height:620px;overflow:auto;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);font:inherit;line-height:1.65"></pre><div class="wb-two" style="margin-top:12px"><label class="engine-label">保存到哪条决策<select id="aiSaveDecision" class="field"><option value="">先登记一条决策</option></select></label><button class="secondary" id="saveAiSnapshot" type="button">保存分析快照到决策记录</button></div><p class="sub" id="aiSaveStatus">保存时只记录分析文本、模型名、时间和来源元数据，不记录 API Key。</p></div></div></div></section>
+
+<section id="workspace" class="view"><div class="view-content" id="domainWorkspace"></div></section>
+<section id="library" class="view"><div class="view-content">
+<header class="top"><div><div class="eyebrow">SHARED INTELLIGENCE ASSETS</div><h1>统一资源中心</h1><div class="sub">同一套知识、模型、因子与案例，服务四个领域和所有决策。</div></div></header>
+<div class="panel"><div class="library-toolbar"><input id="librarySearch" class="library-search" type="search" placeholder="搜索名称、机制、适用场景或来源……"><span class="sub" id="libraryCount">正在读取本地资源</span></div><div class="library-tabs" style="margin-top:14px"><button class="library-tab active" data-library-tab="models">思维模型</button><button class="library-tab" data-library-tab="cases">历史案例</button><button class="library-tab" data-library-tab="factors">决策因子</button><button class="library-tab" data-library-tab="principles">原则与约束</button></div></div>
+<div id="libraryDetail" style="display:none"></div><div id="libraryList" class="library-list"></div>
+<div class="panel"><h3>资源使用规则</h3><p class="sub">资源中心负责管理和查阅；决策分析时按问题调用，不要求每次都读完全部资源。模型建议不是结论，历史案例是机制参照而非证明，Faith 与明确底线始终由你定义并作为硬约束。</p></div>
+</div></section>
 </main></div><script>
 const shell=document.querySelector('.shell');const navToggle=document.getElementById('navToggle');const mobileNav=()=>window.matchMedia('(max-width:900px)').matches;if(mobileNav())shell.classList.add('nav-collapsed');navToggle.addEventListener('click',()=>{if(mobileNav()){shell.classList.toggle('nav-collapsed');shell.classList.toggle('nav-expanded',!shell.classList.contains('nav-collapsed'));navToggle.setAttribute('aria-label',shell.classList.contains('nav-collapsed')?'展开导航栏':'收起导航栏');navToggle.title=shell.classList.contains('nav-collapsed')?'展开导航栏':'收起导航栏'}else{shell.classList.toggle('nav-collapsed');navToggle.setAttribute('aria-label',shell.classList.contains('nav-collapsed')?'展开导航栏':'收起导航栏');navToggle.title=shell.classList.contains('nav-collapsed')?'展开导航栏':'收起导航栏'}});window.addEventListener('resize',()=>{if(mobileNav()){shell.classList.remove('nav-collapsed');shell.classList.remove('nav-expanded');shell.classList.add('nav-collapsed')}else{shell.classList.remove('nav-expanded')}});const nav=[...document.querySelectorAll('[data-view]')];function resetPageScroll(){window.scrollTo(0,0);document.documentElement.scrollTop=0;document.body.scrollTop=0;const main=document.querySelector('.main');if(main)main.scrollTop=0}function show(id){resetPageScroll();document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));nav.forEach(n=>n.classList.toggle('active',n.dataset.view===id));resetPageScroll();requestAnimationFrame(resetPageScroll)}nav.forEach(n=>n.onclick=()=>show(n.dataset.view));document.querySelectorAll('[data-go]').forEach(n=>n.onclick=()=>{show('decision');document.getElementById('domain').value=({faith:'信仰 Faith',family:'家庭 Family',business:'事业 Business',life:'生活 Life'})[n.dataset.go]});document.getElementById('start').onclick=()=>{document.getElementById('problem').value=document.getElementById('quick').value;show('decision')};document.getElementById('analyze').onclick=()=>{const p=document.getElementById('problem').value.trim(),d=document.getElementById('domain').value,c=document.getElementById('constraints').value.trim();const out=document.getElementById('analysisResult');if(!p){out.textContent='请先描述你要解决的问题。';return}out.innerHTML='<b>问题摘要</b><p>'+escapeHtml(p)+'</p><b>领域</b><p>'+escapeHtml(d)+'</p><b>关键约束</b><p>'+escapeHtml(c||'尚未填写，需要进一步澄清。')+'</p><b>建议下一步</b><p>① 区分事实与假设；② 写出至少两个可行选项；③ 明确不可妥协条件；④ 评估长期影响和可逆性；⑤ 设定复盘时间与成功标准。</p><small>当前为前端交互原型，尚未连接真实 AI、数据库或个人数据。</small>';};function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 
@@ -149,4 +180,119 @@ document.getElementById("importData").onclick=()=>document.getElementById("impor
 document.getElementById("importFile").addEventListener("change",async e=>{const file=e.target.files[0];if(!file)return;try{const parsed=JSON.parse(await file.text());if(!Array.isArray(parsed.decisions)||!Array.isArray(parsed.experiments)||!Array.isArray(parsed.reviews))throw new Error("文件结构不正确");if(!confirm("导入将替换当前浏览器中的工作台数据。建议先导出备份。继续吗？"))return;wb={decisions:parsed.decisions,experiments:parsed.experiments,reviews:parsed.reviews};wbSave();alert("导入完成。");}catch(err){alert("导入失败："+err.message);}finally{e.target.value="";}});
 const reviewDateInput=document.querySelector("#decisionForm [name=reviewDate]");if(reviewDateInput)reviewDateInput.value=wbDateOffset(14);
 wbLoad();wbRender();
+
+/* Domain workspaces: four application contexts, one shared decision engine. */
+const PIOS_DOMAINS={
+ faith:{title:"信仰 Faith",kicker:"价值与原则中心",desc:"维护由你亲自定义的信仰承诺、核心原则与不可妥协边界。系统只帮助澄清、记录和检查一致性，不替你解释信仰内容。",cards:[
+ ["原则与承诺","记录你确认的原则、承诺、实践方式和适用边界。","原则与约束","principles"],
+ ["人生方向","把重要方向转化为可持续实践，不把信仰价值折算成普通分数。","关系图谱","graph"],
+ ["重要抉择","遇到价值冲突时先检查硬约束，再讨论可行路径。","发起相关决策","decision"]
+ ]},
+ family:{title:"家庭 Family",kicker:"长期生活与责任系统",desc:"把家庭目标、关系责任、重要安排与长期福祉放在同一张图里，避免局部效率损害家庭整体。",cards:[
+ ["家庭目标与责任","梳理共同目标、责任分工、重要关系和需要持续关注的事项。","关系图谱","graph"],
+ ["家庭重大决策","记录背景、相关成员、硬约束、备选路径与复盘时间。","发起家庭决策","decision"],
+ ["经验与案例","借鉴相似历史机制，同时检查家庭情境的差异和边界。","历史案例","cases"]
+ ]},
+ business:{title:"事业 Business",kicker:"价值创造与经营系统",desc:"围绕客户价值、团队、产品、经营指标和实验复盘，识别可复现的增长机制，再在护栏内逐步放大。",cards:[
+ ["战略与经营目标","明确服务对象、价值主张、关键目标和资源配置。","发起经营决策","decision"],
+ ["客户与团队机制","梳理客户关系、团队协作、激励与系统瓶颈。","关系图谱","graph"],
+ ["实验与复利","先小规模验证机制，复盘后再复制和扩大。","设计实验","experiment"]
+ ]},
+ life:{title:"生活 Life",kicker:"长期可持续性的支撑层",desc:"管理健康、学习、成长、时间、兴趣与休息。生活不是可以无限压缩的剩余项，而是整个系统持续运行的基础。",cards:[
+ ["健康与生活管理","记录重要目标、习惯、风险信号与需要专业支持的事项。","发起生活决策","decision"],
+ ["学习与成长","把知识转化为实践、反馈和可验证的能力进步。","思维模型","models"],
+ ["时间与精力","检查时间预算、恢复能力和长期可持续性。","历史记录","history"]
+ ]}
+};
+let piosActiveDomain="faith";
+function piosOpenDomain(domain){
+ piosActiveDomain=PIOS_DOMAINS[domain]?domain:"faith";
+ const d=PIOS_DOMAINS[piosActiveDomain],host=document.getElementById("domainWorkspace");
+ host.innerHTML='<header class="top"><div><div class="eyebrow">DOMAIN WORKSPACE</div><h1>'+wbEsc(d.title)+'</h1><div class="sub">'+wbEsc(d.kicker)+'</div></div><button class="workspace-link" type="button" data-work-action="home">返回总览</button></header>'+
+ '<div class="workspace-hero"><div class="eyebrow">领域定位</div><h2>'+wbEsc(d.kicker)+'</h2><p>'+wbEsc(d.desc)+'</p></div>'+
+ '<div class="sectionhead"><h3>这个领域的工作模块</h3><span>领域上下文 · 共享资源 · 统一决策引擎</span></div><div class="workspace-grid">'+d.cards.map((c,i)=>'<article class="workspace-card"><div class="library-meta">MODULE 0'+(i+1)+'</div><h3>'+wbEsc(c[0])+'</h3><p>'+wbEsc(c[1])+'</p><div class="workspace-links"><button class="workspace-link" type="button" data-work-action="'+wbEsc(c[3])+'">'+wbEsc(c[2])+' ↗</button></div></article>').join("")+'</div>'+
+ '<div class="workspace-grid"><article class="workspace-card"><h3>本领域的近期记录</h3><p id="domainDecisionSummary">查看本机保存的相关决策、实验和复盘。</p><div class="workspace-links"><button class="workspace-link" type="button" data-work-action="history">查看决策记录</button></div></article><article class="workspace-card"><h3>跨领域约束提醒</h3><p>重大决策仍需检查信仰承诺、家庭责任、事业影响和生活可持续性；本领域不是独立孤岛。</p><div class="workspace-links"><button class="workspace-link" type="button" data-work-action="decision">进入统一决策中心</button></div></article></div>';
+ const related=(wb.decisions||[]).filter(x=>(x.domain||"").toLowerCase().includes(piosActiveDomain));
+ const summary=document.getElementById("domainDecisionSummary");if(summary)summary.textContent="本机登记 "+related.length+" 条相关决策；共 "+(wb.experiments||[]).filter(x=>related.some(d=>d.id===x.decisionId)).length+" 个关联实验。数据仅保存在当前浏览器。";
+ host.querySelectorAll("[data-work-action]").forEach(b=>b.addEventListener("click",()=>piosWorkspaceAction(b.dataset.workAction)));
+ show("workspace");
+}
+function piosWorkspaceAction(action){
+ if(action==="home"){show("home");return;}
+ if(action==="decision"){show("decision");const sel=document.getElementById("domain");if(sel)sel.value=({faith:"信仰 Faith",family:"家庭 Family",business:"事业 Business",life:"生活 Life"})[piosActiveDomain];return;}
+ if(action==="graph"||action==="history"){show(action);return;}
+ if(action==="experiment"){show("decision");const tab=document.querySelector('[data-wb-tab="experiment"]');if(tab)tab.click();const sel=document.getElementById("experimentDecision");if(sel&&sel.options.length>1){const related=(wb.decisions||[]).find(x=>(x.domain||"").includes(({faith:"信仰",family:"家庭",business:"事业",life:"生活"})[piosActiveDomain]));if(related)sel.value=related.id;}return;}
+ if(["models","cases","factors","principles"].includes(action)){piosShowLibrary(action);return;}
+ piosShowLibrary("models");
+}
+let piosLibrary={models:[],cases:[],market:[]},piosLibraryTab="models",piosLibraryQuery="";
+const PIOS_FACTORS=[
+ ["价值观与硬约束","先判断是否满足用户定义的原则、法律、安全、同意和明确底线；硬约束是 gate，不是可被分数抵消的权重。","跨领域"],
+ ["长期整体影响","评估对家庭、事业、生活韧性及长期目标的整体影响，防止局部最优。","跨领域"],
+ ["预期收益与价值创造","比较目标达成、客户价值、能力积累和潜在收益；不把不可比价值强行货币化。","事业 / 投资"],
+ ["风险与下行暴露","关注损失幅度、尾部风险、集中度、脆弱性和不可恢复后果。","跨领域"],
+ ["可行性与资源约束","检查时间、资金、能力、注意力、系统容量和关键依赖。","跨领域"],
+ ["证据可信度","区分事实、假设、推断和未知；证据质量独立于因素重要性与方案表现。","跨领域"],
+ ["可逆性与期权价值","检查能否分阶段行动、保留选择权、低成本停止或回滚。","高不确定性"],
+ ["机会成本","比较被占用的时间、资金和注意力的最佳替代用途。","资源稀缺"],
+ ["利益相关者与外部性","识别谁获益、谁承担成本，以及成本是否被转嫁给他人或未来。","复杂决策"]
+];
+const PIOS_PRINCIPLES=[
+ ["Faith first","信仰承诺由用户定义；系统不得擅自解释。作为最高优先级约束检查。"],
+ ["Family second","家庭关系、责任、安全与长期福祉不可被短期效率轻易牺牲。"],
+ ["Business third","在更高优先级约束内持续创造真实价值，兼顾客户、团队和长期信任。"],
+ ["Life sustains the whole","健康、学习、成长、兴趣、时间与休息是长期可持续性的基础。"],
+ ["Hard constraints before scoring","硬约束先 gate/veto；普通权重只能用于通过门槛后的可权衡因素。"],
+ ["Evidence before confidence","明确事实、假设、未知、来源和反证，不把流畅叙述当成证据。"],
+ ["Learn before scaling","成功机制先复现、识别边界和护栏，再分阶段扩大。"],
+ ["User approval governs methods","AI 可以提出方法论修订，但不得静默修改用户价值观、原则或长期偏好。"]
+];
+async function piosLoadLibrary(){
+ try{
+  const [m,c,k]=await Promise.all([
+   fetch("data/model-library.json").then(r=>r.ok?r.json():{models:[]}),
+   fetch("data/cross-domain-cases.json").then(r=>r.ok?r.json():{cases:[]}),
+   fetch("data/market-cases.json").then(r=>r.ok?r.json():{events:[]})
+  ]);
+  piosLibrary={models:m.models||[],cases:c.cases||[],market:k.events||[]};
+ }catch(e){console.warn("Resource library load failed",e);piosLibrary={models:[],cases:[],market:[]};}
+ piosRenderLibrary();
+}
+function piosShowLibrary(tab){
+ piosLibraryTab=tab||"models";piosLibraryQuery="";
+ const search=document.getElementById("librarySearch");if(search)search.value="";
+ document.querySelectorAll("[data-library-tab]").forEach(b=>b.classList.toggle("active",b.dataset.libraryTab===piosLibraryTab));
+ document.getElementById("libraryDetail").style.display="none";
+ show("library");piosRenderLibrary();
+}
+function piosRenderLibrary(){
+ const host=document.getElementById("libraryList"),count=document.getElementById("libraryCount");if(!host)return;
+ const q=piosLibraryQuery.toLowerCase();
+ let items=[];
+ if(piosLibraryTab==="models")items=piosLibrary.models.map(x=>({id:x.id,title:x.name,meta:x.family,summary:x.summary,search:[x.id,x.name,x.family,x.summary,...(x.use_when||[]),...(x.sources||[])].join(" "),raw:x}));
+ if(piosLibraryTab==="cases")items=piosLibrary.cases.concat(piosLibrary.market).map(x=>({id:x.id,title:x.title,meta:(x.domain||x.type||"案例")+" · "+(x.date||""),summary:x.facts||x.mechanism||x.question||"",search:[x.id,x.title,x.domain,x.type,x.facts,x.mechanism,x.question,x.limits].join(" "),raw:x}));
+ if(piosLibraryTab==="factors")items=PIOS_FACTORS.map((x,i)=>({id:"FACTOR-"+String(i+1).padStart(2,"0"),title:x[0],meta:x[2],summary:x[1],search:x.join(" "),raw:x}));
+ if(piosLibraryTab==="principles")items=PIOS_PRINCIPLES.map((x,i)=>({id:"PRINCIPLE-"+String(i+1).padStart(2,"0"),title:x[0],meta:"系统原则",summary:x[1],search:x.join(" "),raw:x}));
+ const filtered=items.filter(x=>!q||(x.search||"").toLowerCase().includes(q));
+ count.textContent="共 "+filtered.length+" 项 · 本地静态资源";
+ host.innerHTML=filtered.length?filtered.map(x=>'<article class="library-item"><div class="library-meta">'+wbEsc(x.id)+' · '+wbEsc(x.meta||"")+'</div><h4>'+wbEsc(x.title)+'</h4><p>'+wbEsc(x.summary||"")+'</p><button class="workspace-link" type="button" data-library-open="'+wbEsc(x.id)+'">查看详情</button></article>').join(""):'<div class="library-empty">没有找到匹配的资源。试试更短的关键词。</div>';
+ host.querySelectorAll("[data-library-open]").forEach(b=>b.addEventListener("click",()=>piosOpenLibraryDetail(filtered.find(x=>x.id===b.dataset.libraryOpen))));
+}
+function piosOpenLibraryDetail(item){
+ if(!item)return;
+ const raw=item.raw,host=document.getElementById("libraryDetail");let extra="";
+ if(piosLibraryTab==="models"){
+  extra='<h4>适用情境</h4><ul>'+((raw.use_when||[]).map(x=>'<li>'+wbEsc(x)+'</li>').join("")||"<li>暂无记录</li>")+'</ul><h4>不适用 / 失效边界</h4><ul>'+((raw.avoid_when||[]).map(x=>'<li>'+wbEsc(x)+'</li>').join("")||"<li>暂无记录</li>")+'</ul><h4>诊断问题</h4><ul>'+((raw.diagnostics||[]).map(x=>'<li>'+wbEsc(x)+'</li>').join("")||"<li>暂无记录</li>")+'</ul><h4>来源线索</h4><p>'+wbEsc((raw.sources||[]).join("；")||"待补充")+'</p>';
+ }else if(piosLibraryTab==="cases"){
+  const actors=raw.actors||[];extra='<h4>机制 / 事实</h4><p>'+wbEsc(raw.mechanism||raw.facts||"")+'</p>'+actors.map(a=>'<h4>'+wbEsc(a.role||"相关视角")+'</h4><p>'+wbEsc(a.conclusion||"")+'</p><p><b>反面提醒：</b>'+wbEsc(a.redteam||"")+'</p>').join("")+'<h4>适用边界</h4><p>'+wbEsc(raw.limits||"类比不是证明；请核对情境差异。")+'</p>'+(raw.source?'<p><a href="'+wbEsc(raw.source)+'" target="_blank" rel="noopener">查看原始来源 ↗</a></p>':"");
+ }else extra='<p>'+wbEsc(item.summary)+'</p>';
+ host.innerHTML='<div class="library-detail"><div class="library-meta">'+wbEsc(item.id)+' · '+wbEsc(item.meta||"")+'</div><h3>'+wbEsc(item.title)+'</h3><p>'+wbEsc(item.summary||"")+'</p>'+extra+'<div class="workspace-links"><button class="workspace-link" type="button" id="libraryBack">返回资源列表</button><button class="workspace-link" type="button" id="libraryUse">用于一次决策</button></div></div>';
+ host.style.display="block";document.getElementById("libraryBack").onclick=()=>{host.style.display="none";};
+ document.getElementById("libraryUse").onclick=()=>{show("decision");const p=document.getElementById("problem");if(p)p.value="请在本次决策中参考资源："+item.title+"（"+item.id+"）。请检查其适用条件、失效边界和反证。";};
+}
+document.querySelectorAll("[data-library-tab]").forEach(b=>b.addEventListener("click",()=>piosShowLibrary(b.dataset.libraryTab)));
+document.getElementById("librarySearch")?.addEventListener("input",e=>{piosLibraryQuery=e.target.value.trim();document.getElementById("libraryDetail").style.display="none";piosRenderLibrary();});
+document.querySelectorAll("[data-go]").forEach(n=>n.onclick=()=>piosOpenDomain(n.dataset.go));
+piosLoadLibrary();
+
 </script><script src="engine.js"></script><script src="ai-adapter.js"></script></body></html>
