@@ -63,3 +63,17 @@ Build the smallest complete vertical slice first: capture a goal, reason through
 - [ ] Capture near misses and information value
 - [ ] Track forecast calibration, repeat-failure rate, detection time, and learning incorporation
 - [ ] Add domain-specific safety and consent gates
+
+
+## Phase 5 — Explainable decision engine v0.3
+- [x] Context-aware rule-based model router
+- [x] Dynamic, explainable factor proposals and weight radar
+- [x] Hard-constraint gates separated from weighted criteria
+- [x] Global optimization checklist and no-action baseline prompt
+- [x] Local historical case retrieval with source links and red-team caveats
+- [x] User-scored option comparison and weight sensitivity check
+- [ ] Persist engine report, factor provenance, and option scores as a decision snapshot
+- [ ] Curated model records with diagnostic questions and failure boundaries
+- [ ] Semantic case retrieval, source verification timestamps, and stronger counterexample coverage
+- [ ] Optional LLM adapter with explicit key handling, redaction, and provider isolation
+- [ ] Automated tests for routing, gates, scoring, sensitivity, and privacy

@@ -45,7 +45,7 @@ The repository now includes a 16-case research seed across **faith, family, busi
 
 These are structured research hypotheses, not completed blind tests or validated AI outputs. Faith commitments remain user-defined hard constraints; family safety and child welfare, business safety/legal/ethical constraints, and life safety are not ordinary weighted factors that can be traded away.
 
-## Status\nFoundation, product charter, historical case benchmark, and a **local-first runnable decision workbench (v0.2)** are available. The workbench supports decision registration, adaptive factor-weight capture, experiment pre-registration, failure classification, review records, browser-local persistence, and JSON export/import. It is not yet a hosted multi-device database or AI reasoning backend. See [live prototype](https://sizhitu.github.io/personal-intelligence-os/) and [ROADMAP.md](ROADMAP.md).
+## Status\nFoundation, product charter, historical case benchmark, and a **local-first decision workbench and explainable decision engine (v0.3)** are available. The workbench supports decision registration, adaptive factor-weight capture, experiment pre-registration, failure classification, review records, browser-local persistence, and JSON export/import. The v0.3 engine routes mental models, proposes contextual weights, applies hard-constraint gates, checks global effects, retrieves local historical case seeds, and compares user-scored options with sensitivity checks. It is deterministic and does not yet use an LLM or live web retrieval. See [live prototype](https://sizhitu.github.io/personal-intelligence-os/) and [ROADMAP.md](ROADMAP.md).
 
 ## Whole-system optimization
 
