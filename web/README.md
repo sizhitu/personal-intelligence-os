@@ -12,5 +12,5 @@
 - The prompt enforces pre-registered, bounded, safe, ethical, informative failures as learning; it does not celebrate preventable harm, reckless failures, or breaches of guardrails.
 
 
-## Local-first core and optional AI extension
-The decision workspace, rule-based model routing, hard-gate checks, factor weighting, experiment registration, reviews, relationship overview, decision history, local persistence, import, and export work without any AI provider or network access. The AI adapter is isolated on its own `AI 扩展（可选）` view; it provides a second opinion only. If the adapter script, API key, network, or provider is unavailable, core workflows remain usable. The graph and history views are sibling views, not children of the decision workspace.
+## Simplified core interface
+The primary navigation exposes only the decision workspace and decision history. The relationship graph, resource library, overview dashboard, and standalone AI extension are hidden from the main interface; their underlying data and code are retained for future use. AI configuration and execution remain inside the decision workspace. The core records, experiment, review, and backup workflows are retained. This is an interface simplification, not deletion of stored browser data.
