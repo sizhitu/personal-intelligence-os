@@ -351,20 +351,20 @@ function piosGraphInspect(id){
 
 
 const PIOS_REVIEW_PATTERNS=[
- {key:"validation",title:"先验证再扩大",terms:["验证","小规模","试点","实验","假设","复现","测试"]},
- {key:"risk-boundary",title:"风险识别与边界控制",terms:["风险","下行","风险上限","止损","停止条件","回滚","失效模式","安全边际"]},
- {key:"information",title:"信息不足与证据质量",terms:["信息不足","证据","数据缺失","不确定","样本","基准率","反证"]},
- {key:"execution",title:"执行与流程一致性",terms:["执行","流程","标准化","检查清单","遗漏","操作错误","交付"]},
- {key:"communication",title:"沟通与协作",terms:["沟通","协作","反馈","对齐","误解","信息传递","利益相关者"]},
- {key:"customer",title:"客户需求与价值",terms:["客户","用户需求","需求","转化","留存","满意度","价值主张"]},
- {key:"cost",title:"成本与资源效率",terms:["成本","预算","现金流","资源","投入产出","边际收益","费用"]},
- {key:"time",title:"时间与优先级",terms:["时间","优先级","延期","节奏","等待","时机","排期"]},
- {key:"quality",title:"质量与安全护栏",terms:["质量","安全","事故","故障","可靠性","护栏","检查"]},
- {key:"team",title:"团队与激励机制",terms:["团队","激励","职责","分工","代理","人才","绩效"]},
- {key:"feedback",title:"反馈与持续迭代",terms:["反馈","迭代","复盘","改进","循环","学习","调整"]},
- {key:"dependency",title:"依赖与集中度风险",terms:["依赖","集中度","单点","供应商","平台","锁定","脆弱性"]},
- {key:"bias",title:"判断偏差与认知陷阱",terms:["过度自信","确认偏误","锚定","沉没成本","情绪化","幸存者偏差","结果偏差"]},
- {key:"measurement",title:"指标与真实目标偏离",terms:["指标","kpi","度量","数据口径","目标替代","goodhart","古德哈特"]}
+ {key:"validation",title:"先验证再扩大",terms:["小规模试点","先验证","验证假设","跨场景复现","对照组","测试结果"]},
+ {key:"risk-boundary",title:"风险识别与边界控制",terms:["风险上限","停止条件","回滚计划","失效模式","安全边际","下行风险"]},
+ {key:"information",title:"信息不足与证据质量",terms:["信息不足","数据缺失","基准率","反证","样本偏差","证据质量"]},
+ {key:"execution",title:"执行与流程一致性",terms:["检查清单","标准化流程","操作错误","流程遗漏","交付延误","执行偏差"]},
+ {key:"communication",title:"沟通与协作",terms:["沟通不畅","信息传递","职责对齐","反馈机制","利益相关者","协作机制"]},
+ {key:"customer",title:"客户需求与价值",terms:["客户需求","用户需求","价值主张","客户留存","转化率","客户满意度"]},
+ {key:"cost",title:"成本与资源效率",terms:["现金流","投入产出","边际收益","预算超支","成本结构","资源错配"]},
+ {key:"time",title:"时间与优先级",terms:["优先级","时间窗口","排期","延期","机会成本","时间预算"]},
+ {key:"quality",title:"质量与安全护栏",terms:["质量控制","安全护栏","故障恢复","可靠性","灰度发布","质量事故"]},
+ {key:"team",title:"团队与激励机制",terms:["激励机制","职责分工","代理问题","绩效指标","人才流失","团队协作"]},
+ {key:"feedback",title:"反馈与持续迭代",terms:["反馈闭环","持续迭代","复盘机制","学习循环","调整策略","快速反馈"]},
+ {key:"dependency",title:"依赖与集中度风险",terms:["单点故障","供应商依赖","平台依赖","集中度","路径依赖","锁定效应"]},
+ {key:"bias",title:"判断偏差与认知陷阱",terms:["过度自信","确认偏误","锚定效应","沉没成本","幸存者偏差","结果偏差"]},
+ {key:"measurement",title:"指标与真实目标偏离",terms:["指标替代","数据口径","古德哈特","目标错配","虚荣指标","度量偏差"]}
 ];
 function piosScanReviewPatterns(){
  const reviews=wb.reviews||[],experiments=wb.experiments||[],decisions=wb.decisions||[],groups=[];
@@ -457,6 +457,7 @@ document.getElementById("libraryNoteForm").addEventListener("submit",e=>{
 });
 
 document.querySelectorAll("[data-library-tab]").forEach(b=>b.addEventListener("click",()=>piosShowLibrary(b.dataset.libraryTab)));
+document.getElementById("scanReviewPatterns")?.addEventListener("click",piosRenderPlaybookScanner);
 document.getElementById("librarySearch")?.addEventListener("input",e=>{piosLibraryQuery=e.target.value.trim();document.getElementById("libraryDetail").style.display="none";piosRenderLibrary();});
 document.querySelectorAll("[data-go]").forEach(n=>n.onclick=()=>piosOpenDomain(n.dataset.go));
 piosLoadLibrary();
