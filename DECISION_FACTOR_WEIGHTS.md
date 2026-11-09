@@ -1,48 +1,112 @@
-# Decision Factor Weighting & Radar Polygon
+# Model-Driven Adaptive Decision Weighting
 
-## Purpose
-Decision analysis should expose the factors that shape a recommendation and their relative importance. The UI uses a radar chart (spider chart) to display the factor profile as a polygon.
+## Core principle
 
-## Distinguish three concepts
-- **Factor importance weight**: how much a criterion matters to this decision.
-- **Option performance / score**: how well a candidate performs on that criterion.
-- **Evidence confidence**: how reliable the information or estimate is.
+Decision factors and their weights should be generated dynamically from the problem context and the selected multidisciplinary mental models. The system must not apply one universal fixed weight vector to every decision.
 
-Do not collapse these into one number. A high weight means the criterion matters more; it does not mean the option scores highly or that the conclusion is more certain.
+The process is **model-driven, context-aware, explainable, and user-correctable**.
 
-## Decision-specific weighting
-Weights should vary by decision domain and user-confirmed objectives:
-- Faith/value alignment: non-negotiable values should generally be treated as constraints or veto conditions, not merely low-weight criteria that can be traded away.
-- Family: wellbeing, relationship impact, time, stability, and responsibilities.
-- Business: customer value, strategic fit, growth, cash flow, execution, team and downside.
-- Investing: expected return, valuation, business quality, downside/ruin risk, time horizon, liquidity, and uncertainty.
-- Life/health: safety, quality of life, evidence quality, sustainability, and reversibility.
+## Pipeline
 
-These are examples, not a universal default. The system may propose weights based on the user's context, but must show why and ask for confirmation when the choice materially affects the recommendation.
+1. **Parse the decision**: identify domain, desired outcome, stakeholders, time horizon, constraints, uncertainty, reversibility, and stakes.
+2. **Select mental models**: the Model Router selects a small set of relevant models from the library and explains why each is applicable.
+3. **Extract decision factors**: each selected model contributes factors, diagnostic questions, and potential failure modes.
+4. **Merge and deduplicate**: unify synonyms and overlapping factors while retaining links to the models that contributed them.
+5. **Apply hard constraints first**: faith commitments, legal constraints, safety requirements, and explicit user non-negotiables are not ordinary weighted criteria. They are gates or veto conditions.
+6. **Propose relative weights**: derive an initial importance profile from the decision context, user-confirmed priorities, model relevance, evidence, and downside severity.
+7. **Explain and normalize**: show raw rationale and normalized percentages. Weights sum to 100% only among criteria that are legitimately tradeable.
+8. **Evaluate options separately**: score each option against each factor on a declared scale, with evidence and confidence. Do not confuse importance weight with option performance or evidence confidence.
+9. **Sensitivity analysis**: vary plausible weights and assumptions; show whether the preferred option changes.
+10. **User review and decision**: users can adjust, lock, remove, or add factors. Material changes require confirmation.
+11. **Record and learn**: preserve the generated factor set, model provenance, user edits, and eventual outcome for calibration. Do not silently change stable user values.
 
-## Normalization
-For ordinary weighted scoring, positive criterion weights can be normalized:
+## Mental model families and factor contributions
 
-normalized_weight_i = raw_weight_i / sum(raw_weights)
+### Cognitive psychology
+Contributes: bias exposure, emotional pressure, anchoring, loss aversion, overconfidence, planning fallacy, base-rate neglect, sunk-cost risk.
+Typical role: challenge the reliability of the decision process, not automatically add a large numeric weight to every bias.
 
-Displayed percentages sum to 100%.
+### Munger / multidisciplinary reasoning
+Contributes: incentives, opportunity cost, circle of competence, margin of safety, second-order effects, compounding, comparative advantage.
+Typical role: broaden alternatives and expose hidden costs or incentive conflicts.
 
-If criteria are scored for each option, use a separately defined scale (e.g. 0–5 or 0–10), clearly label the scale and scoring evidence, and calculate a weighted score only when appropriate.
+### Scientific method and Bayesian reasoning
+Contributes: evidence quality, base rates, uncertainty, falsifiability, counterevidence, measurement quality, causal confidence.
+Typical role: determine how much confidence the system should place in claims and forecasts. Evidence confidence should remain separate from criterion importance.
 
-## Radar polygon
-- One axis per criterion.
-- Axis labels remain readable on mobile.
-- The polygon represents the normalized weight profile.
-- Tooltips/details should show exact criterion, raw weight, normalized weight, and explanation.
-- Provide accessible textual/table representation; the chart is not the only output.
-- User can adjust factors and see the polygon update.
+### Cybernetics and systems thinking
+Contributes: feedback delay, controllability, observability, stability, adaptation, resilience, leverage points, unintended consequences, system boundary.
+Typical role: assess whether an intervention can be monitored and corrected, and whether local optimization harms the wider system.
 
-## Decision governance and limitations
-- The chart is an explanation aid, not an objective truth machine.
-- Avoid false precision: do not present unsupported percentages as scientific measurements.
-- User-confirmed weights and AI-proposed weights must be distinguishable.
-- Do not let a weighted average override non-negotiable values, legal/safety constraints, or severe tail risks.
-- Include sensitivity analysis: if reasonable weights change, does the recommendation change?
-- For high-stakes choices, show uncertainty, downside scenarios, and non-quantifiable considerations instead of hiding them inside a score.
-- Preserve weight changes with decision records only when the user explicitly saves or confirms them.
-- Each decision report should show: factors, normalized weights, rationale, source/owner of weights, score scale if used, and sensitivity of the conclusion.
+### Risk and decision theory
+Contributes: downside severity, ruin/survival, tail risk, reversibility, optionality, liquidity, scenario sensitivity, margin of safety.
+Typical role: protect against catastrophic or irreversible downside; some risks should be hard constraints rather than merely weighted factors.
+
+### Economics, strategy, and organization
+Contributes: incentives, agency costs, transaction costs, competitive advantage, switching costs, network effects, capital efficiency, strategic fit.
+Typical role: evaluate economic sustainability and long-term advantage.
+
+### Historical case reasoning
+Contributes: contextual similarity, mechanism similarity, precedent outcomes, counterexamples, base rates, and boundary conditions.
+Typical role: challenge or refine factors and assumptions. A famous anecdote must not mechanically raise a factor's weight.
+
+## Weight derivation: explainable proposal, not fake precision
+
+The system may use a structured heuristic to propose relative weights. Inputs can include:
+- relevance to the user's stated objective;
+- explicit user priority and non-negotiable constraints;
+- decision-specific model relevance;
+- potential severity and irreversibility of downside;
+- strength and quality of available evidence;
+- time horizon and ability to reverse or stage the decision.
+
+Do not claim these produce scientifically objective percentages. Treat the output as a transparent starting proposal, not a discovered truth. If the context is too weak, ask one clarifying question or show provisional weights with low confidence.
+
+A recommended explanation for each factor:
+- Why this factor exists;
+- Which model(s) introduced it;
+- Why it matters in this decision;
+- Proposed weight and rationale;
+- Evidence/confidence;
+- What would increase or decrease its weight.
+
+## Three distinct visual layers
+
+1. **Importance radar**: normalized factor weights.
+2. **Option performance profile**: each candidate's score on the same factors, shown as separate series or an aligned table.
+3. **Evidence/confidence layer**: source quality and uncertainty, shown separately (e.g. confidence markers or ranges).
+
+Never let the radar polygon imply that the option with the largest shape is automatically best. The importance radar represents the structure of the decision, not option quality.
+
+## Sensitivity and robustness
+
+- Test whether reasonable weight changes reverse the recommendation.
+- Identify dominant factors that drive the conclusion.
+- Show close calls and trade-offs.
+- Include a non-weighted narrative for qualitative or incomparable values.
+- For high stakes, run downside scenarios and robust-choice analysis.
+- If a recommendation depends on a narrow or arbitrary weight setting, state that clearly.
+
+## Special governance
+
+- User-confirmed Faith commitments and other explicit non-negotiables are constraints, not tradeable percentages.
+- Family responsibilities and wellbeing must be represented explicitly where relevant; they must not disappear behind business optimization.
+- Never infer sensitive values or priorities from behavior without confirmation.
+- The model router must explain why models were selected and allow correction.
+- A model may contribute a factor, but it cannot dictate its weight without context.
+- Historical cases may challenge assumptions but cannot establish universal weights.
+- Save generated weights only as part of a specific decision record; do not silently overwrite the user's general preferences.
+- The user has final authority over the criteria and trade-offs.
+
+## Output contract
+
+Every substantial decision report should include:
+- selected models and selection rationale;
+- factors extracted from each model;
+- merged factor list and model provenance;
+- proposed normalized weights with explanations;
+- hard constraints / veto conditions;
+- option scores and evidence confidence, separately;
+- sensitivity and robustness findings;
+- relevant historical cases and their limits;
+- final conclusion and user-editable assumptions.

@@ -1,55 +1,40 @@
 # Decision Framework
 
-1. Define decision, desired outcome, and deadline.
-2. Clarify values, domain, constraints, stakeholders.
-3. Separate facts, assumptions, unknowns, opinions.
-4. Classify stakes, uncertainty, reversibility, complexity, time pressure.
-5. Choose fast/slow effort proportional to stakes.
-6. Select a small set of models and explain applicability.
-7. Gather dated evidence, reliability, and counterevidence.
-8. Generate options including status quo and staged choices.
-9. Compare trade-offs, opportunity cost, second-order effects, downside.
-10. Run cognitive-trap checks, system/feedback analysis, and pre-mortem.
-11. **Present the conclusion and rationale.**
-12. **Retrieve 2–4 relevant historical cases where reliable cases exist.** Compare mechanisms and constraints, identify transferable lessons and differences, and include counterexamples when warranted. Cases are precedents for reflection, not proof.
-13. State whether cases strengthen, weaken, or do not materially change the conclusion.
-14. Recommend action, safeguards, confidence, and update conditions.
-15. Record user decision, rationale, and next action.
-16. Review outcomes; distinguish judgment, execution, luck, and system feedback.
+1. Define decision, desired outcome, deadline, stakeholders, and domain.
+2. Clarify user-confirmed values, constraints, and non-negotiables.
+3. Separate facts, assumptions, unknowns, and opinions.
+4. Classify stakes, uncertainty, reversibility, complexity, and time pressure.
+5. Select a small, explainable set of multidisciplinary mental models.
+6. Extract decision factors from the selected models; merge duplicates and preserve provenance.
+7. Separate hard constraints / veto conditions from tradeable criteria.
+8. Propose context-specific factor weights; explain each weight and normalize tradeable criteria to 100%.
+9. Score each option separately against each factor; show evidence confidence separately from factor importance.
+10. Gather dated evidence, base rates, counterevidence, and relevant historical cases.
+11. Compare trade-offs, opportunity cost, second-order effects, downside, and system feedback.
+12. Test sensitivity: do reasonable changes in weights or assumptions reverse the recommendation?
+13. Present conclusion, rationale, dynamic weight radar, option comparison, historical cases, uncertainty, and action.
+14. Record user edits and decision; review outcomes and propose learning.
 
-## Standard answer format
-- **Conclusion**
-- **Key rationale** (values, evidence, models, trade-offs, uncertainty)
-- **Historical cases** (brief case citations, outcome, relevance, limitation)
-- **Synthesis** (how the cases affect current conclusion)
-- **Action / next check**
+## Standard report
+- Conclusion
+- Models selected and why
+- Factors and provenance
+- Dynamic importance radar (weights)
+- Option performance and evidence confidence
+- Historical cases and counterexamples
+- Sensitivity / robustness
+- Recommendation, safeguards, and update conditions
 
-For simple low-stakes questions, use 1–2 concise cases or omit case retrieval if it adds no value. For complex decisions, aim for 2–4. Never invent cases or citations to meet a quota.
+## Weight governance
+Weights are context-dependent proposals, not objective truths. No fixed global weighting scheme. Hard constraints are not diluted into percentages. Never confuse criterion importance, option performance, and evidence confidence. If weight selection is underdetermined, say so or ask one useful clarifying question. Preserve user-confirmed edits per decision. Never infer or overwrite core values.
+
+## Case safeguards
+Prefer mechanism similarity; use base rates; search for failure cases; distinguish correlation from causation and outcome from decision quality; label sources; never fabricate cases. Cases inform but do not prove.
 
 ## Risk tiers
-- Low: reversible, low-cost, familiar → lightweight.
-- Moderate: meaningful uncertainty/trade-offs → evidence and risk checks.
-- High: large downside, long-term, irreversible, or health/legal/financial/family stakes → slow thinking, scenarios, independent evidence, safeguards, explicit uncertainty, and qualified professional input when relevant.
-
-## Case reliability safeguards
-- Prefer mechanism similarity over superficial topic or keyword match.
-- Check base rates and avoid anecdote-as-proof.
-- Search for failures and counterexamples, not only success stories.
-- Separate correlation from causation and outcome quality from decision quality.
-- Check time, institutional, technological, and cultural differences.
-- Label sources and uncertainties; link primary references.
-- If no trustworthy case is found, say so instead of fabricating.
-- Private personal cases remain private unless explicitly authorized for sharing.
-
-## Control/feedback review
-- Desired state and observable indicators?
-- Controllable, influenceable, and uncontrollable variables?
-- Feedback loop type, delay, and possible overcorrection?
-- Signal vs noise and source quality?
-- Black-box assumptions and testability?
-- Stable, oscillating, critical, or fragile system?
-- Second-order effects and feedback side effects?
-- What evidence would change this view?
+Low: reversible, low-cost, familiar → lightweight.
+Moderate: meaningful uncertainty/trade-offs → evidence and risk checks.
+High: large downside, long-term, irreversible, or health/legal/financial/family stakes → slow thinking, scenarios, independent evidence, safeguards, explicit uncertainty, and qualified professional input when relevant.
 
 ## Learning
-Do not revise a method from one outcome. Consider sample size, base rates, uncertainty, execution, luck, counterevidence, and model fit. Changes to values or core methodology require user approval.
+Do not revise methodology from one outcome. Consider sample size, base rates, uncertainty, execution, luck, counterevidence, and model fit. Changes to values or core methodology require user approval.
