@@ -81,6 +81,7 @@ function aiSaveSnapshot(){
  const decision={
   id:typeof wbId==="function"?wbId("D"):"D-"+Date.now().toString(36),
   createdAt:new Date().toISOString(),
+  reviewDate:typeof wbDateOffset==="function"?wbDateOffset(14):new Date(Date.now()+14*86400000).toISOString().slice(0,10),
   title,domain:report.domain||"跨领域",
   objective:question,
   constraints:aiReadText("constraints"),
