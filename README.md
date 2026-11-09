@@ -37,5 +37,13 @@ The initial case set contains 12 U.S. equity / semiconductor drawdown events fro
 
 **Important:** the current weights are retrospective research starting points, not actual historical actor weights or statistically calibrated parameters. Blind, as-known-at-the-time validation and sensitivity testing remain required before claiming the engine is validated.
 
+
+
+## Cross-domain historical case library
+
+The repository now includes a 16-case research seed across **faith, family, business, and life** (four cases per domain), with two stakeholder perspectives per case, model families, adaptive factor weights, conclusions, red-team counterarguments, and applicability limits. See [cross-domain case library](cross-domain/README.md), [structured dataset](cross-domain/events.json), [case template](cross-domain/CASE_TEMPLATE.md), and [validation protocol](cross-domain/VALIDATION_PROTOCOL.md).
+
+These are structured research hypotheses, not completed blind tests or validated AI outputs. Faith commitments remain user-defined hard constraints; family safety and child welfare, business safety/legal/ethical constraints, and life safety are not ordinary weighted factors that can be traded away.
+
 ## Status
 Foundation, product charter, and v0.1 historical case benchmark. See [ROADMAP.md](ROADMAP.md).
