@@ -78,5 +78,4 @@ function aiSaveSnapshot(){
 aiEl("runAiReasoning")?.addEventListener("click",aiRun);
 aiEl("saveAiSnapshot")?.addEventListener("click",aiSaveSnapshot);
 aiEl("aiApiKey")?.addEventListener("input",e=>{PIOS_AI_KEY=e.target.value;});
-aiEl("aiApiKey")?.addEventListener("blur",()=>{PIOS_AI_KEY="";});
 window.addEventListener("pagehide",()=>{PIOS_AI_KEY="";});
