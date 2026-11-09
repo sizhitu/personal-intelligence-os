@@ -110,3 +110,7 @@ Every substantial decision report should include:
 - sensitivity and robustness findings;
 - relevant historical cases and their limits;
 - final conclusion and user-editable assumptions.
+
+## Global optimization guard (before final scoring)
+
+Dynamic factor weights alone cannot prevent suboptimization. Before applying the weighted score, define the system boundary, affected stakeholders/domains, dependencies, and time horizon. Apply hard gates first, then inspect whole-system outcomes, long-term trust/resilience/capability, and only then tradeable weighted criteria. Check local metrics against the true objective, cost transfers, externalities, Goodhart risk, feedback delays, path dependence, bottlenecks, and second-/third-order effects. For coupled decisions, compare pathways or bundles of actions rather than isolated steps. Add a do-nothing/wait baseline where relevant. Report sensitivity to boundary, horizon, assumptions, and weights. See [Global Optimization Guard](GLOBAL_OPTIMIZATION_GUARD.md).

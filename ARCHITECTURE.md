@@ -31,3 +31,7 @@ Python + FastAPI, PostgreSQL, lightweight web frontend. Keep model and retrieval
 
 ## Security
 Separate authentication, authorization, and domain permissions. Encrypt sensitive data in transit and at rest. Keep secrets out of source control. Audit access and support export, correction, retention, and deletion.
+
+## Whole-system evaluation
+
+The shared core includes a global optimization guard between option evaluation and recommendation composition. It resolves system boundaries, stakeholder/domain impacts, time horizons, dependencies, externalities, feedback delays, path dependence, and alternative action sequences. It prevents proxy/local metric gains from silently overriding whole-system goals. It is a review and robustness layer, not a promise of a mathematically unique global optimum.

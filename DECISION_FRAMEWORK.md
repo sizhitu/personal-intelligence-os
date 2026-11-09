@@ -38,3 +38,7 @@ High: large downside, long-term, irreversible, or health/legal/financial/family 
 
 ## Learning
 Do not revise methodology from one outcome. Consider sample size, base rates, uncertainty, execution, luck, counterevidence, and model fit. Changes to values or core methodology require user approval.
+
+## Whole-system / global optimization guard
+
+Before finalizing a substantial recommendation, apply [Global Optimization Guard](GLOBAL_OPTIMIZATION_GUARD.md). Define the system boundary, stakeholders, objectives and horizon; check hard constraints before weighted trade-offs; identify proxy metrics, cost transfers, dependencies, path dependence and second-order effects; and compare complete pathways or action bundles when steps are interdependent. State whether the recommendation is locally efficient, globally aligned, both, or neither. Use lightweight checks for separable low-stakes choices and escalate for coupled, repeated, irreversible or high-impact decisions.
