@@ -1,7 +1,6 @@
 # Cognitive Architecture
 
-## Purpose
-Personal Intelligence OS is not a static library of famous ideas. It identifies the structure of a problem, selects relevant models, applies them with evidence and limits, and learns from outcomes without overfitting.
+Personal Intelligence OS is a personal decision system, not a static quote or book library.
 
 ## Four layers
 1. **Model Library** — source-linked mental models, principles, methods, cognitive traps, and risk tools.
@@ -9,42 +8,24 @@ Personal Intelligence OS is not a static library of famous ideas. It identifies 
 3. **Decision Engine** — combines values, evidence, alternatives, downside, and model insights into a decision brief.
 4. **Personal Methodology Loop** — captures decisions and outcomes, tests lessons, and proposes (never silently makes) changes to personal principles.
 
+## Intellectual foundations
+- **Cybernetics and Scientific Methodology** (Jin Guantao / Hua Guofan): system observation, control, feedback, information filtering, evolution, phase transitions, and black-box epistemology.
+- **Thinking, Fast and Slow**: judgment mechanisms, intuitive vs effortful reasoning, and cognitive biases.
+- **Poor Charlie's Almanack**: multidisciplinary mental models, inversion, incentives, opportunity cost, and second-order thinking.
+- **The Art of Thinking Clearly**: practical prompts for detecting common reasoning errors.
+- **Scientific method and Bayesian reasoning**: hypothesis testing, evidence, uncertainty, updating, and falsification.
+- **Risk and decision theory**: downside, reversibility, optionality, expected utility, and robust choices.
+
+These works have different roles; do not flatten them into one undifferentiated list. Record source-derived concepts separately from OS interpretation and user adaptations.
+
 ## Decision cycle
 Observe → define decision → clarify values and constraints → classify problem → select models → gather evidence → generate alternatives → challenge preferred option → assess risk and reversibility → decide → act → review → propose learning.
 
-## Model selection rules
-- Use the smallest useful set of models; avoid name-dropping.
-- Explain why each model applies, its contribution, and its limitations.
-- For high-stakes or irreversible decisions, require independent perspectives, base rates, downside analysis, and explicit uncertainty.
-- Distinguish facts, user-confirmed values, assumptions, hypotheses, and unknowns.
-- Ask for missing critical context rather than inventing it.
-- Keep Faith, Family, Business, and Life constraints in view.
-- No model may override the user's faith commitments or values.
+## Model selection
+Use the smallest useful set of models. Explain applicability, contribution, and limits. For high-stakes decisions, require independent evidence, base rates, downside analysis, and explicit uncertainty. Distinguish facts, user-confirmed values, assumptions, hypotheses, and unknowns. No model may override user values.
 
 ## Fast and slow thinking
-Use fast thinking for familiar, low-stakes, reversible choices where pattern recognition is reliable.
-
-Trigger slow thinking when the decision is high-stakes, irreversible, unfamiliar, emotionally charged, time-pressured, evidence-conflicted, low-confidence, vulnerable to bias, or has large downside/tail risk.
-
-Slow thinking is not always better: it costs time and can create false precision. Match effort to stakes.
-
-## Decision brief
-- Decision, deadline, desired outcome, values, domains, constraints
-- Facts / sources / dates; assumptions and unknowns
-- Problem type and selected models (with rationale)
-- Options including status quo; benefits, costs, opportunity cost, second-order effects
-- Risks, scenarios, safeguards, reversibility
-- Cognitive traps to check
-- Recommendation, confidence, and conditions that would change it
-- User decision, next action, review date/trigger
+Fast thinking can serve familiar, low-stakes, reversible choices. Trigger slow thinking for high stakes, irreversibility, unfamiliarity, emotional pressure, conflicting evidence, low confidence, cognitive traps, or tail risk. Slow thinking also has costs; match effort to stakes.
 
 ## Learning and calibration
-Record decision quality, execution quality, outcome, luck/external factors, prediction calibration, model applicability, and falsifying evidence separately.
-
-One outcome is not enough to rewrite a model or personal rule. Prefer repeated observations, base rates, counterexamples, and pre-defined review criteria. Changes to personal values or core methodology require explicit user approval.
-
-## Governance
-- Model content is source-linked and versioned.
-- Label evidence, author interpretation, and OS-generated synthesis separately.
-- Do not reproduce copyrighted books wholesale. Store concise original summaries, model metadata, user notes, and legitimate references.
-- Bias labels are prompts for reflection, not diagnoses or deterministic explanations.
+Track decision quality, execution, outcome, luck, calibration, model applicability, and falsifying evidence separately. Do not update methodology from a single outcome. Core values and methodology changes require explicit user approval.
