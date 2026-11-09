@@ -63,8 +63,7 @@ async function aiRun(){
  let url;try{url=new URL(endpoint);}catch(e){aiStatus("Endpoint 不是有效 URL。",true);return;}
  if(url.protocol!=="https:"){aiStatus("为保护传输安全，仅允许 HTTPS Endpoint。",true);return;}
  if(!url.pathname.endsWith("/chat/completions")){aiStatus("当前适配器要求 OpenAI 兼容的 /chat/completions Endpoint。",true);return;}
- if(aiEl("engineReport")?.style.display==="none"||!aiEl("engineReport")?.innerText.trim()){aiEl("runEngine")?.click();}
- const btn=aiEl("runAiReasoning");btn.disabled=true;aiStatus("正在路由核心思维模型，逐项推演并进行交叉验证……");
+ const btn=aiEl("runEngine");if(!btn){aiStatus("找不到决策工作台运行按钮。",true);return;}btn.disabled=true;aiStatus("正在分析问题、比较可行路径并形成首选建议……");
  try{
   PIOS_AI_KEY=key;const ctx=await aiLoadContext();const prompt=aiBuildPrompt(ctx);
   const response=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+PIOS_AI_KEY},body:JSON.stringify({model:model,temperature:0.2,messages:[{role:"system",content:"你是个人决策系统的首席决策分析师。你必须独立完成目标识别、替代方案构造、因果分析、反方检验、机会成本比较和首选决策。不要把通用风险清单当作分析，不要默认所有问题都要谈钱和关系。结论必须有问题专属依据、清晰排序和可执行动作。宁可指出真正缺失的一项决定性信息，也不要用空泛建议填充篇幅。绝不编造事实、概率、数字或来源。"},{"role":"user",content:prompt}]})});
@@ -82,7 +81,7 @@ function aiSaveSnapshot(){
  decision.aiSnapshots.push({...PIOS_LAST_AI_REPORT,expectedFailures:aiReadText("aiExpectedFailures"),failureBudget:aiReadText("aiFailureBudget")});
  if(wbSave())aiEl("aiSaveStatus").textContent="已保存到决策记录。API Key 未保存；可在记录库导出 JSON 备份。";
 }
-aiEl("runAiReasoning")?.addEventListener("click",aiRun);
+window.piosRunDecisionAI=aiRun;
 aiEl("saveAiSnapshot")?.addEventListener("click",aiSaveSnapshot);
 aiEl("aiApiKey")?.addEventListener("input",e=>{PIOS_AI_KEY=e.target.value;});
 window.addEventListener("pagehide",()=>{PIOS_AI_KEY="";});
