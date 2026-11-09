@@ -126,7 +126,7 @@ html,body{height:100%;overflow:hidden}
 <header class="top"><div><div class="eyebrow">SHARED INTELLIGENCE ASSETS</div><h1>统一资源中心</h1><div class="sub">同一套知识、模型、因子与案例，服务四个领域和所有决策。</div></div></header>
 <div class="panel"><div class="library-toolbar"><input id="librarySearch" class="library-search" type="search" placeholder="搜索名称、机制、适用场景或来源……"><span class="sub" id="libraryCount">正在读取本地资源</span></div><div class="library-tabs" style="margin-top:14px"><button class="library-tab active" data-library-tab="models">思维模型</button><button class="library-tab" data-library-tab="cases">历史案例</button><button class="library-tab" data-library-tab="factors">决策因子</button><button class="library-tab" data-library-tab="principles">原则与约束</button><button class="library-tab" data-library-tab="knowledge">个人知识</button><button class="library-tab" data-library-tab="playbooks">方法库</button></div></div>
 <form id="libraryNoteForm" class="knowledge-form"><div class="wide"><b>沉淀一条自己的知识</b><p class="sub" style="margin:5px 0 0">读书笔记、亲身经验、判断、证据或待验证假设。只保存在当前浏览器，可随工作台 JSON 一起导出。</p></div><label>标题<input name="title" maxlength="140" required placeholder="这条知识最重要的结论是什么？"></label><label>类型<select name="kind"><option value="insight">个人洞见</option><option value="book_note">读书笔记</option><option value="experience">亲身经验</option><option value="evidence">证据 / 数据</option><option value="hypothesis">待验证假设</option><option value="principle">原则 / 方法</option><option value="playbook">方法论 / Playbook（需审核）</option></select></label><label>所属领域<select name="domain"><option>跨领域</option><option>信仰 Faith</option><option>家庭 Family</option><option>事业 Business</option><option>生活 Life</option></select></label><label>来源 / 作者<input name="source" maxlength="240" placeholder="书名、作者、链接或个人经历"></label><label class="wide">内容与自己的理解<textarea name="content" required placeholder="记录核心观点、事实与假设的区别、适用条件、反例或下一步验证……"></textarea></label><label class="wide">标签（用逗号分隔）<input name="tags" maxlength="300" placeholder="例如：系统思维, 机会成本, 家庭决策"></label><div class="wide" id="playbookFields" style="display:none;border:1px solid var(--line,#dfe5ec);border-radius:12px;padding:14px"><b>方法论验证档案</b><p class="sub">新建方法默认为候选草稿，不会自动进入决策推荐。只有人工批准后才可启用。</p><div class="knowledge-form" style="margin-top:10px"><label>证据等级<select name="evidenceLevel"><option value="E0">E0 · 单次观察 / 轶事</option><option value="E1">E1 · 初步可信</option><option value="E2">E2 · 多场景复现</option><option value="E3">E3 · 较稳健证据</option></select></label><label>复现次数<input name="replicationCount" type="number" min="0" max="9999" value="0"></label><label class="wide">适用情境 / 范围<textarea name="contexts" rows="2" placeholder="在哪些领域、对象、时期或条件下观察到有效？"></textarea></label><label class="wide">必要条件<textarea name="necessaryConditions" rows="2" placeholder="机制成立必须满足什么条件？"></textarea></label><label class="wide">失效模式 / 风险<textarea name="failureModes" rows="2" placeholder="什么情况下可能失效或产生副作用？"></textarea></label><label class="wide">反例 / 反证<textarea name="counterexamples" rows="2" placeholder="有哪些失败案例、相反证据或尚未解释的情形？"></textarea></label><label>观察样本量<input name="sampleSize" type="number" min="0" max="999999" value="1"></label><label>观察周期<input name="observationPeriod" maxlength="120" placeholder="例如：2025-01 至 2026-06"></label></div></div><input type="hidden" name="linkedResourceId" value=""><input type="hidden" name="linkedResourceTitle" value=""><div class="wide form-actions"><button class="primary" type="submit">保存到个人知识库</button><span class="sub" id="knowledgeSaveMsg"></span></div></form>
-<div id="libraryDetail" style="display:none"></div><div id="libraryList" class="library-list"></div>
+<div id="playbookScanner" class="panel" style="display:none;margin-top:14px"><div class="wb-record-head"><div><h3>从复盘中发现重复模式</h3><p class="sub">只扫描当前浏览器中已保存的复盘和对应实验。至少在 2 个不同实验中出现的主题才会列为候选；匹配只是线索，不代表因果或有效方法。</p></div><button class="workspace-link" type="button" id="scanReviewPatterns">重新扫描</button></div><div id="playbookPatternResults" class="library-list"><p class="sub">正在分析本地复盘记录……</p></div></div><div id="libraryDetail" style="display:none"></div><div id="libraryList" class="library-list"></div>
 <div class="panel"><h3>资源使用规则</h3><p class="sub">资源中心负责管理和查阅；决策分析时按问题调用，不要求每次都读完全部资源。模型建议不是结论，历史案例是机制参照而非证明，Faith 与明确底线始终由你定义并作为硬约束。</p></div>
 </div></section>
 </main></div><script>
@@ -349,8 +349,63 @@ function piosGraphInspect(id){
  const hist=document.getElementById("graphOpenHistory");if(hist)hist.onclick=()=>show("history");
 }
 
+
+const PIOS_REVIEW_PATTERNS=[
+ {key:"validation",title:"先验证再扩大",terms:["验证","小规模","试点","实验","假设","复现","测试"]},
+ {key:"risk-boundary",title:"风险识别与边界控制",terms:["风险","下行","风险上限","止损","停止条件","回滚","失效模式","安全边际"]},
+ {key:"information",title:"信息不足与证据质量",terms:["信息不足","证据","数据缺失","不确定","样本","基准率","反证"]},
+ {key:"execution",title:"执行与流程一致性",terms:["执行","流程","标准化","检查清单","遗漏","操作错误","交付"]},
+ {key:"communication",title:"沟通与协作",terms:["沟通","协作","反馈","对齐","误解","信息传递","利益相关者"]},
+ {key:"customer",title:"客户需求与价值",terms:["客户","用户需求","需求","转化","留存","满意度","价值主张"]},
+ {key:"cost",title:"成本与资源效率",terms:["成本","预算","现金流","资源","投入产出","边际收益","费用"]},
+ {key:"time",title:"时间与优先级",terms:["时间","优先级","延期","节奏","等待","时机","排期"]},
+ {key:"quality",title:"质量与安全护栏",terms:["质量","安全","事故","故障","可靠性","护栏","检查"]},
+ {key:"team",title:"团队与激励机制",terms:["团队","激励","职责","分工","代理","人才","绩效"]},
+ {key:"feedback",title:"反馈与持续迭代",terms:["反馈","迭代","复盘","改进","循环","学习","调整"]},
+ {key:"dependency",title:"依赖与集中度风险",terms:["依赖","集中度","单点","供应商","平台","锁定","脆弱性"]},
+ {key:"bias",title:"判断偏差与认知陷阱",terms:["过度自信","确认偏误","锚定","沉没成本","情绪化","幸存者偏差","结果偏差"]},
+ {key:"measurement",title:"指标与真实目标偏离",terms:["指标","kpi","度量","数据口径","目标替代","goodhart","古德哈特"]}
+];
+function piosScanReviewPatterns(){
+ const reviews=wb.reviews||[],experiments=wb.experiments||[],decisions=wb.decisions||[],groups=[];
+ PIOS_REVIEW_PATTERNS.forEach(pattern=>{
+  const matches=reviews.map(review=>{
+   const experiment=experiments.find(x=>x.id===review.experimentId);if(!experiment)return null;
+   const decision=decisions.find(d=>d.id===experiment.decisionId);
+   const source=[review.learning,review.attribution,review.result,review.nextStep,experiment.hypothesis,experiment.failureModes,experiment.learning].filter(Boolean).join(" ");
+   const found=pattern.terms.filter(term=>source.toLowerCase().includes(term.toLowerCase()));
+   return found.length?{review,experiment,decision,source,found}:null;
+  }).filter(Boolean);
+  const distinct=[...new Set(matches.map(x=>x.experiment.id))];
+  if(distinct.length>=2)groups.push({pattern,matches,distinct,decisionCount:new Set(matches.map(x=>x.experiment.decisionId).filter(Boolean)).size});
+ });
+ return groups.sort((a,b)=>b.distinct.length-a.distinct.length||b.decisionCount-a.decisionCount);
+}
+function piosRenderPlaybookScanner(){
+ const panel=document.getElementById("playbookScanner");if(!panel)return;
+ panel.style.display=piosLibraryTab==="playbooks"?"block":"none";if(piosLibraryTab!=="playbooks")return;
+ const host=document.getElementById("playbookPatternResults");if(!host)return;
+ const groups=piosScanReviewPatterns();
+ if(!groups.length){host.innerHTML='<div class="library-empty">目前没有足够的重复模式。至少需要 2 个不同实验的复盘中出现同一主题。持续记录真实实验和复盘后再扫描。</div>';return;}
+ host.innerHTML=groups.map(group=>{
+  const key=group.pattern.key+"|"+group.matches.map(x=>x.review.id).sort().join(",");
+  const exists=(wb.knowledge||[]).some(x=>x.kind==="playbook"&&x.sourcePatternKey===key);
+  const samples=group.matches.slice(0,5).map(x=>'<li><b>'+wbEsc(x.experiment.title)+'</b> · '+wbEsc(x.decision?.domain||"未分类")+'<br><span class="sub">'+wbEsc(String(x.review.learning||x.review.result||x.review.attribution||"未填写复盘学习").slice(0,180))+'</span><br><small class="sub">实验 '+wbEsc(x.experiment.id)+' · 复盘 '+wbEsc(x.review.id)+' · '+wbEsc(x.review.evidence||"E0")+'</small></li>').join("");
+  return '<article class="library-item"><div class="library-meta">重复主题 · '+group.distinct.length+' 个不同实验 · '+group.decisionCount+' 条不同决策</div><h4>'+wbEsc(group.pattern.title)+'</h4><p>命中词：'+wbEsc([...new Set(group.matches.flatMap(x=>x.found))].join("、"))+'。这些记录在内容上有重合，需人工判断是否存在共同机制。</p><details><summary>查看原始复盘依据（最多展示 5 条）</summary><ul>'+samples+'</ul></details><button class="workspace-link" type="button" data-playbook-candidate="'+wbEsc(key)+'" '+(exists?'disabled':'')+'>'+(exists?'已生成对应候选':'生成方法论候选草稿')+'</button></article>';
+ }).join("");
+ host.querySelectorAll("[data-playbook-candidate]").forEach(button=>button.addEventListener("click",()=>{
+  const group=groups.find(g=>g.pattern.key+"|"+g.matches.map(x=>x.review.id).sort().join(",")===button.dataset.playbookCandidate);if(!group)return;
+  const key=button.dataset.playbookCandidate,now=new Date().toISOString(),dates=group.matches.map(x=>x.review.createdAt).filter(Boolean).sort();
+  const excerpts=group.matches.map(x=>"• 实验："+x.experiment.title+"（"+x.experiment.id+"）\n  复盘："+x.review.id+"；分类："+x.review.classification+"；证据："+(x.review.evidence||"E0")+"\n  结果："+String(x.review.result||"").slice(0,260)+"\n  学习："+String(x.review.learning||"").slice(0,260)+"\n  归因："+String(x.review.attribution||"").slice(0,220)).join("\n\n");
+  const domains=[...new Set(group.matches.map(x=>x.decision?.domain).filter(Boolean))];
+  const candidate={id:wbId("PB"),createdAt:now,updatedAt:now,title:"复盘候选："+group.pattern.title,kind:"playbook",domain:domains.length===1?domains[0]:"跨领域",source:"本地复盘模式扫描 · "+group.matches.map(x=>x.review.id).join(", "),content:"【候选观察，不是已验证的方法】\n系统发现以下不同实验的复盘记录出现相似主题："+group.pattern.title+"。这只是关键词重合，不证明共同因果机制，也不代表采取某种行动必然有效。请人工核对原始记录，必要时补充相反案例。\n\n【原始证据摘录】\n"+excerpts,tags:["复盘提炼","候选方法",group.pattern.key],status:"draft",evidenceLevel:"E0",replicationCount:group.distinct.length,sampleSize:group.distinct.length,observationPeriod:dates.length?dates[0].slice(0,10)+" 至 "+dates[dates.length-1].slice(0,10):"日期未记录",contexts:domains.join("、")||"跨领域；需人工确认具体适用情境",necessaryConditions:"尚未验证。请从原始复盘中提炼机制成立的必要条件，不要把关键词重合当作机制。",failureModes:"尚未验证。请补充哪些情境下该模式不成立，以及执行后的潜在副作用。",counterexamples:"尚未系统检索。请主动寻找未出现该模式、结果相反或机制失效的案例。",sourcePatternKey:key,sourceReviewIds:group.matches.map(x=>x.review.id),sourceExperimentIds:group.matches.map(x=>x.experiment.id),linkedResources:group.matches.flatMap(x=>[{id:x.experiment.id,title:"实验："+x.experiment.title},{id:x.review.id,title:"复盘："+x.experiment.title}]),linkedDecisions:[],approvedAt:null,approvedBy:null};
+  wb.knowledge=Array.isArray(wb.knowledge)?wb.knowledge:[];wb.knowledge.push(candidate);
+  if(wbSave()){piosRenderLibrary();piosOpenLibraryDetail({id:candidate.id,title:candidate.title,meta:"候选草稿 · E0 · "+group.distinct.length+" 个实验",summary:candidate.content,raw:candidate});}
+ }));
+}
+
 function piosRenderLibrary(){
- const host=document.getElementById("libraryList"),count=document.getElementById("libraryCount");if(!host)return;
+ const host=document.getElementById("libraryList"),count=document.getElementById("libraryCount");if(!host)return;piosRenderPlaybookScanner();
  const q=piosLibraryQuery.toLowerCase();
  let items=[];
  if(piosLibraryTab==="models")items=piosLibrary.models.map(x=>({id:x.id,title:x.name,meta:x.family,summary:x.summary,search:[x.id,x.name,x.family,x.summary,...(x.use_when||[]),...(x.sources||[])].join(" "),raw:x}));
@@ -388,7 +443,7 @@ function piosOpenLibraryDetail(item){
  const activate=document.getElementById("playbookActivate");if(activate)activate.onclick=()=>{if(confirm("确认批准并启用？启用后，该方法会作为候选方法参与后续决策检索。"))setPlaybookStatus("active");};
  const draft=document.getElementById("playbookDraft");if(draft)draft.onclick=()=>setPlaybookStatus("draft");
  const reject=document.getElementById("playbookReject");if(reject)reject.onclick=()=>{if(confirm("确定不采用这条方法论？记录会保留，但不参与推荐。"))setPlaybookStatus("rejected");};
- const attach=document.getElementById("libraryAttach");if(attach)attach.onclick=()=>{const id=document.getElementById("libraryDecisionLink").value;if(!id){alert("请先选择一条决策。");return;}const d=wb.decisions.find(x=>x.id===id);if(!d)return;d.resources=Array.isArray(d.resources)?d.resources:[];if(!d.resources.some(x=>x.id===item.id))d.resources.push({id:item.id,title:item.title,type:piosLibraryTab});if(piosLibraryTab==="knowledge"){raw.linkedDecisions=Array.isArray(raw.linkedDecisions)?raw.linkedDecisions:[];if(!raw.linkedDecisions.includes(id))raw.linkedDecisions.push(id);}if(wbSave()){piosOpenLibraryDetail(item);}};
+ const attach=document.getElementById("libraryAttach");if(attach)attach.onclick=()=>{const id=document.getElementById("libraryDecisionLink").value;if(!id){alert("请先选择一条决策。");return;}const d=wb.decisions.find(x=>x.id===id);if(!d)return;d.resources=Array.isArray(d.resources)?d.resources:[];if(!d.resources.some(x=>x.id===item.id))d.resources.push({id:item.id,title:item.title,type:piosLibraryTab});if(piosLibraryTab==="knowledge"||piosLibraryTab==="playbooks"){raw.linkedDecisions=Array.isArray(raw.linkedDecisions)?raw.linkedDecisions:[];if(!raw.linkedDecisions.includes(id))raw.linkedDecisions.push(id);}if(wbSave()){piosOpenLibraryDetail(item);}};
  const del=document.getElementById("knowledgeDelete");if(del)del.onclick=()=>{if(!confirm("删除这条个人知识？已关联决策中的引用记录会保留为历史引用。"))return;wb.knowledge=wb.knowledge.filter(x=>x.id!==raw.id);wbSave();piosRenderLibrary();document.getElementById("libraryDetail").style.display="none";};
 }
 
