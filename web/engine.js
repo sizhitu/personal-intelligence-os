@@ -236,49 +236,12 @@ function attachPersonalContext(){
 }
 
 function run(){
- const problem=$("problem").value.trim(),constraints=$("constraints").value.trim(),goal=$("engineGoal").value.trim();
- const optionText=$("engineOptions").value.trim(),stakeholders=$("engineStakeholders").value.trim();
- const rev=$("engineReversibility").value;
- if(!problem){$("engineStatus").textContent="请先描述决策问题。";return;}
- const combined=[problem,goal,constraints,optionText,stakeholders].join(" ");
- const domain=parseDomain(combined,$("domain").value);
- const ids=routeModels(combined,domain,rev);
- const factors=makeFactors(combined,domain,rev);
- factorNames.splice(0,factorNames.length,...factors.map(f=>f.name));
- factorWeights.splice(0,factorWeights.length,...factors.map(f=>f.weight));
- if(typeof initRadar==="function")initRadar();
- const high=includesAny(norm(combined),terms.highRisk)||rev==="low";
- const gates=["用户明确的信仰承诺与其他不可妥协事项","法律与监管要求","人身安全、健康与知情同意","家庭责任及关键利益相关者的重大影响"];
- const opts=optionText.split(/\n/).map(x=>x.trim()).filter(Boolean).slice(0,6);
- const report=$("engineReport");report.style.display="block";
- const horizonLabel=$("engineHorizon").selectedOptions[0].text;
- const reversibilityLabel=$("engineReversibility").selectedOptions[0].text;
- const actionOptions=opts.length?opts:["方案 A：按原计划一次性推进","方案 B：先做小规模/分阶段推进","方案 C：暂缓或不行动"];
- const missingParts=[];
- if(!goal)missingParts.push("尚未明确这次决策要实现的首要结果");
- if(!opts.length)missingParts.push("尚未提供具体候选方案");
- if(!constraints)missingParts.push("尚未提供明确约束");
- const canCompare=!!goal&&opts.length>=2;
- const directRecommendation=canCompare
-  ?"本地规则只能完成结构检查，不能可靠估算这些方案的收益概率或真实代价；当前不伪造胜出方案。请以 AI 深度分析或补充可核验数据完成实质比较。"
-  :!goal
-   ?"现在最重要的不是先设资金或关系边界，而是确定这次决策究竟要换来什么结果；目标不清时，任何方案排序都没有意义。"
-   :"目前只有结构性风险提示，候选方案不足以支持可靠排序；先围绕已写明的目标补齐可比较路径。";
- const nextAction=!goal
-  ?"请用一句话回答：如果这次决策最终成功，你最希望现实中发生哪一个具体变化？"
-  :!opts.length
-   ?"围绕目标“"+goal+"”，先生成三条路径：完整推进、低成本试点、暂缓/不行动；比较时写明每条路径的实际投入与预期结果。"
-   :!constraints
-    ?"只补充会改变选择的硬约束：最多可承受的损失、不可违反的底线；与本决策无关的边界不必填写。"
-    :"本地引擎无法验证方案优劣；下一步应为每个候选方案补一条最关键的可核验证据，而不是继续填写通用风险清单。";
- const missing=missingParts.join("；");
- let html='<div class="engine-report"><div class="eyebrow">DECISION CHECK · LOCAL</div><h2>决策准备情况</h2><div class="engine-conclusion"><b>问题：</b>'+esc(problem)+'<br>'+(goal?'<b>目标：</b>'+esc(goal)+'<br>':'')+'<b>当前状态：</b>本地引擎已完成问题结构与硬约束初筛；真正的方案判断、利弊比较和首选建议由可选 AI 分析完成。<br><span class="engine-muted">期限：'+esc(horizonLabel)+' · 可逆性：'+esc(reversibilityLabel)+'</span></div><div class="engine-card"><h3>已识别的决策要素</h3><p>'+esc(actionOptions.join("；"))+'</p>'+(missing?'<p class="engine-muted">尚缺：'+esc(missing)+'。AI 分析会先基于现有信息给出暂定建议，只在缺失信息可能改变结论时追问。</p>':'')+'<p class="engine-muted">这不是最终建议，也不会用固定模板替你决定。点击下方“生成决策建议”，让 AI 完成方案构造、核心因素比较和行动建议。</p></div></div>';
- report.innerHTML=html;
- const attach=$("personalContextAttach");if(attach)attach.addEventListener("click",attachPersonalContext);
- if(opts.length){buildScoreTable(opts,factors);drawEngineRadar(factors);}
- $("engineStatus").textContent="问题结构已整理。生成决策建议以获得具体首选方案与行动步骤。";
- report.scrollIntoView({behavior:"smooth",block:"start"});
+ const problem=$("problem")?.value.trim();
+ const status=$("engineStatus");
+ if(!problem){if(status)status.textContent="请先描述你要解决的问题。";$("problem")?.focus();return;}
+ if(typeof window.piosRunDecisionAI==="function"){window.piosRunDecisionAI();return;}
+ if(status)status.textContent="AI 分析模块尚未加载，请刷新页面后重试。";
 }
-function bind(){const btn=$("runEngine");if(btn)btn.addEventListener("click",run);const analyze=$("analyze");if(analyze)analyze.addEventListener("click",()=>setTimeout(()=>{if($("problem").value.trim())run();},0));}
+function bind(){const btn=$("runEngine");if(btn)btn.addEventListener("click",run);}
 document.addEventListener("DOMContentLoaded",async()=>{await loadCases();bind();});
 })();
