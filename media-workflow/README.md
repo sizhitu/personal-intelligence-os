@@ -1,95 +1,139 @@
 # Mac Personal Video & Bilingual Subtitle Workflow
 
-A local-first workflow for recording Chinese personal reflections and publishing polished Chinese–English videos.
+A local-first workflow for turning Chinese spoken reflections into reviewed long-form videos and short-form candidates.
 
-## Goal
+## What is automated
 
-Record a Chinese reflection on a Mac or iPhone, preserve the original Chinese wording, create natural English subtitles, and export a consistent bilingual video without spending time manually timing every line.
-
-This is a creator workflow, not a new decision-engine dependency. It belongs to the Life / learning / expression area of Personal Intelligence OS.
-
-## Recommended workflow
-
-1. **Record** — record clean Chinese audio/video on iPhone or Mac. Prefer a quiet room, a close microphone, and a fixed camera position. Keep each thought as a short paragraph; pause briefly between ideas.
-2. **Transcribe locally** — use MacWhisper with an appropriate Whisper model and export Chinese subtitles as SRT. Review names, numbers, technical terms, and punctuation. Local transcription keeps the recording on the Mac during this step.
-3. **Translate** — give the Chinese SRT to an AI translator with the prompt in \`prompts/translate-zh-to-en.md\`. Require the English SRT to preserve every cue number and timestamp exactly. Translate for natural spoken English, not word-for-word equivalence.
-4. **Validate and merge** — run \`scripts/merge_bilingual_srt.py\` with the Chinese and English SRT files. The script checks cue count and exact timestamps before creating a two-line bilingual SRT.
-5. **Style and edit** — import the merged SRT into CapCut for desktop (剪映专业版) or Final Cut Pro. Apply the saved subtitle preset; edit pacing, pauses, framing, audio, and unnecessary dead air.
-6. **Export** — keep a clean master without platform-specific overlays, then make vertical 9:16 versions for Shorts/Reels and a 16:9 version when appropriate.
-
-## Mac tool choices
-
-| Stage | First choice | Notes |
+| Stage | Tool | Result |
 |---|---|---|
-| Recording | iPhone / Mac camera and a close microphone | Prioritize clean sound over camera upgrades |
-| Chinese transcription | MacWhisper | Convenient Mac GUI; choose a Whisper model and export SRT |
-| Translation | ChatGPT or another chosen LLM | Keep Chinese source text unchanged; require timestamp preservation |
-| Subtitle merge | Included Python script | Runs locally; no third-party Python packages |
-| Editing and subtitle styling | CapCut desktop / 剪映专业版 | Fastest route to reusable social-video subtitle styling |
-| Advanced editing | Final Cut Pro | Optional; useful for more involved edits and audio/video finishing |
+| Chinese transcription | whisper.cpp | Original-timeline SRT and JSON |
+| Long-video rough cut | Auto-Editor | Shotcut MLT project |
+| Highlight selection | ChatGPT (manual paste; no API key) | Structured highlights JSON |
+| Short-video extraction | Python + FFmpeg | 9:16 candidate MP4s and rebased Chinese SRTs |
+| Bilingual subtitles | ChatGPT + included SRT merger | Timestamp-validated bilingual SRT |
+| Final review | Shotcut | Correct framing, subtitle style, sound, final exports |
 
-The exact software used by the referenced Joy Liu video has not been verified. This workflow is selected for reproducibility on the user's Mac, not as a claim about that creator's production setup.
+The pipeline is deliberately semi-automatic at first: the AI editorial decision is reviewed by you, while repetitive file processing is scripted. No paid API is required.
 
-## Subtitle design baseline
+## Important: two independent timelines
 
-Start with a restrained, readable two-line style and tune it against the actual reference screenshot:
+**Never apply timestamps from the original transcript directly to the Auto-Editor rough-cut video.** Removing pauses changes the timeline.
 
-- Chinese on the first line; English directly below.
-- Chinese is the primary line; English is slightly smaller and lower contrast.
-- Use a clean sans-serif font with sufficient weight and a subtle shadow or translucent backing only when the footage needs it.
-- Keep each cue short: usually one thought, not a full paragraph.
-- Avoid covering the mouth, important objects, or platform UI safe areas.
-- Use consistent punctuation and line breaks. Do not animate every word unless the reference clearly requires it.
-- Preview on a phone at normal viewing size before batch-exporting.
+This workflow therefore has two tracks:
 
-Suggested starting canvas: 1080 × 1920, 9:16, 30 fps. For landscape recordings, preserve a separate 1920 × 1080 master rather than cropping away useful context.
+1. **Long video:** original source → Auto-Editor → Shotcut MLT → human review.
+2. **Short candidates:** original source + original SRT → ChatGPT highlight JSON → FFmpeg extracts from the original source.
 
-## Folder layout for each episode
+The highlights JSON must contain `"timebase": "original"`. The extraction script refuses another timebase.
 
-    episode-001/
-      source/
-        camera-original.mov
-        audio-original.m4a
-      subtitles/
-        zh.srt
-        en.srt
-        bilingual.srt
-      exports/
-        episode-001-master.mp4
-        episode-001-vertical.mp4
-      notes.md
+## Requirements
 
-Keep original media and subtitle files. Do not overwrite the source recording during editing.
+On macOS, make sure these commands work in Terminal:
 
-## One-time setup
+- `python3 --version`
+- `ffmpeg -version` and `ffprobe -version`
+- `auto-editor --version`
+- `whisper-cli --help` (the whisper.cpp CLI name may differ by build)
 
-1. Install MacWhisper from its official website or Mac App Store and test a short recording before processing a long one.
-2. Install CapCut desktop / 剪映专业版 if you want the quickest subtitle styling workflow. Use Final Cut Pro only if you need its deeper editing tools.
-3. Check that Python 3 is available in Terminal: \`python3 --version\`.
-4. Download this repository's \`scripts/merge_bilingual_srt.py\`.
-5. Make one reusable subtitle preset in the editor and save it as a template/project.
+You also need a downloaded whisper.cpp model file, for example a multilingual model. The model is not included in this repository. Shotcut is used to open the MLT project and finish the edit.
 
-No API key is required for local transcription or SRT merging. AI translation is a separate optional step and may send the subtitle text to the selected provider; remove private details before sharing if needed.
+If your whisper.cpp executable is named differently, pass its name with `--whisper-cli`. Check `whisper-cli --help` if the installed build does not recognize the standard flags used below.
 
-## Merge bilingual subtitles
+## One-command preparation
 
-    python3 scripts/merge_bilingual_srt.py subtitles/zh.srt subtitles/en.srt -o subtitles/bilingual.srt
+From the repository root:
 
-The two input SRT files must have the same number of cues and exactly matching timestamps. If they do not, the script stops rather than silently creating misaligned subtitles.
+```bash
+python3 media-workflow/scripts/run_pipeline.py "/path/to/original-video.mp4" \
+  --model "/path/to/ggml-large-v3-turbo.bin" \
+  --output "/path/to/video-workspace"
+```
 
-## Quality checklist
+This will:
 
-- [ ] Chinese transcript matches the recording; names, numbers, and specialist terms checked.
-- [ ] English reads naturally aloud and preserves the original meaning and tone.
-- [ ] Cue count and timestamps match; merge script passes.
-- [ ] Each cue is readable on a phone and not too long.
-- [ ] Chinese and English line breaks are balanced.
-- [ ] No subtitle overlaps the face or important visual content.
-- [ ] Audio is clear and consistent; opening and ending are intentional.
-- [ ] Export has been watched once from beginning to end.
+1. create local Chinese SRT and JSON files under `video-workspace/subtitles/`;
+2. create `video-workspace/analysis/analysis_prompt.md` for ChatGPT;
+3. ask Auto-Editor to export a Shotcut project under `video-workspace/rough_cut/`.
 
-## Privacy and rights
+The script uses the standard whisper.cpp flags `-m -f -l zh -osrt -oj -of`. If your build has different flags, inspect its help and adjust the command in `scripts/run_pipeline.py`. The source video is never modified.
 
-- Local transcription does not mean every later step is local: translation providers receive the text you submit.
-- Do not upload confidential conversations or another person's identifiable recording without appropriate consent.
-- Keep original footage, project files, SRT files, and final exports under your control.
+You can skip either stage if its output already exists:
+
+```bash
+python3 media-workflow/scripts/run_pipeline.py original.mp4 --model model.bin \
+  --skip-transcription
+python3 media-workflow/scripts/run_pipeline.py original.mp4 --model model.bin \
+  --skip-rough-cut
+```
+
+## Select highlights with ChatGPT
+
+Open `video-workspace/analysis/analysis_prompt.md`, paste its complete contents into ChatGPT, and ask it to return only the requested JSON. Save the result as:
+
+`video-workspace/analysis/highlights.json`
+
+The prompt asks for up to eight self-contained, non-repetitive highlights and requires timestamps against the original recording. Review the selected moments and timestamps before extraction.
+
+## Validate and generate vertical candidates
+
+First validate the timestamps against the original video duration:
+
+```bash
+python3 media-workflow/scripts/validate_timestamps.py \
+  original.mp4 video-workspace/analysis/highlights.json
+```
+
+Then extract from the **original** video, with the original SRT:
+
+```bash
+python3 media-workflow/scripts/generate_shorts.py \
+  original.mp4 video-workspace/analysis/highlights.json \
+  --srt video-workspace/subtitles/transcript.srt \
+  --output-dir video-workspace/shorts
+```
+
+This creates a 1080×1920 center-cropped MP4 and a matching, time-rebased Chinese SRT for each candidate. Center crop is only a first draft: manually reframe faces, objects, and scene changes in Shotcut. The script does not burn subtitles into the video.
+
+## Natural English and bilingual subtitles
+
+Use [the translation prompt](prompts/translate-zh-to-en.md) to translate the Chinese SRT. Require the English SRT to preserve every cue number and timestamp exactly. Then merge:
+
+```bash
+python3 media-workflow/scripts/merge_bilingual_srt.py \
+  subtitles/zh.srt subtitles/en.srt -o subtitles/bilingual.srt
+```
+
+For each extracted short, translate its corresponding `.zh.srt` in the same way, then use the merger to produce a bilingual SRT. Check cue lengths and reading speed; literal one-to-one translation can sound unnatural, so prioritize concise spoken English without changing the Chinese meaning.
+
+## Folder layout
+
+```text
+video-workspace/
+├── subtitles/
+│   ├── transcript.srt
+│   └── transcript.json
+├── analysis/
+│   ├── analysis_prompt.md
+│   └── highlights.json
+├── rough_cut/
+│   └── *.mlt
+└── shorts/
+    ├── 01_*.mp4
+    └── 01_*.zh.srt
+```
+
+## Tests
+
+Run the included standard-library tests:
+
+```bash
+python3 -m unittest discover -s media-workflow/tests -v
+```
+
+## Privacy, cost, and quality
+
+- Transcription and extraction run locally. No OpenAI API key is needed for the manual ChatGPT step.
+- ChatGPT subscription and API billing are separate. An API-driven version can be added later, but API use is optional and separately billed.
+- Pasting SRT into a hosted AI service sends the transcript to that provider. Remove private details or use only local processing when confidentiality matters.
+- Keep the original recording unchanged. Back up source footage, project files, SRTs, JSON decisions, and exports.
+- Always review transcription, names/numbers, highlight boundaries, framing, subtitle timing, audio, and the final export.
