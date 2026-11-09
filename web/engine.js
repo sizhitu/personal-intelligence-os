@@ -251,7 +251,21 @@ function run(){
  const gates=["用户明确的信仰承诺与其他不可妥协事项","法律与监管要求","人身安全、健康与知情同意","家庭责任及关键利益相关者的重大影响"];
  const opts=optionText.split(/\n/).map(x=>x.trim()).filter(Boolean).slice(0,6);
  const report=$("engineReport");report.style.display="block";
- let html='<div class="engine-report"><div class="eyebrow">MODEL ROUTER · EXPLAINABLE ENGINE V0.3</div><h2>智能决策分析报告</h2><div class="engine-conclusion"><b>当前结论：</b>'+(high?"这是高影响或较难逆转的决策。先完成硬约束核查和关键事实验证，再比较方案；不建议仅凭当前描述直接作不可逆承诺。":"当前适合先做结构化比较。若信息不足，优先设计低成本、可逆的验证步骤。")+'<br><span class="engine-muted">领域识别：'+esc(domain.label)+' · 决策期限：'+esc($("engineHorizon").selectedOptions[0].text)+' · 可逆性：'+esc($("engineReversibility").selectedOptions[0].text)+'</span></div>';
+ const horizonLabel=$("engineHorizon").selectedOptions[0].text;
+ const reversibilityLabel=$("engineReversibility").selectedOptions[0].text;
+ const actionOptions=opts.length?opts:["暂缓不可逆承诺","验证最关键的未知","等待更多证据"];
+ const directRecommendation=high
+  ?"先暂停不可逆承诺；核实关键事实、风险边界和退出条件后，再决定是否推进。"
+  :rev==="high"
+   ?"优先考虑可撤回、低成本、能快速获得信息的方案；先小规模验证，再决定是否扩大。"
+   :"先比较候选方案的实际成本、可验证收益和退出难度；关键未知未澄清前，避免一次性投入全部资源。";
+ const actionItems=[
+  constraints?"把约束拆成“绝不能违反”和“可以权衡”两类："+constraints:"写下 1–3 条不可妥协的底线，以及可接受的成本和风险上限。",
+  opts.length?"为每个候选方案补上收益、最坏损失、所需时间、退出条件和当前证据。":"补充至少两个真实候选方案，并加入“不行动 / 等待”作为对照。",
+  high?"先验证最可能导致重大损失的事实；必要时咨询合格专业人士。":"选择一个近期能验证关键假设的小步骤，并设定停止条件和复盘日期。"
+ ];
+ let html='<div class="engine-report"><div class="eyebrow">DECISION BRIEF · LOCAL ENGINE</div><h2>先给你可执行的决策建议</h2><div class="engine-conclusion"><b>你正在决定：</b>'+esc(problem)+'<br>'+(goal?'<b>希望实现：</b>'+esc(goal)+'<br>':'')+'<b>当前建议：</b>'+esc(directRecommendation)+'<br><span class="engine-muted">决策期限：'+esc(horizonLabel)+' · 可逆性：'+esc(reversibilityLabel)+'</span></div><div class="engine-card"><h3>现在就可以做的 3 件事</h3><ol>'+actionItems.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ol><p class="engine-muted">候选方案：'+actionOptions.map(esc).join("；")+'</p><p class="engine-warning">说明：本地引擎是规则驱动，不具备自然语言推理或外部事实检索能力。这里是决策起步建议，不是对具体方案优劣的智能判断。复杂问题请使用下方可选 AI 分析，并核对它是否真正回答了你的问题。</p></div><details class="engine-framework-details"><summary>展开模型路由、权重、案例与完整分析框架（辅助参考）</summary>';
+'<div class="engine-report"><div class="eyebrow">MODEL ROUTER · EXPLAINABLE ENGINE V0.3</div><h2>智能决策分析报告</h2><div class="engine-conclusion"><b>当前结论：</b>'+(high?"这是高影响或较难逆转的决策。先完成硬约束核查和关键事实验证，再比较方案；不建议仅凭当前描述直接作不可逆承诺。":"当前适合先做结构化比较。若信息不足，优先设计低成本、可逆的验证步骤。")+'<br><span class="engine-muted">领域识别：'+esc(domain.label)+' · 决策期限：'+esc($("engineHorizon").selectedOptions[0].text)+' · 可逆性：'+esc($("engineReversibility").selectedOptions[0].text)+'</span></div>';
  html+='<h3>一、自动选择的思维模型</h3><p class="engine-muted">系统选择少量模型，不追求模型越多越好；你可以纠正领域识别和模型选择。</p>'+routeExplanation(ids);
  html+='<h3>二、硬约束门槛（先于权重）</h3><ul>'+gates.map(g=>'<li>'+esc(g)+'</li>').join("")+'</ul><div class="engine-warning">硬约束不是普通评分因素。任何方案若违反明确底线、法律、安全或知情同意，不得用收益、效率或其他高分抵消。此版本列出核查清单，不自动判断事实是否违反。</div>';
  html+='<h3>三、模型驱动的动态因素与权重</h3><div class="engine-grid"><div><svg id="engineRadar" class="engine-chart" viewBox="0 0 360 310" role="img" aria-label="当前决策因素权重雷达图"></svg><p class="engine-muted">仅表示本次决策的初步重要性结构，不代表方案表现或证据可信度。</p></div><div>'+factors.map(f=>'<div class="engine-factor"><span>'+esc(f.name)+'<br><small>'+esc(f.why)+'</small><br><small>模型来源：'+esc(f.models.map(x=>models[x].name.split("：")[0]).join("、"))+'</small></span><strong>'+f.weight+'%</strong></div>').join("")+'</div></div><div class="engine-warning">这些百分比由透明启发式生成，是待用户校准的起点，不是统计学习得出的客观权重。证据可信度单独记录，不与重要性混为一谈。</div>';
@@ -261,11 +275,11 @@ function run(){
  html+='<h3>七、方案表现评分（由你提供证据）</h3>';
  if(opts.length){html+='<div id="engineScoring"></div><div id="engineResults"></div><p class="engine-muted">只有通过硬约束且完成所有因素评分的方案才进入排序。任何缺失评分都不会被自动补值。</p>';}
  else html+='<div class="engine-warning">尚未填写候选方案。请在上方输入至少两个方案，并包含“不行动 / 等待”基线，再运行一次引擎。</div>';
- html+='<h3>七、下一步行动</h3><ol><li>核实最可能改变结论的 1–3 个关键事实。</li><li>优先做能区分竞争假设、且损失边界明确的小实验。</li><li>记录预期指标、停止条件和复盘日期。</li><li>高风险或专业领域问题，取得合格专业意见后再行动。</li></ol><p class="engine-small">引擎模式：本地规则路由 v0.3；无外部 AI 推理、无实时网络检索。历史案例匹配为启发式，非语义向量检索。权重和建议均可编辑、质疑，不构成专业意见。</p></div>';
+ html+='<h3>框架参考</h3><p class="engine-small">模型、权重、案例和风险术语是辅助工具，不是结论本身。本地版本没有实时联网研究或自然语言推理。</p></details></div>';
  report.innerHTML=html;
  const attach=$("personalContextAttach");if(attach)attach.addEventListener("click",attachPersonalContext);
  if(opts.length){buildScoreTable(opts,factors);drawEngineRadar(factors);}
- $("engineStatus").textContent="已完成初步路由与分析；方案排序等待你补充门槛和评分。";
+ $("engineStatus").textContent="已生成决策起步建议。填写候选方案并评分后，可进行初步比较；复杂问题建议使用可选 AI 分析。";
  report.scrollIntoView({behavior:"smooth",block:"start"});
 }
 function bind(){const btn=$("runEngine");if(btn)btn.addEventListener("click",run);const analyze=$("analyze");if(analyze)analyze.addEventListener("click",()=>setTimeout(()=>{if($("problem").value.trim())run();},0));}
