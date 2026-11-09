@@ -254,16 +254,25 @@ function run(){
  const horizonLabel=$("engineHorizon").selectedOptions[0].text;
  const reversibilityLabel=$("engineReversibility").selectedOptions[0].text;
  const actionOptions=opts.length?opts:["方案 A：按原计划一次性推进","方案 B：先做小规模/分阶段推进","方案 C：暂缓或不行动"];
- const directRecommendation=high
-  ?"暂不做一次性、不可撤回的承诺。先把资金损失上限和关系影响底线说清，再选择分阶段推进或暂缓。"
-  :rev==="high"
-   ?"优先选可撤回、成本较低的方案；先验证，再扩大投入。"
-   :"先比较实际方案的收益、成本和退出难度，再决定是否推进。";
- const nextAction=constraints
-  ?"把你写的“"+constraints+"”转成两个明确边界：资金方面（最多投入/最多损失多少）；关系方面（哪些人会受影响、哪些影响不可接受）。"
-  :"先明确两个决策边界：最多愿意投入或损失多少；哪些家庭/关系影响不可接受。";
- const missing=(!goal?"目标尚未明确；":"")+(!opts.length?"还没有具体候选方案；":"");
- let html='<div class="engine-report"><div class="eyebrow">DECISION BRIEF · LOCAL ENGINE</div><h2>初步判断</h2><div class="engine-conclusion"><b>问题：</b>'+esc(problem)+'<br>'+(goal?'<b>目标：</b>'+esc(goal)+'<br>':'')+'<b>暂定建议：</b>'+esc(directRecommendation)+'<br><span class="engine-muted">期限：'+esc(horizonLabel)+' · 可逆性：'+esc(reversibilityLabel)+'</span></div><div class="engine-card"><h3>下一步只做一件事</h3><p>'+esc(nextAction)+'</p><h3>可比较的现实路径</h3><ol>'+actionOptions.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ol>'+(missing?'<p class="engine-muted">当前缺口：'+esc(missing)+'因此这只是风险方向判断，还不是对具体方案的最终推荐。</p>':'')+'<p class="engine-muted">本地引擎能识别风险与决策结构，但不能真正理解复杂自然语言或自行核实事实。要获得针对方案的具体推荐，请使用可选 AI 分析；它应直接比较这些路径，而不是让你自己重新整理问题。</p></div><details class="engine-framework-details"><summary>展开模型路由、权重、案例与完整分析框架（辅助参考）</summary>';
+ const missingParts=[];
+ if(!goal)missingParts.push("尚未明确这次决策要实现的首要结果");
+ if(!opts.length)missingParts.push("尚未提供具体候选方案");
+ if(!constraints)missingParts.push("尚未提供明确约束");
+ const canCompare=!!goal&&opts.length>=2;
+ const directRecommendation=canCompare
+  ?"本地规则只能完成结构检查，不能可靠估算这些方案的收益概率或真实代价；当前不伪造胜出方案。请以 AI 深度分析或补充可核验数据完成实质比较。"
+  :!goal
+   ?"现在最重要的不是先设资金或关系边界，而是确定这次决策究竟要换来什么结果；目标不清时，任何方案排序都没有意义。"
+   :"目前只有结构性风险提示，候选方案不足以支持可靠排序；先围绕已写明的目标补齐可比较路径。";
+ const nextAction=!goal
+  ?"请用一句话回答：如果这次决策最终成功，你最希望现实中发生哪一个具体变化？"
+  :!opts.length
+   ?"围绕目标“"+goal+"”，先生成三条路径：完整推进、低成本试点、暂缓/不行动；比较时写明每条路径的实际投入与预期结果。"
+   :!constraints
+    ?"只补充会改变选择的硬约束：最多可承受的损失、不可违反的底线；与本决策无关的边界不必填写。"
+    :"本地引擎无法验证方案优劣；下一步应为每个候选方案补一条最关键的可核验证据，而不是继续填写通用风险清单。";
+ const missing=missingParts.join("；");
+ let html='<div class="engine-report"><div class="eyebrow">DECISION BRIEF · LOCAL ENGINE</div><h2>本地结构诊断</h2><div class="engine-conclusion"><b>问题：</b>'+esc(problem)+'<br>'+(goal?'<b>目标：</b>'+esc(goal)+'<br>':'')+'<b>当前判断：</b>'+esc(directRecommendation)+'<br><span class="engine-muted">期限：'+esc(horizonLabel)+' · 可逆性：'+esc(reversibilityLabel)+'</span></div><div class="engine-card"><h3>现在最值得做的一步</h3><p>'+esc(nextAction)+'</p><h3>候选路径（供实质分析，不代表已完成比较）</h3><ol>'+actionOptions.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ol>'+(missing?'<p class="engine-muted">当前缺口：'+esc(missing)+'。本地引擎不会把缺少的信息伪装成结论。</p>':'')+'<p class="engine-muted">本地引擎负责硬约束、结构检查和记录，不具备可靠的自然语言理解、概率估计或事实核验能力。因此这里不会假装已经选出最优方案；AI 分析应接手目标理解、方案构造、证据权衡与首选判断。</p></div><details class="engine-framework-details"><summary>展开模型路由、权重、案例与完整分析框架（辅助参考）</summary>';
 '<div class="engine-report"><div class="eyebrow">MODEL ROUTER · EXPLAINABLE ENGINE V0.3</div><h2>智能决策分析报告</h2><div class="engine-conclusion"><b>当前结论：</b>'+(high?"这是高影响或较难逆转的决策。先完成硬约束核查和关键事实验证，再比较方案；不建议仅凭当前描述直接作不可逆承诺。":"当前适合先做结构化比较。若信息不足，优先设计低成本、可逆的验证步骤。")+'<br><span class="engine-muted">领域识别：'+esc(domain.label)+' · 决策期限：'+esc($("engineHorizon").selectedOptions[0].text)+' · 可逆性：'+esc($("engineReversibility").selectedOptions[0].text)+'</span></div>';
  html+='<h3>一、自动选择的思维模型</h3><p class="engine-muted">系统选择少量模型，不追求模型越多越好；你可以纠正领域识别和模型选择。</p>'+routeExplanation(ids);
  html+='<h3>二、硬约束门槛（先于权重）</h3><ul>'+gates.map(g=>'<li>'+esc(g)+'</li>').join("")+'</ul><div class="engine-warning">硬约束不是普通评分因素。任何方案若违反明确底线、法律、安全或知情同意，不得用收益、效率或其他高分抵消。此版本列出核查清单，不自动判断事实是否违反。</div>';
