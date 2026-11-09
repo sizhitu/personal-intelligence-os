@@ -80,3 +80,8 @@ For each review, capture:
 ## Relationship to global optimization
 
 This loop is subordinate to the [Global Optimization Guard](GLOBAL_OPTIMIZATION_GUARD.md). A successful local mechanism must pass whole-system checks before replication and at every scale-up stage. Scaling is rejected if it improves a local metric while degrading long-term system health, violating a hard constraint, or imposing unacceptable costs on another stakeholder or domain.
+
+
+## Intelligent failure and disciplined experimentation
+
+The learning loop must also treat well-designed failed tests as possible progress. Apply [Experimentation & Intelligent Failure](EXPERIMENTATION_AND_INTELLIGENT_FAILURE.md): pre-register hypotheses, anticipate failure modes, cap exposure, define stop/rollback conditions, and specify what each outcome would teach. Classify results as informative, preventable, or poorly designed. Celebrate honest, bounded learning—not damage, recklessness, or repeated avoidable mistakes. A failed test may justify another small experiment, never automatic escalation.

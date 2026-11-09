@@ -39,3 +39,8 @@ The shared core includes a global optimization guard between option evaluation a
 ## Learning and compounding engine
 
 The feedback layer stores pre-action hypotheses and baselines, forecasts, actions, leading/lagging indicators, observed outcomes, counterfactual notes, attribution confidence, replications, evidence tiers, scale-up decisions, and rollback triggers. It extracts candidate mechanisms and playbooks, but methodology changes remain proposals until user-approved. A scale controller enforces evidence gates and whole-system guardrails at each expansion stage; reinforcing loops must be paired with balancing controls.
+
+
+## Experiment registry
+
+Add an experiment registry linked to decisions and outcomes. Store pre-registered hypotheses, forecasts, risk boundaries, anticipated failure modes, controls, results, near misses, information gained, corrective actions, and follow-up tests. The review service distinguishes informative failures from preventable and poorly designed failures; it must not reward raw failure counts or permit experiments that violate hard constraints.

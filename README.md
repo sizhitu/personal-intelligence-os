@@ -56,3 +56,8 @@ The decision engine must guard against local suboptimization: a sequence of indi
 ## Learning, positive feedback, and compounding
 
 The system is designed to amplify verified mechanisms, not lucky outcomes. It records pre-action hypotheses and baselines, reviews actual whole-system results, separates judgment/execution/environment/luck, extracts mechanisms and boundary conditions, tests replication, and scales in reversible stages only after evidence gates. Reinforcing loops must have balancing controls, saturation checks, and rollback triggers. See [Learning & Compounding Loop](LEARNING_AND_COMPOUNDING_LOOP.md).
+
+
+## Disciplined experimentation and intelligent failure
+
+A failed experiment can be progress when it tests a clear hypothesis, stays within a bounded risk envelope, respects hard constraints, and changes what we know or do next. The system distinguishes informative failure from preventable and poorly designed failure. It celebrates honest learning and early detection—not damage or failure counts. See [Experimentation & Intelligent Failure](EXPERIMENTATION_AND_INTELLIGENT_FAILURE.md).

@@ -53,3 +53,13 @@ Build the smallest complete vertical slice first: capture a goal, reason through
 - [ ] Add evidence tiers and staged scale-up gates
 - [ ] Track reinforcing loops, balancing loops, saturation, and rollback triggers
 - [ ] Generate reusable playbooks and user-approved methodology proposals
+
+
+## Phase 4.2 — Disciplined experimentation
+- [ ] Experiment registry linked to decisions and outcomes
+- [ ] Pre-mortem, failure-mode, and stop-condition templates
+- [ ] Exposure caps, staged rollout, and rollback controls
+- [ ] Classify informative, preventable, and poorly designed failures
+- [ ] Capture near misses and information value
+- [ ] Track forecast calibration, repeat-failure rate, detection time, and learning incorporation
+- [ ] Add domain-specific safety and consent gates

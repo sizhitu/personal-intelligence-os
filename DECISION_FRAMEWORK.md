@@ -46,3 +46,8 @@ Before finalizing a substantial recommendation, apply [Global Optimization Guard
 ## Positive feedback, review, and compounding
 
 After action, use the [Learning & Compounding Loop](LEARNING_AND_COMPOUNDING_LOOP.md): measure against a baseline; separate judgment, execution, environment, and luck; extract a testable mechanism; replicate at small scale; then scale in reversible stages only when evidence and whole-system guardrails justify it. Track leading and lagging indicators, marginal returns, balancing loops, saturation, and rollback triggers. A single win is not sufficient evidence for generalization or aggressive expansion.
+
+
+## Experimentation and failure learning
+
+When uncertainty is material and learning can change the decision, consider a staged experiment. Before acting, state the hypothesis, expected evidence, anticipated failure modes, exposure cap, safeguards, stop conditions, and information expected from each outcome. Afterward classify failure as informative, preventable, or poorly designed; preserve the as-known-at-the-time record and update the next action. See [Experimentation & Intelligent Failure](EXPERIMENTATION_AND_INTELLIGENT_FAILURE.md).
