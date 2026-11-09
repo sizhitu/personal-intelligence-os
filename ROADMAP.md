@@ -43,3 +43,13 @@
 
 ## Delivery principle
 Build the smallest complete vertical slice first: capture a goal, reason through a decision, record the user's choice, create an action, and review the outcome.
+
+
+## Phase 4.1 — Verified learning and compounding
+- [ ] Pre-register decision hypotheses, baselines, forecasts, and stop conditions
+- [ ] Review outcomes across local KPIs and whole-system metrics
+- [ ] Separate judgment, execution, external conditions, and luck
+- [ ] Store mechanisms, counterevidence, and replication attempts
+- [ ] Add evidence tiers and staged scale-up gates
+- [ ] Track reinforcing loops, balancing loops, saturation, and rollback triggers
+- [ ] Generate reusable playbooks and user-approved methodology proposals

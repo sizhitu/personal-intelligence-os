@@ -42,3 +42,7 @@ Do not revise methodology from one outcome. Consider sample size, base rates, un
 ## Whole-system / global optimization guard
 
 Before finalizing a substantial recommendation, apply [Global Optimization Guard](GLOBAL_OPTIMIZATION_GUARD.md). Define the system boundary, stakeholders, objectives and horizon; check hard constraints before weighted trade-offs; identify proxy metrics, cost transfers, dependencies, path dependence and second-order effects; and compare complete pathways or action bundles when steps are interdependent. State whether the recommendation is locally efficient, globally aligned, both, or neither. Use lightweight checks for separable low-stakes choices and escalate for coupled, repeated, irreversible or high-impact decisions.
+
+## Positive feedback, review, and compounding
+
+After action, use the [Learning & Compounding Loop](LEARNING_AND_COMPOUNDING_LOOP.md): measure against a baseline; separate judgment, execution, environment, and luck; extract a testable mechanism; replicate at small scale; then scale in reversible stages only when evidence and whole-system guardrails justify it. Track leading and lagging indicators, marginal returns, balancing loops, saturation, and rollback triggers. A single win is not sufficient evidence for generalization or aggressive expansion.

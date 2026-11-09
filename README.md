@@ -51,3 +51,8 @@ Foundation, product charter, and v0.1 historical case benchmark. See [ROADMAP.md
 ## Whole-system optimization
 
 The decision engine must guard against local suboptimization: a sequence of individually attractive steps can damage the whole system. Material decisions are checked across system boundaries, stakeholders, domains, time horizons, dependencies, externalities, feedback delays, path dependence, and second-order effects. Interdependent actions are compared as complete pathways, not merely isolated steps. Hard constraints precede weighted trade-offs. The aim is a robust, sustainable, value-aligned path—not a false claim that complex human decisions have one provable global optimum. See [Global Optimization Guard](GLOBAL_OPTIMIZATION_GUARD.md).
+
+
+## Learning, positive feedback, and compounding
+
+The system is designed to amplify verified mechanisms, not lucky outcomes. It records pre-action hypotheses and baselines, reviews actual whole-system results, separates judgment/execution/environment/luck, extracts mechanisms and boundary conditions, tests replication, and scales in reversible stages only after evidence gates. Reinforcing loops must have balancing controls, saturation checks, and rollback triggers. See [Learning & Compounding Loop](LEARNING_AND_COMPOUNDING_LOOP.md).
