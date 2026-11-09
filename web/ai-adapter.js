@@ -42,8 +42,10 @@ function aiBuildPrompt(ctx){
  "先判断问题究竟要做什么决定。用户没有提供候选方案时，你要主动提出2至3条现实路径，包括至少一个低风险/分阶段方案和“不行动/暂缓”对照；不要要求用户先自己想方案。用户已有方案时，逐一比较，不要忽略用户提出的选项。",
  "必须明确推荐一个首选。若证据不足，不要用空泛的“暂停”逃避判断：给出当前最合理的暂定选择，并说明缺少哪一条信息会改变结论。除非确实无法安全判断，否则不要把问题退回给用户。",
  "区分用户明确提供的事实、你的推断、关键假设和未知。对未知说明它为什么重要，以及最低成本的验证办法。没有实时检索能力时，不得声称已经核实外部事实、现行法规、价格或来源。",
- "方案比较要围绕本问题最重要的3至5个因素，简要说明收益、成本/资源、主要风险、可逆性和适用条件。无需强行给百分制评分；若使用权重，必须说明是启发式估计而非客观测量。不要堆砌思维模型名称。",
- "行动建议最多3步，第一步必须最具体：谁来做什么、何时做、完成标准是什么；如信息不足，先给一个低成本的信息获取动作。写出明确的停止线或回滚条件。专业人士建议必须说明要向哪类专业人士核实哪个具体问题，不能只说“咨询专业人士”。",
+ "先在内部完成一轮真正的决策推演，再写答案：①把用户问题改写成一个明确的选择命题；②识别真正的目标、硬约束、机会成本和时间窗口；③主动构造现实可执行的替代路径，不要把‘一次性推进/分阶段/不行动’机械套用于所有领域；④用因果链解释每条路径如何产生结果，找出最脆弱的关键假设；⑤进行基准率/历史类比检查，但只在资料支持时使用；⑥比较上行收益、下行损失、成功条件、失败代价、可逆性、资源占用和延迟成本；⑦站在反方角度提出最强反对意见，检查是否存在更优替代；⑧判断哪条未知信息最可能改变排序，并设计最低成本验证；⑨最后选出首选，并说明为什么它胜过次优方案。不要把模型名称当分析内容。", 
+ "方案比较要围绕本问题最重要的3至5个因素，明确给出各方案的相对优势/劣势和排序依据。能合理量化时给区间、情景或盈亏平衡条件；不能量化时说明缺少什么数据，绝不编造数字。必须讨论机会成本、二阶后果、失败后的损失与退出路径。无需强行给百分制评分；若使用权重，必须说明是启发式估计而非客观测量。不要堆砌思维模型名称。",
+ "行动建议最多3步，必须把首选方案变成执行设计：第一步的具体动作、负责人、时间顺序、所需资源和完成标准；若首选是试点，写清试点范围、观察指标、继续/停止阈值；若首选是等待，写清等待期间要收集的信号、截止日期和届时如何决策。停止线必须可观察、可触发、可执行。", 
+ "禁止默认把资金上限和关系影响当作所有问题的关键因素。只分析与本题直接相关的约束；例如职业选择看技能迁移、收入差额和职业资本，投资看估值/现金流/下行与组合暴露，家庭选择看成员福祉与长期责任，健康问题看证据质量与医疗风险。",
  "如本次问题与价值排序有关，使用以下默认顺序但允许用户本次明确指示覆盖：信仰第一、家庭第二、事业第三；生活与健康支撑长期可持续性。"+values,
  "历史案例只能使用提供资料中的案例ID和来源，说明相似机制与关键差异；资料不支持时明确说没有足够匹配案例，不要为了满足格式硬凑。",
  "【本次决策问题】",aiReadText("problem"),
@@ -79,7 +81,7 @@ async function aiRun(){
  const btn=aiEl("runAiReasoning");btn.disabled=true;aiStatus("正在整理本地模型库与历史案例，并请求模型……");
  try{
   PIOS_AI_KEY=key;const ctx=await aiLoadContext();const prompt=aiBuildPrompt(ctx);
-  const response=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+PIOS_AI_KEY},body:JSON.stringify({model:model,temperature:0.2,messages:[{role:"system",content:"你是一个严谨的个人决策助手。首要任务是替用户完成方案比较并给出可执行的首选，而不是写泛泛分析报告。必须具体、结论先行；不编造事实、数据或来源；对未知明确标注。"},{"role":"user",content:prompt}]})});
+  const response=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+PIOS_AI_KEY},body:JSON.stringify({model:model,temperature:0.2,messages:[{role:"system",content:"你是个人决策系统的首席决策分析师。你必须独立完成目标识别、替代方案构造、因果分析、反方检验、机会成本比较和首选决策。不要把通用风险清单当作分析，不要默认所有问题都要谈钱和关系。结论必须有问题专属依据、清晰排序和可执行动作。宁可指出真正缺失的一项决定性信息，也不要用空泛建议填充篇幅。绝不编造事实、概率、数字或来源。"},{"role":"user",content:prompt}]})});
   const payload=await response.json().catch(()=>({}));if(!response.ok)throw new Error((payload.error&&payload.error.message)||("API 请求失败："+response.status));
   const content=payload.choices?.[0]?.message?.content;if(!content)throw new Error("服务商响应中没有 choices[0].message.content；请确认接口兼容 Chat Completions。");
   PIOS_LAST_AI_REPORT={content:content,model:model,endpointHost:url.host,provider:"OpenAI-compatible",generatedAt:new Date().toISOString(),modelLibraryVersion:ctx.modelVersion,caseIds:ctx.cases.map(x=>x.id),question:aiReadText("problem"),domain:aiReadText("domain")};
