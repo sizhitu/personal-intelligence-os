@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Original-timeline video highlights",
+  "type": "object",
+  "required": ["timebase", "clips"],
+  "properties": {
+    "source": {"type": "string"},
+    "timebase": {"const": "original"},
+    "clips": {
+      "type": "array",
+      "maxItems": 30,
+      "items": {
+        "type": "object",
+        "required": ["id", "start", "end", "topic", "hook", "title", "reason"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "start": {"type": "number", "minimum": 0},
+          "end": {"type": "number", "exclusiveMinimum": 0},
+          "topic": {"type": "string"},
+          "hook": {"type": "string"},
+          "title": {"type": "string"},
+          "reason": {"type": "string"},
+          "confidence": {"enum": ["high", "medium", "low"]}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
