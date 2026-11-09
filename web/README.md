@@ -6,7 +6,7 @@
 
 ## AI reasoning adapter v0.4
 - Optional OpenAI-compatible Chat Completions adapter; deterministic local engine remains usable without a key.
-- API key is held only in page memory, is never written to localStorage or exported JSON, and is cleared on page exit/field blur. The provider receives the decision context only after explicit consent.
+- API key is held only in page memory, is never written to localStorage or exported JSON, and is cleared on page exit/field blur. The provider receives the current decision context only after explicit consent. Recent decision/review history is a separate opt-in and is off by default.
 - HTTPS endpoints only. Browser CORS/provider compatibility may vary. Never paste secrets or sensitive third-party/customer/health data into the prompt.
-- AI snapshots can be attached to an existing local decision record and included in a user-created JSON backup. Model library and public case seeds are sent as context; citations must be verified.
+- AI snapshots can be attached to an existing local decision record and included in a user-created JSON backup. An additional unchecked-by-default control optionally shares up to five prior decision and experiment-review summaries for continuity. Model library and public case seeds are sent as context; citations must be verified.
 - The prompt enforces pre-registered, bounded, safe, ethical, informative failures as learning; it does not celebrate preventable harm, reckless failures, or breaches of guardrails.
