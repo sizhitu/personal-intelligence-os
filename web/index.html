@@ -69,7 +69,8 @@ let wb={decisions:[],experiments:[],reviews:[]};
 function wbLoad(){try{const raw=localStorage.getItem(WB_KEY);if(raw){const parsed=JSON.parse(raw);wb={decisions:Array.isArray(parsed.decisions)?parsed.decisions:[],experiments:Array.isArray(parsed.experiments)?parsed.experiments:[],reviews:Array.isArray(parsed.reviews)?parsed.reviews:[]};}}catch(e){console.warn("Local workbench data unavailable",e);}}
 function wbSave(){try{localStorage.setItem(WB_KEY,JSON.stringify(wb));wbRender();return true;}catch(e){alert("浏览器本地存储失败。请检查存储空间或导出已有数据。");return false;}}
 function wbId(prefix){return prefix+"-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,7);}
-function wbDate(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}\nfunction wbDateOffset(days){const d=new Date();d.setDate(d.getDate()+days);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function wbDate(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function wbDateOffset(days){const d=new Date();d.setDate(d.getDate()+days);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
 function wbEsc(v){return String(v??"").replace(/[&<>"\']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","\'":"&#39;"}[c]));}
 function wbOptions(id,items,empty){return (items.length?items.map(x=>"<option value=\""+wbEsc(x.id)+"\">"+wbEsc(x.title)+"</option>").join(""):"<option value=\"\">"+empty+"</option>");}
 function wbRender(){
