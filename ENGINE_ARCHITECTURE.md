@@ -51,3 +51,8 @@ The engine runs in the browser. Decision text and ratings remain local unless th
 ## Validation status
 
 Static checks completed for the deterministic engine, AI adapter, inline workbench script, and all three JSON data files. These checks confirm syntax and data parseability, not a live API request, browser rendering, provider CORS behavior, or factual accuracy of AI outputs. The first real provider call requires the user's own endpoint, model ID, API key, and explicit data-sharing consent.
+
+
+## Local-first architecture correction
+
+The deterministic decision engine and the local decision ledger are the system's operational core. They must not depend on an LLM, API key, external network, or provider uptime. The AI adapter is an optional extension with a separate navigation view and explicit data-sharing consent; it cannot own system state, enforce values, or block local workflows. The relationship graph and decision history are sibling top-level views. Keep view sections structurally balanced and test their DOM hierarchy whenever the workbench markup changes.

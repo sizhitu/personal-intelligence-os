@@ -64,3 +64,6 @@ A failed experiment can be progress when it tests a clear hypothesis, stays with
 
 ## AI-assisted decision engine v0.4
 The optional browser-side AI adapter supports OpenAI-compatible Chat Completions endpoints, curated mental-model context, public historical-case seeds, explicit consent, and saved analysis snapshots attached to decision records. API keys are never persisted. See [ENGINE_ARCHITECTURE.md](ENGINE_ARCHITECTURE.md) and [web/README.md](web/README.md) for limitations and privacy details.
+
+
+**Local-first guarantee:** core decision workflows run without an AI account, API key, or external model provider. AI is an optional, separately navigable second-opinion extension. See [web/README.md](web/README.md).

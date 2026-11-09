@@ -10,3 +10,7 @@
 - HTTPS endpoints only. Browser CORS/provider compatibility may vary. Never paste secrets or sensitive third-party/customer/health data into the prompt.
 - AI snapshots can be attached to an existing local decision record and included in a user-created JSON backup. An additional unchecked-by-default control optionally shares up to five prior decision and experiment-review summaries for continuity. Model library and public case seeds are sent as context; citations must be verified.
 - The prompt enforces pre-registered, bounded, safe, ethical, informative failures as learning; it does not celebrate preventable harm, reckless failures, or breaches of guardrails.
+
+
+## Local-first core and optional AI extension
+The decision workspace, rule-based model routing, hard-gate checks, factor weighting, experiment registration, reviews, relationship overview, decision history, local persistence, import, and export work without any AI provider or network access. The AI adapter is isolated on its own `AI 扩展（可选）` view; it provides a second opinion only. If the adapter script, API key, network, or provider is unavailable, core workflows remain usable. The graph and history views are sibling views, not children of the decision workspace.
