@@ -18,8 +18,35 @@ async function aiLoadContext(){
 }
 function aiBuildPrompt(ctx){
  const deterministic=aiEl("engineReport")?.innerText||"尚未运行规则引擎。";
- const memory=aiEl("aiIncludeHistory")?.checked?JSON.stringify((wb.decisions||[]).slice(-5).map(d=>({id:d.id,title:d.title,domain:d.domain,objective:d.objective,hypothesis:d.hypothesis,metrics:d.metrics,reviewDate:d.reviewDate,experiments:(wb.experiments||[]).filter(x=>x.decisionId===d.id).map(x=>({title:x.title,hypothesis:x.hypothesis,expected:x.expected,failureModes:x.failureModes,status:x.status,reviews:(wb.reviews||[]).filter(r=>r.experimentId===x.id).map(r=>({classification:r.classification,result:r.result,attribution:r.attribution,learning:r.learning,nextAction:r.nextAction}))}))})))):"未授权共享历史决策；不得推断或假设用户过往经验。";
- return "请用中文完成一份可审计的决策分析。\n\n【当前问题】\n"+aiReadText("problem")+"\n\n【领域】\n"+aiReadText("domain")+"\n\n【约束】\n"+aiReadText("constraints")+"\n\n【目标】\n"+aiReadText("engineGoal")+"\n\n【候选方案】\n"+aiReadText("engineOptions")+"\n\n【期限/可逆性/利益相关者】\n"+aiReadText("engineHorizon")+" / "+aiReadText("engineReversibility")+" / "+aiReadText("engineStakeholders")+"\n\n【事先识别的失败模式】\n"+aiReadText("aiExpectedFailures")+"\n\n【失败暴露上限】\n"+aiReadText("aiFailureBudget")+"\n\n【规则引擎结果】\n"+memory+"\\n\\n【规则引擎结果】\\n"+deterministic+"\n\n【可用思维模型库】\n"+JSON.stringify(ctx.models)+"\n\n【候选历史案例资料】\n"+JSON.stringify(ctx.cases)+"\n\n请严格遵循：1.先区分用户明确价值/硬约束与普通可权衡因素，硬约束不可被分数抵消；不要替用户解释信仰。2.选择少量最相关模型，说明适用条件和失效边界。3.普通因素权重建议合计100%，权重是启发式提案；证据可信度、因素重要性、方案表现分开。4.列明事实、假设、未知、反证和需要核实的信息。5.引用案例只能使用上面提供的案例ID和source，明确机制相似与关键差异；不得编造案例、出处或数据。6.检查全局优化、二阶效应、外部性、反馈延迟、Goodhart风险及不行动方案。7.建立正反馈和复利机制，但分阶段验证，不因一次成功盲目扩大。8.失败哲学：可预见、可控、事先登记、损失有上限、合规安全且产生信息的实验失败，可以庆祝其学习价值；不可接受伤害、越过安全/法律/伦理红线、隐瞒风险、重复可避免错误、超预算失败绝不能浪漫化。区分智能失败、预防性失败和鲁莽失败。9.给出可检验预测、领先/滞后指标、停止/回滚条件、复盘日期建议。10.不要声称数学上证明全局最优；最终决定由用户作出。\n\n【输出结构】\n一、结论与信心边界\n二、问题重构与硬约束\n三、模型路由及理由\n四、动态因素与权重（合计100%）\n五、方案比较（表现分与证据可信度分开）\n六、历史案例与反例（ID/机制/差异/启示）\n七、全局优化与敏感性\n八、失败预演与可控实验设计\n九、正反馈、复现和分阶段放大条件\n十、行动计划、监控指标、停止条件和复盘问题。";
+ let memory="未授权共享历史决策；不得推断或假设用户过往经验。";
+ if(aiEl("aiIncludeHistory")?.checked){
+  const recent=(wb.decisions||[]).slice(-5);
+  const summary=recent.map(d=>{
+   const experiments=(wb.experiments||[]).filter(x=>x.decisionId===d.id).map(x=>{
+    const reviews=(wb.reviews||[]).filter(r=>r.experimentId===x.id).map(r=>({classification:r.classification,result:r.result,attribution:r.attribution,learning:r.learning,nextAction:r.nextAction}));
+    return {title:x.title,hypothesis:x.hypothesis,expected:x.expected,failureModes:x.failureModes,status:x.status,reviews:reviews};
+   });
+   return {id:d.id,title:d.title,domain:d.domain,objective:d.objective,hypothesis:d.hypothesis,metrics:d.metrics,reviewDate:d.reviewDate,experiments:experiments};
+  });
+  memory=JSON.stringify(summary);
+ }
+ return [
+ "请用中文完成一份可审计的决策分析。",
+ "【当前问题】",aiReadText("problem"),
+ "【领域】",aiReadText("domain"),
+ "【约束】",aiReadText("constraints"),
+ "【目标】",aiReadText("engineGoal"),
+ "【候选方案】",aiReadText("engineOptions"),
+ "【期限/可逆性/利益相关者】",aiReadText("engineHorizon")+" / "+aiReadText("engineReversibility")+" / "+aiReadText("engineStakeholders"),
+ "【事先识别的失败模式】",aiReadText("aiExpectedFailures"),
+ "【失败暴露上限】",aiReadText("aiFailureBudget"),
+ "【历史决策与复盘记忆（仅在用户勾选后提供）】",memory,
+ "【规则引擎结果】",deterministic,
+ "【可用思维模型库】",JSON.stringify(ctx.models),
+ "【候选历史案例资料】",JSON.stringify(ctx.cases),
+ "请严格遵循：1.先区分用户明确价值/硬约束与普通可权衡因素，硬约束不可被分数抵消；不要替用户解释信仰。2.选择少量最相关模型，说明适用条件和失效边界。3.普通因素权重建议合计100%，权重是启发式提案；证据可信度、因素重要性、方案表现分开。4.列明事实、假设、未知、反证和需要核实的信息。5.引用案例只能使用上面提供的案例ID和source，明确机制相似与关键差异；不得编造案例、出处或数据。6.检查全局优化、二阶效应、外部性、反馈延迟、Goodhart风险及不行动方案。7.建立正反馈和复利机制，但分阶段验证，不因一次成功盲目扩大。8.失败哲学：可预见、可控、事先登记、损失有上限、合规安全且产生信息的实验失败，可以庆祝其学习价值；不可接受伤害、越过安全/法律/伦理红线、隐瞒风险、重复可避免错误、超预算失败绝不能浪漫化。区分智能失败、预防性失败和鲁莽失败。9.给出可检验预测、领先/滞后指标、停止/回滚条件、复盘日期建议。10.不要声称数学上证明全局最优；最终决定由用户作出。",
+ "【输出结构】一、结论与信心边界；二、问题重构与硬约束；三、模型路由及理由；四、动态因素与权重（合计100%）；五、方案比较（表现分与证据可信度分开）；六、历史案例与反例（ID/机制/差异/启示）；七、全局优化与敏感性；八、失败预演与可控实验设计；九、正反馈、复现和分阶段放大条件；十、行动计划、监控指标、停止条件和复盘问题。"
+ ].join("\n");
 }
 async function aiRun(){
  const key=aiReadText("aiApiKey");const endpoint=aiReadText("aiEndpoint");const model=aiReadText("aiModel");
