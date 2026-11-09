@@ -1,0 +1,1399 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_version": "0.1.0",
+  "created_at": "2026-11-09",
+  "purpose": "跨领域个人决策系统历史案例压力测试集；以公开事件检验模型路由、价值约束、动态因素、双视角、反证和复盘。",
+  "domain_balance": {
+    "faith": 4,
+    "family": 4,
+    "business": 4,
+    "life": 4
+  },
+  "governance": [
+    "Faith 是用户自定义的最高优先级约束；本案例集不推断用户宗教、教义或信念内容。案例只研究良知、信仰实践、宗教自由、机构使命与公共治理的决策结构。",
+    "Family 案例以安全、儿童福祉、关系责任和照护者可持续性为核心；家庭暴力/胁迫情境中安全优先，不把和解作为默认目标。",
+    "Business 案例同时纳入员工、客户、股东、监管者和社区，不以股东短期收益作为唯一目标。",
+    "Life 案例关注健康、安全、时间、学习、环境和长期可持续性；不以宏观数据替代个体专业判断。",
+    "权重是结构化研究起点，不是客观真值或历史参与者真实权重。各视角普通因素权重合计 100%；硬约束必须单独列为 gate/veto。",
+    "推理存储为可审计摘要：目标、假设、证据、模型、权衡、反证、结论和复盘，不伪造逐字内部思维过程。",
+    "每案需区分当时可得信息与事后资料；本版本尚未完成盲测，禁止宣称已验证决策能力。"
+  ],
+  "cases": [
+    {
+      "id": "FAI-2023-01",
+      "domain": "faith",
+      "date": "2023-04",
+      "title": "印尼 GKI Yasmin 教会长期礼拜场所争议终获解决",
+      "question": "信仰群体在法律权利、社区冲突与安全之间如何行动？",
+      "facts": "印尼 GKI Yasmin 教会因许可争议与社区反对，经历约 16 年法律及社会冲突；2023 年新教堂开放，相关方以对话和替代场地安排结束僵局。",
+      "source": "https://www.iseas.edu.sg/articles-commentaries/iseas-perspective/2023-70-what-the-gereja-kristen-indonesia-gki-yasmin-case-says-about-religious-freedom-in-indonesia-by-alamsyah-m-djafar-and-aan-suryana",
+      "models": [
+        "良知与权利边界",
+        "利益相关者地图",
+        "冲突转化/谈判",
+        "系统反馈与信任"
+      ],
+      "actors": [
+        {
+          "role": "信仰群体/教会领导",
+          "goal": "维护集会与实践信仰的权利，同时保护成员安全",
+          "factors": [
+            {
+              "name": "信仰实践与良知一致性",
+              "weight": 30,
+              "why": "核心使命与不可轻易交换的权利"
+            },
+            {
+              "name": "成员安全与福祉",
+              "weight": 25,
+              "why": "冲突升级可能造成现实伤害"
+            },
+            {
+              "name": "法律权利与程序正义",
+              "weight": 20,
+              "why": "法院裁决和许可程序提供制度边界"
+            },
+            {
+              "name": "社区关系与长期共存",
+              "weight": 15,
+              "why": "避免长期对立固化"
+            },
+            {
+              "name": "策略可逆性与持续性",
+              "weight": 10,
+              "why": "谈判方案是否可持续"
+            }
+          ],
+          "conclusion": "坚持合法权利与成员安全底线，优先争取可持续的制度性解决；若替代场地是自愿且不剥夺权利，可作为降冲突方案。",
+          "redteam": "不能把接受替代场地简单解释为妥协或胜利；需检验原有权利是否实质恢复。"
+        },
+        {
+          "role": "地方政府/社区调解者",
+          "goal": "降低冲突并维护法治、公平与公共秩序",
+          "factors": [
+            {
+              "name": "法律一致性",
+              "weight": 30,
+              "why": "政府必须遵循司法裁决与程序"
+            },
+            {
+              "name": "人身安全",
+              "weight": 25,
+              "why": "避免暴力和恐吓"
+            },
+            {
+              "name": "各群体平等对待",
+              "weight": 20,
+              "why": "防止多数偏好压制少数权利"
+            },
+            {
+              "name": "长期社会信任",
+              "weight": 15,
+              "why": "一次性平息不等于修复信任"
+            },
+            {
+              "name": "执行可行性",
+              "weight": 10,
+              "why": "场地、许可与协调资源"
+            }
+          ],
+          "conclusion": "通过中立调解、透明许可与平等保护，解决争议而非奖励胁迫；安全管理不能取代权利保障。",
+          "redteam": "如果调解只让受压迫方迁移，表面平息可能形成错误激励。"
+        }
+      ],
+      "limits": "类比应围绕权利保护与冲突机制，而不是宗教教义内容。",
+      "record_status": "research_seed",
+      "analysis_status": "structured_hypotheses_not_blind_tested"
+    },
+    {
+      "id": "FAI-2025-02",
+      "domain": "faith",
+      "date": "2025-05",
+      "title": "美国 St. Isidore 宗教特许学校争议",
+      "question": "信仰组织参与公共服务时，宗教自主、公共资助与公共问责如何平衡？",
+      "facts": "俄克拉荷马州拟设宗教背景的公立特许学校，引发宪法争议；美国最高法院 2025 年 5 月 4:4 僵局，维持州法院阻止其成立的结果。",
+      "source": "https://religiousliberty.nd.edu/clinic/cases/st-isidore-of-seville-catholic-virtual-school-v-drummond-u-s/",
+      "models": [
+        "宪政/权利冲突",
+        "制度设计与激励",
+        "利益相关者分析",
+        "不可逆性与先例风险"
+      ],
+      "actors": [
+        {
+          "role": "宗教办学机构",
+          "goal": "争取平等参与公共教育，同时保留宗教身份",
+          "factors": [
+            {
+              "name": "宗教自主与表达",
+              "weight": 25,
+              "why": "组织使命与办学身份"
+            },
+            {
+              "name": "学生教育机会",
+              "weight": 25,
+              "why": "服务对象的实际利益"
+            },
+            {
+              "name": "公共资金问责",
+              "weight": 20,
+              "why": "纳税资金需透明、公平"
+            },
+            {
+              "name": "法律可持续性",
+              "weight": 20,
+              "why": "判例与制度风险"
+            },
+            {
+              "name": "社会信任",
+              "weight": 10,
+              "why": "避免排他或歧视争议"
+            }
+          ],
+          "conclusion": "把核心争点拆成平等准入、宗教自主、课程/招生义务和公共问责；不应只以‘宗教自由’或‘政教分离’口号替代具体制度设计。",
+          "redteam": "公共资助带来的义务可能限制机构自主，须事先评估。"
+        },
+        {
+          "role": "公共监管者/家长",
+          "goal": "确保教育质量、公平与宪法边界",
+          "factors": [
+            {
+              "name": "学生权益与教育质量",
+              "weight": 30,
+              "why": "公共教育的首要服务对象"
+            },
+            {
+              "name": "平等准入/非歧视",
+              "weight": 25,
+              "why": "公共资源的公平性"
+            },
+            {
+              "name": "宗教自由边界",
+              "weight": 20,
+              "why": "避免政府偏袒或压制宗教"
+            },
+            {
+              "name": "公共资金治理",
+              "weight": 15,
+              "why": "审计与问责"
+            },
+            {
+              "name": "制度稳定性",
+              "weight": 10,
+              "why": "避免不可预期先例"
+            }
+          ],
+          "conclusion": "采用对所有申请者一致、内容中立的准入和问责标准，避免政府自行判断哪种宗教活动‘足够宗教’。",
+          "redteam": "形式上的中立标准仍可能在实践中造成不平等影响。"
+        }
+      ],
+      "limits": "4:4 僵局不是最高法院对实体问题作出的多数实体判决；应明确标记程序结果。",
+      "record_status": "research_seed",
+      "analysis_status": "structured_hypotheses_not_blind_tested"
+    },
+    {
+      "id": "FAI-2025-03",
+      "domain": "faith",
+      "date": "2025-06",
+      "title": "Catholic Charities Bureau 宗教机构税务豁免案",
+      "question": "宗教身份是否应由机构服务方式或传教活动来界定？",
+      "facts": "美国最高法院一致裁定，威斯康星州不能仅因天主教慈善机构不传教、服务对象不限于教友而拒绝其宗教机构失业税豁免。",
+      "source": "https://www.law.cornell.edu/supremecourt/text/24-154",
+      "models": [
+        "原则一致性",
+        "分类与测量有效性",
+        "法律解释",
+        "组织使命与激励"
+      ],
+      "actors": [
+        {
+          "role": "宗教慈善机构",
+          "goal": "在服务公众的同时维护组织宗教身份与法律待遇",
+          "factors": [
+            {
+              "name": "宗教使命真实性",
+              "weight": 25,
+              "why": "机构自我定义及实际治理"
+            },
+            {
+              "name": "服务对象普遍性",
+              "weight": 20,
+              "why": "慈善服务是否不设信仰门槛"
+            },
+            {
+              "name": "法律平等待遇",
+              "weight": 25,
+              "why": "避免因服务方式受差别待遇"
+            },
+            {
+              "name": "受益人福祉",
+              "weight": 20,
+              "why": "使命落实到服务质量"
+            },
+            {
+              "name": "治理透明度",
+              "weight": 10,
+              "why": "证明使命与实际活动一致"
+            }
+          ],
+          "conclusion": "以章程、治理、资金用途和实际服务证明使命，不把是否传教作为唯一指标。",
+          "redteam": "机构自我认定也需要透明治理和可核验事实。"
+        },
+        {
+          "role": "监管机构/公众",
+          "goal": "防止豁免滥用，同时避免宗教歧视",
+          "factors": [
+            {
+              "name": "规则中立性",
+              "weight": 30,
+              "why": "避免国家评价宗教教义"
+            },
+            {
+              "name": "公共财政公平",
+              "weight": 25,
+              "why": "豁免成本由公共体系承担"
+            },
+            {
+              "name": "法律一致性",
+              "weight": 20,
+              "why": "适用标准应清晰"
+            },
+            {
+              "name": "公共服务贡献",
+              "weight": 15,
+              "why": "实际社会效益"
+            },
+            {
+              "name": "审计可操作性",
+              "weight": 10,
+              "why": "标准可执行"
+            }
+          ],
+          "conclusion": "以组织控制关系、使命文件和实际活动作中立审查，不以传教或只服务教友作为宗教性的必要条件。",
+          "redteam": "过度宽泛的豁免可能产生监管套利。"
+        }
+      ],
+      "limits": "宗教自由与税收政策属于特定美国法律框架，不可直接外推其他国家。",
+      "record_status": "research_seed",
+      "analysis_status": "structured_hypotheses_not_blind_tested"
+    },
+    {
+      "id": "FAI-2023-04",
+      "domain": "faith",
+      "date": "2023-2026",
+      "title": "全球宗教群体骚扰与限制上升（Pew 2023 年度数据）",
+      "question": "个人或机构如何在信仰实践、公共安全和社会多元之间做判断？",
+      "facts": "Pew 对 198 个国家和地区的研究显示，2023 年至少 151 个国家和地区发生宗教群体身体骚扰；政府限制和社会敌意分别有独立指标。此案例是跨国结构性数据集，不是单一冲突事件。",
+      "source": "https://www.pewresearch.org/religion/2026/06/15/harassment-of-religious-groups-around-the-world-in-2023/",
+      "models": [
+        "基准率与数据质量",
+        "风险分层",
+        "权利与安全边界",
+        "系统性偏差"
+      ],
+      "actors": [
+        {
+          "role": "信仰个人/社群",
+          "goal": "评估实践风险并维持良知与安全",
+          "factors": [
+            {
+              "name": "人身安全",
+              "weight": 30,
+              "why": "暴力风险属于硬约束"
+            },
+            {
+              "name": "良知与信仰实践",
+              "weight": 25,
+              "why": "核心价值不能由外部评分替代"
+            },
+            {
+              "name": "当地法律与制度环境",
+              "weight": 20,
+              "why": "实际可行空间"
+            },
+            {
+              "name": "家庭/社群支持",
+              "weight": 15,
+              "why": "支持网络与保护"
+            },
+            {
+              "name": "信息可信度",
+              "weight": 10,
+              "why": "避免被单一轶事误导"
+            }
+          ],
+          "conclusion": "先识别当地具体风险、法律和可用支持；风险升高时采用低暴露、合法且保护成员的实践方式。",
+          "redteam": "国家级指标不能代替个人所在城市、群体和具体场景风险评估。"
+        },
+        {
+          "role": "公共机构/研究者",
+          "goal": "保护宗教自由并避免偏见",
+          "factors": [
+            {
+              "name": "证据质量与可比性",
+              "weight": 30,
+              "why": "跨国指标存在测量差异"
+            },
+            {
+              "name": "平等保护",
+              "weight": 25,
+              "why": "不同信仰群体均适用"
+            },
+            {
+              "name": "暴力预防",
+              "weight": 20,
+              "why": "关注具体风险而非身份标签"
+            },
+            {
+              "name": "制度透明度",
+              "weight": 15,
+              "why": "公开方法与申诉机制"
+            },
+            {
+              "name": "社会凝聚",
+              "weight": 10,
+              "why": "促进跨群体信任"
+            }
+          ],
+          "conclusion": "使用分项数据和本地事实制定保护措施，不把宗教身份与安全威胁直接画等号。",
+          "redteam": "汇总数据可能掩盖地区内差异及未报告事件。"
+        }
+      ],
+      "limits": "该案例用于测试证据纪律和价值约束，不评价任何信仰真伪。",
+      "record_status": "research_seed",
+      "analysis_status": "structured_hypotheses_not_blind_tested"
+    },
+    {
+      "id": "FAM-2024-01",
+      "domain": "family",
+      "date": "2024-02",
+      "title": "阿拉巴马州冷冻胚胎法律地位判决引发 IVF 暂停",
+      "question": "家庭生育计划、胚胎伦理、医疗服务和法律责任冲突时如何决策？",
+      "facts": "阿拉巴马州最高法院在 LePage 案中认定州未成年人 wrongful-death 法可适用于体外保存胚胎；多家 IVF 诊所短暂停止部分服务，州立法机关随后通过保护 IVF 服务提供者的法律。",
+      "source": "https://law.justia.com/cases/alabama/supreme-court/2024/sc-2022-0579.html",
+      "models": [
+        "价值冲突地图",
+        "利益相关者/代际影响",
+        "法律不确定性",
+        "不可逆性与期权价值"
+      ],
+      "actors": [
+        {
+          "role": "接受 IVF 的家庭",
+          "goal": "在生育机会、伦理信念、法律与情感负担间作选择",
+          "factors": [
+            {
+              "name": "家庭生育目标",
+              "weight": 25,
+              "why": "决策直接关系家庭规划"
+            },
+            {
+              "name": "伦理/信仰一致性",
+              "weight": 25,
+              "why": "需由家庭自身价值定义"
+            },
+            {
+              "name": "医疗安全与可及性",
+              "weight": 20,
+              "why": "诊疗连续性和专业质量"
+            },
+            {
+              "name": "法律与胚胎处置不确定性",
+              "weight": 20,
+              "why": "保存、使用、弃置和争议处理"
+            },
+            {
+              "name": "财务与时间压力",
+              "weight": 10,
+              "why": "治疗成本及生育时间窗口"
+            }
+          ],
+          "conclusion": "在治疗前与生殖医学、法律专业人士书面确认胚胎保存、处置、同意和法律风险；夫妻需先明确价值冲突，不由模型替代伦理决定。",
+          "redteam": "不同家庭对胚胎道德地位有真实分歧，不能假定存在统一价值排序。"
+        },
+        {
+          "role": "诊所/立法者",
+          "goal": "保障患者连续服务，同时处理伦理和法律责任",
+          "factors": [
+            {
+              "name": "患者安全与连续照护",
+              "weight": 30,
+              "why": "医疗服务中断会伤害家庭"
+            },
+            {
+              "name": "法律清晰度",
+              "weight": 25,
+              "why": "机构需可遵循规则"
+            },
+            {
+              "name": "胚胎保管安全",
+              "weight": 20,
+              "why": "防止事故与责任争议"
+            },
+            {
+              "name": "伦理多元与自主",
+              "weight": 15,
+              "why": "尊重不同家庭信念"
+            },
+            {
+              "name": "系统可持续性",
+              "weight": 10,
+              "why": "避免服务供给退出"
+            }
+          ],
+          "conclusion": "建立清晰、前瞻、可执行的责任规则和过渡安排；不应让不确定性迫使患者在紧急状态下作决定。",
+          "redteam": "法律保护服务提供者不等于解决胚胎所有伦理与家庭争议。"
+        }
+      ],
+      "limits": "判决的法律效力和州立法回应需分开记载；不能简化为‘IVF 被禁止’。",
+      "record_status": "research_seed",
+      "analysis_status": "structured_hypotheses_not_blind_tested"
+    },
+    {
+      "id": "FAM-2023-02",
+      "domain": "family",
+      "date": "2023-08",
+      "title": "疫情临时家庭照护支持政策到期与照护缺口",
+      "question": "家庭成员承担长期照护时，家庭责任、职业收入和公共支持如何分配？",
+      "facts": "KFF 对美国 Medicaid 居家与社区服务政策的调查显示，疫情期间多州扩展的远程评估、服务额度和家庭照护者付费政策在 2023 年到期或调整，可能让家庭照护者重新承担更多无偿照护。",
+      "source": "https://www.kff.org/medicaid/pandemic-era-changes-to-home-and-community-based-services-hcbs-a-closer-look-at-family-caregiver-policies/",
+      "models": [
+        "系统边界/隐性成本",
+        "机会成本",
+        "照护者负担与韧性",
+        "政策过渡"
+      ],
+      "actors": [
+        {
+          "role": "家庭照护者",
+          "goal": "兼顾被照护者尊严、家庭关系、收入和自身健康",
+          "factors": [
+            {
+              "name": "被照护者安全与尊严",
+              "weight": 30,
+              "why": "不可牺牲的照护底线"
+            },
+            {
+              "name": "照护者身心可持续性",
+              "weight": 25,
+              "why": "长期照护不能依赖耗竭"
+            },
+            {
+              "name": "家庭收入与职业损失",
+              "weight": 20,
+              "why": "隐性机会成本"
+            },
+            {
+              "name": "正式照护可及性",
+              "weight": 15,
+              "why": "替代资源和质量"
+            },
+            {
+              "name": "家庭成员公平分担",
+              "weight": 10,
+              "why": "避免照护责任单方化"
+            }
+          ],
+          "conclusion": "先评估照护强度和照护者负荷，制定家庭分工、喘息照护和正式服务组合；不要把‘家人照顾’默认成零成本。",
+          "redteam": "不同家庭资源和当地政策差异巨大，不能直接套用美国政策结论。"
+        },
+        {
+          "role": "政策制定者/服务机构",
+          "goal": "保持服务连续、控制公共成本并减少家庭照护崩溃",
+          "factors": [
+            {
+              "name": "照护连续性",
+              "weight": 30,
+              "why": "服务中断造成系统风险"
+            },
+            {
+              "name": "弱势群体保护",
+              "weight": 25,
+              "why": "资源不足家庭承受更大冲击"
+            },
+            {
+              "name": "财政可持续",
+              "weight": 20,
+              "why": "公共预算约束"
+            },
+            {
+              "name": "劳动力供给",
+              "weight": 15,
+              "why": "护理人员短缺"
+            },
+            {
+              "name": "家庭照护者支持",
+              "weight": 10,
+              "why": "培训、喘息与补贴"
+            }
+          ],
+          "conclusion": "政策退出应有过渡评估和影响监测，明确家庭照护者支持、服务容量和申诉渠道。",
+          "redteam": "短期削减支出可能将成本转嫁到家庭并造成更高长期成本。"
+        }
+      ],
+      "limits": "政策样本来自美国 Medicaid，不应外推为全球统一福利制度。",
+      "record_status": "research_seed",
+      "analysis_status": "structured_hypotheses_not_blind_tested"
+    },
+    {
+      "id": "FAM-2024-03",
+      "domain": "family",
+      "date": "2024-10",
+      "title": "波兰 Active Parent 育儿支持计划实施",
+      "question": "家庭如何在父母就业、亲自照护、托育和祖辈照护之间选择？",
+      "facts": "波兰 Active Parent 计划自 2024 年 10 月起提供不同形式的育儿支持，包括托育、照护者支持和父母居家照护选项；同一儿童同一月份只能选择一种福利。",
+      "source": "https://www.gov.pl/web/family/the-active-parent-programme-is-getting-closer-the-senate-adopted-the-law-without-amendments",
+      "models": [
+        "多目标优化",
+        "机会成本",
+        "家庭系统与照护质量",
+        "政策激励"
+      ],
+      "actors": [
+        {
+          "role": "父母/家庭",
+          "goal": "在儿童福祉、家庭收入、照护质量和父母发展间选择",
+          "factors": [
+            {
+              "name": "儿童安全与发展",
+              "weight": 30,
+              "why": "长期福祉优先"
+            },
+            {
+              "name": "照护质量与稳定性",
+              "weight": 25,
+              "why": "照护者能力和连续性"
+            },
+            {
+              "name": "家庭财务净收益",
+              "weight": 20,
+              "why": "补贴与实际费用"
+            },
+            {
+              "name": "父母职业/长期收入",
+              "weight": 15,
+              "why": "职业中断成本"
+            },
+            {
+              "name": "家庭时间与压力",
+              "weight": 10,
+              "why": "照护安排可持续"
+            }
+          ],
+          "conclusion": "比较不同照护组合的真实净成本和儿童适配度；补贴最大化不等于家庭效用最大化。",
+          "redteam": "补贴金额不能替代对托育质量、孩子需求和家庭价值的判断。"
+        },
+        {
+          "role": "政策设计者",
+          "goal": "支持家庭选择而非制造单一标准答案",
+          "factors": [
+            {
+              "name": "儿童福祉",
+              "weight": 30,
+              "why": "政策核心目标"
+            },
+            {
+              "name": "选择自由与公平",
+              "weight": 25,
+              "why": "不同家庭可选方案"
+            },
+            {
+              "name": "财政效率",
+              "weight": 20,
+              "why": "资金使用效果"
+            },
+            {
+              "name": "托育服务供给",
+              "weight": 15,
+              "why": "政策能否落地"
+            },
+            {
+              "name": "政策可调整性",
+              "weight": 10,
+              "why": "随家庭变化切换"
+            }
+          ],
+          "conclusion": "提供多种支持路径并允许合理切换，持续评估补贴是否改善实际照护而不只是改变领取方式。",
+          "redteam": "现金补贴若供给不足，未必能转化为可获得的优质托育。"
+        }
+      ],
+      "limits": "政策生效与家庭实际可领取条件需以当时官方资格规则核对。",
+      "record_status": "research_seed",
+      "analysis_status": "structured_hypotheses_not_blind_tested"
+    },
+    {
+      "id": "FAM-2024-04",
+      "domain": "family",
+      "date": "2024-08",
+      "title": "美国多州家庭法改革：强制控制、监护与儿童保护",
+      "question": "家庭冲突升级时，如何保护弱势成员并避免法律工具被误用？",
+      "facts": "美国律师协会对 2024 年多个州家庭法改革的汇总涉及儿童监护、家暴、强制控制、监督探视、亲子关系和儿童福利等领域。",
+      "source": "https://www.americanbar.org/groups/family_law/resources/family-law-quarterly/2025-august/new-family-law-statutes-2024-selected-state-legislation/",
+      "models": [
+        "风险分级",
+        "弱势方保护",
+        "程序正义",
+        "信息不对称"
+      ],
+      "actors": [
+        {
+          "role": "家庭成员/照护者",
+          "goal": "优先保护儿童和受暴力威胁成员，同时维护程序公平",
+          "factors": [
+            {
+              "name": "即时人身安全",
+              "weight": 35,
+              "why": "危险时属于硬约束"
+            },
+            {
+              "name": "儿童最佳利益",
+              "weight": 25,
+              "why": "监护决定的核心"
+            },
+            {
+              "name": "证据与事实核验",
+              "weight": 20,
+              "why": "避免错误指控或忽视风险"
+            },
+            {
+              "name": "法律支持与可执行性",
+              "weight": 10,
+              "why": "程序与保护令"
+            },
+            {
+              "name": "长期关系/修复可能",
+              "weight": 10,
+              "why": "仅在安全前提下考虑"
+            }
+          ],
+          "conclusion": "先做安全评估与专业法律支持；存在暴力或胁迫时，不以家庭和解作为默认目标。",
+          "redteam": "此类案件高度事实依赖，不能由通用模型裁定谁对谁错。"
+        },
+        {
+          "role": "法院/公共服务",
+          "goal": "保障安全、儿童利益与公正程序",
+          "factors": [
+            {
+              "name": "安全风险识别",
+              "weight": 30,
+              "why": "防止可预见伤害"
+            },
+            {
+              "name": "儿童最佳利益",
+              "weight": 25,
+              "why": "跨期影响"
+            },
+            {
+              "name": "证据可靠性",
+              "weight": 20,
+              "why": "程序公正"
+            },
+            {
+              "name": "干预比例原则",
+              "weight": 15,
+              "why": "避免过度/不足干预"
+            },
+            {
+              "name": "执行和复查",
+              "weight": 10,
+              "why": "保护措施需持续评估"
+            }
+          ],
+          "conclusion": "采用风险导向、证据支持、定期复查的保护安排，避免一刀切。",
+          "redteam": "立法摘要不能替代具体州法条文及个案司法判断。"
+        }
+      ],
+      "limits": "此案例是多州立法汇总，不是单一判决；使用时必须指定州别。",
+      "record_status": "research_seed",
+      "analysis_status": "structured_hypotheses_not_blind_tested"
+    },
+    {
+      "id": "BUS-2023-01",
+      "domain": "business",
+      "date": "2023-03",
+      "title": "Silicon Valley Bank 倒闭与监管失灵",
+      "question": "高速增长企业/金融机构如何管理资产负债错配、集中客户与流动性风险？",
+      "facts": "SVB 于 2023 年 3 月 10 日被关闭。美联储复盘指出管理层和董事会风险管理不足，监管者未及时纠正问题；无保险存款集中和利率风险加速挤兑。",
+      "source": "https://www.federalreserve.gov/publications/2023-April-SVB-Executive-Summary.htm",
+      "models": [
+        "资产负债管理",
+        "系统性风险/反馈环",
+        "增长与治理错配",
+        "尾部风险"
+      ],
+      "actors": [
+        {
+          "role": "银行董事会/管理层",
+          "goal": "在高速增长中维持偿付能力和客户信任",
+          "factors": [
+            {
+              "name": "流动性/存款稳定性",
+              "weight": 30,
+              "why": "挤兑时生存约束"
+            },
+            {
+              "name": "利率与资产负债错配",
+              "weight": 25,
+              "why": "久期和未实现损失"
+            },
+            {
+              "name": "客户/行业集中度",
+              "weight": 20,
+              "why": "存款相关性高"
+            },
+            {
+              "name": "治理与风险文化",
+              "weight": 15,
+              "why": "董事会监督和升级机制"
+            },
+            {
+              "name": "盈利与增长",
+              "weight": 10,
+              "why": "增长不能压过安全"
+            }
+          ],
+          "conclusion": "把流动性压力测试、存款集中度、久期对冲和风险治理设为硬性经营门槛；快速增长必须同步升级控制。",
+          "redteam": "危机前低波动环境容易让模型低估尾部挤兑速度。"
+        },
+        {
+          "role": "存款客户/竞争银行/监管者",
+          "goal": "保护资金安全、降低传染并维持系统信任",
+          "factors": [
+            {
+              "name": "资金可用性",
+              "weight": 30,
+              "why": "客户营运和支付连续性"
+            },
+            {
+              "name": "系统传染风险",
+              "weight": 25,
+              "why": "挤兑可能扩散"
+            },
+            {
+              "name": "风险处置公平性",
+              "weight": 20,
+              "why": "公共救助边界"
+            },
+            {
+              "name": "信息透明",
+              "weight": 15,
+              "why": "降低谣言与恐慌"
+            },
+            {
+              "name": "长期道德风险",
+              "weight": 10,
+              "why": "避免鼓励过度冒险"
+            }
+          ],
+          "conclusion": "客户应按存款保障规则和资金分散原则管理风险；监管者需及时披露问题、处置传染并复盘激励后果。",
+          "redteam": "事后政府保护存款人不意味着所有存款均有普遍无限担保。"
+        }
+      ],
+      "limits": "监管报告是事后调查材料，前瞻盲测必须另行冻结 2023-03-08 前可得信息。",
+      "record_status": "research_seed",
+      "analysis_status": "structured_hypotheses_not_blind_tested"
+    },
+    {
+      "id": "BUS-2023-02",
+      "domain": "business",
+      "date": "2023-11",
+      "title": "OpenAI 董事会罢免 CEO 后数日逆转",
+      "question": "使命导向组织如何处理董事会权力、投资者、员工和公共使命之间的治理冲突？",
+      "facts": "OpenAI 董事会于 2023 年 11 月罢免 Sam Altman，数日后其回归，董事会结构调整。Yale 分析指出非营利母体与营利子公司的治理目标和问责关系复杂。",
+      "source": "https://insights.som.yale.edu/insights/what-went-wrong-at-openai",
+      "models": [
+        "委托代理",
+        "治理权责矩阵",
+        "使命漂移",
+        "利益相关者博弈"
+      ],
+      "actors": [
+        {
+          "role": "董事会/使命守护者",
+          "goal": "维护组织使命并确保有效治理",
+          "factors": [
+            {
+              "name": "使命一致性",
+              "weight": 25,
+              "why": "组织存在理由"
+            },
+            {
+              "name": "治理程序与问责",
+              "weight": 25,
+              "why": "权力行使需合法透明"
+            },
+            {
+              "name": "安全/长期风险",
+              "weight": 20,
+              "why": "使命需转化为治理机制"
+            },
+            {
+              "name": "员工与执行连续性",
+              "weight": 15,
+              "why": "执行团队稳定"
+            },
+            {
+              "name": "资本与合作关系",
+              "weight": 15,
+              "why": "资源与商业可持续"
+            }
+          ],
+          "conclusion": "使命条款必须转化为清晰决策权、升级路径和问责机制；不能仅依赖个人信任或模糊章程。",
+          "redteam": "董事会声称使命优先，不等于程序或判断自然正确。"
+        },
+        {
+          "role": "员工/投资者/客户",
+          "goal": "保障产品连续、组织稳定和合理问责",
+          "factors": [
+            {
+              "name": "组织连续性",
+              "weight": 25,
+              "why": "产品和团队稳定"
+            },
+            {
+              "name": "决策透明与正当程序",
+              "weight": 25,
+              "why": "治理信任"
+            },
+            {
+              "name": "使命与安全",
+              "weight": 20,
+              "why": "长期公共影响"
+            },
+            {
+              "name": "资本与商业可持续",
+              "weight": 15,
+              "why": "资源投入"
+            },
+            {
+              "name": "利益相关者参与",
+              "weight": 15,
+              "why": "受影响方应有表达渠道"
+            }
+          ],
+          "conclusion": "推动治理权责清晰化和危机沟通，防止关键决策由少数人临时博弈。",
+          "redteam": "短期稳定也可能掩盖真实使命冲突，不能只追求CEO回归。"
+        }
+      ],
+      "limits": "Yale 评论是分析性来源，不是对所有内部事实的独立司法认定。",
+      "record_status": "research_seed",
+      "analysis_status": "structured_hypotheses_not_blind_tested"
+    },
+    {
+      "id": "BUS-2024-03",
+      "domain": "business",
+      "date": "2024-01",
+      "title": "Boeing 737 MAX 9 门塞脱落及质量危机",
+      "question": "复杂制造企业如何在交付、成本、工程安全和员工发声之间取舍？",
+      "facts": "2024 年 1 月 5 日 Alaska Airlines 一架 737 MAX 9 门塞脱落；后续出现监管调查、质量审查、举报人争议和员工罢工。",
+      "source": "https://www.washingtonpost.com/business/interactive/2025/boeing-737-max-whistleblower-strike-2024/",
+      "models": [
+        "安全工程/冗余",
+        "组织文化与激励",
+        "质量反馈控制",
+        "代理问题"
+      ],
+      "actors": [
+        {
+          "role": "公司董事会/管理层",
+          "goal": "恢复安全、质量与商业可持续性",
+          "factors": [
+            {
+              "name": "乘客与员工安全",
+              "weight": 35,
+              "why": "不可由财务分数抵消"
+            },
+            {
+              "name": "质量系统与可追溯性",
+              "weight": 25,
+              "why": "过程控制和缺陷闭环"
+            },
+            {
+              "name": "员工发声与文化",
+              "weight": 15,
+              "why": "一线信号上行"
+            },
+            {
+              "name": "监管/客户信任",
+              "weight": 15,
+              "why": "长期许可与订单"
+            },
+            {
+              "name": "现金流与交付",
+              "weight": 10,
+              "why": "短期经营约束"
+            }
+          ],
+          "conclusion": "安全与质量必须作为 gate；停止/放慢交付、独立审计、保护举报渠道，先修复根因再追求产能。",
+          "redteam": "成本削减和交付目标可能使组织忽略低频高损失信号。"
+        },
+        {
+          "role": "航空公司/乘客/监管者",
+          "goal": "降低系统性安全风险并确保问责",
+          "factors": [
+            {
+              "name": "安全证据",
+              "weight": 35,
+              "why": "飞行风险不可接受"
+            },
+            {
+              "name": "独立监管与审计",
+              "weight": 25,
+              "why": "避免自我认证偏差"
+            },
+            {
+              "name": "透明披露",
+              "weight": 15,
+              "why": "知情与信任"
+            },
+            {
+              "name": "供应链质量",
+              "weight": 15,
+              "why": "追溯外包环节"
+            },
+            {
+              "name": "运营连续性",
+              "weight": 10,
+              "why": "航班与供应保障"
+            }
+          ],
+          "conclusion": "以独立调查和可验证纠正措施为复飞/放宽限制前提，不以声誉承诺替代证据。",
+          "redteam": "单一事故不代表所有机型/制造环节风险完全相同。"
+        }
+      ],
+      "limits": "不将 2018/2019 年两起致命坠机混为 2024 年门塞事件；作为组织历史背景单独引用。",
+      "record_status": "research_seed",
+      "analysis_status": "structured_hypotheses_not_blind_tested"
+    },
+    {
+      "id": "BUS-2024-04",
+      "domain": "business",
+      "date": "2024-07",
+      "title": "CrowdStrike 更新导致全球 IT 大规模中断",
+      "question": "高频自动更新的软件服务如何平衡速度、可靠性和系统级外部性？",
+      "facts": "2024 年 7 月 19 日 CrowdStrike 内容配置更新导致 Windows 设备故障；美国国会研究处引用微软估计约 850 万台设备受影响，航空、医疗、金融等行业受到扰动。",
+      "source": "https://www.everycrsreport.com/reports/IN12392.html",
+      "models": [
+        "复杂系统耦合",
+        "变更管理/发布控制",
+        "故障隔离与冗余",
+        "外部性"
+      ],
+      "actors": [
+        {
+          "role": "软件供应商",
+          "goal": "保持快速交付同时避免单点故障扩散",
+          "factors": [
+            {
+              "name": "发布安全/测试覆盖",
+              "weight": 30,
+              "why": "更新错误可快速放大"
+            },
+            {
+              "name": "灰度与回滚能力",
+              "weight": 25,
+              "why": "控制爆炸半径"
+            },
+            {
+              "name": "客户业务连续性",
+              "weight": 20,
+              "why": "关键行业依赖"
+            },
+            {
+              "name": "透明沟通与恢复",
+              "weight": 15,
+              "why": "危机信任"
+            },
+            {
+              "name": "研发速度",
+              "weight": 10,
+              "why": "速度需服从可靠性门槛"
+            }
+          ],
+          "conclusion": "关键配置更新需分批、影子验证、熔断和快速回滚；将客户关键系统纳入分级发布策略。",
+          "redteam": "仅增加测试数量不一定能覆盖所有环境组合。"
+        },
+        {
+          "role": "企业客户/关键基础设施运营者",
+          "goal": "降低第三方依赖导致的业务中断",
+          "factors": [
+            {
+              "name": "业务连续性",
+              "weight": 30,
+              "why": "运营/医疗/航空影响"
+            },
+            {
+              "name": "供应商集中度",
+              "weight": 20,
+              "why": "单一依赖风险"
+            },
+            {
+              "name": "恢复时间目标",
+              "weight": 20,
+              "why": "灾备和人工回退"
+            },
+            {
+              "name": "变更可控性",
+              "weight": 15,
+              "why": "更新审批/窗口"
+            },
+            {
+              "name": "安全防护有效性",
+              "weight": 15,
+              "why": "避免因停更引入其他风险"
+            }
+          ],
+          "conclusion": "制定供应商故障隔离和离线恢复计划，关键端点避免无差别同步更新。",
+          "redteam": "冻结更新会增加未修复漏洞暴露，需风险分层而非永久停更。"
+        }
+      ],
+      "limits": "CrowdStrike 官方 RCA 与政府 CRS 视角应交叉核对；设备数是估计值。",
+      "record_status": "research_seed",
+      "analysis_status": "structured_hypotheses_not_blind_tested"
+    },
+    {
+      "id": "LIF-2023-01",
+      "domain": "life",
+      "date": "2023-05",
+      "title": "WHO 结束 COVID-19 国际突发公共卫生事件状态",
+      "question": "公共卫生风险下降时，个人与机构如何从紧急状态转向长期管理？",
+      "facts": "2023 年 5 月 5 日 WHO 判断 COVID-19 不再构成国际关注的突发公共卫生事件，同时明确病毒仍是持续健康问题，建议维持监测、疫苗和准备能力。",
+      "source": "https://www.who.int/news/item/05-05-2023-statement-on-the-fifteenth-meeting-of-the-international-health-regulations-emergency-committee-regarding-the-coronavirus-disease-(covid-19)-pandemic",
+      "models": [
+        "基准率与趋势",
+        "风险沟通",
+        "预防原则",
+        "控制论/持续监测"
+      ],
+      "actors": [
+        {
+          "role": "个人/家庭",
+          "goal": "恢复正常生活同时保留针对高风险情境的防护",
+          "factors": [
+            {
+              "name": "严重疾病风险",
+              "weight": 30,
+              "why": "年龄/健康与暴露决定风险"
+            },
+            {
+              "name": "日常生活质量",
+              "weight": 20,
+              "why": "限制措施也有成本"
+            },
+            {
+              "name": "可靠监测信息",
+              "weight": 20,
+              "why": "趋势和变异监测"
+            },
+            {
+              "name": "家庭脆弱成员保护",
+              "weight": 20,
+              "why": "差异化保护"
+            },
+            {
+              "name": "措施可调整性",
+              "weight": 10,
+              "why": "根据风险变化调整"
+            }
+          ],
+          "conclusion": "从统一紧急限制转向分层风险管理；依据个体风险、当地传播和医疗条件动态调整。",
+          "redteam": "PHEIC 结束不是病毒消失，也不代表所有个体风险相同。"
+        },
+        {
+          "role": "公共卫生机构",
+          "goal": "在常态化管理中保留早期发现与应急能力",
+          "factors": [
+            {
+              "name": "重症与死亡趋势",
+              "weight": 30,
+              "why": "健康系统核心结果"
+            },
+            {
+              "name": "监测系统完整性",
+              "weight": 25,
+              "why": "数据下降会造成盲区"
+            },
+            {
+              "name": "高风险群体保护",
+              "weight": 20,
+              "why": "资源公平"
+            },
+            {
+              "name": "医疗系统韧性",
+              "weight": 15,
+              "why": "人员与床位能力"
+            },
+            {
+              "name": "公众信任",
+              "weight": 10,
+              "why": "透明沟通"
+            }
+          ],
+          "conclusion": "保留哨点监测、风险沟通和应急预案，避免‘紧急状态结束’导致准备能力撤除。",
+          "redteam": "报告病例减少可能来自检测与报告减少，不一定等于真实传播同步下降。"
+        }
+      ],
+      "limits": "这是公共卫生治理案例，不提供个人医疗诊断或治疗建议。",
+      "record_status": "research_seed",
+      "analysis_status": "structured_hypotheses_not_blind_tested"
+    },
+    {
+      "id": "LIF-2023-02",
+      "domain": "life",
+      "date": "2023-08",
+      "title": "Maui 野火灾害与长期健康/社区恢复",
+      "question": "突发灾害中如何平衡即时撤离、信息不确定性和长期社区恢复？",
+      "facts": "2023 年 8 月 Maui 野火造成超过 100 人死亡、数千人流离失所，医疗基础设施和社区支持受到严重破坏；后续研究关注心理健康、医疗可及性与长期影响。",
+      "source": "https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2837319",
+      "models": [
+        "危机决策/最小后悔",
+        "韧性与冗余",
+        "弱势群体优先",
+        "长期反馈"
+      ],
+      "actors": [
+        {
+          "role": "居民/家庭",
+          "goal": "在信息不完整时保护生命并维持家庭连续性",
+          "factors": [
+            {
+              "name": "生命安全与撤离",
+              "weight": 40,
+              "why": "不可逆损失最高"
+            },
+            {
+              "name": "家庭成员联络/团聚",
+              "weight": 20,
+              "why": "失联风险"
+            },
+            {
+              "name": "药物/医疗连续性",
+              "weight": 15,
+              "why": "慢病与急救"
+            },
+            {
+              "name": "信息可靠性",
+              "weight": 15,
+              "why": "官方警报和多渠道"
+            },
+            {
+              "name": "财产/生计",
+              "weight": 10,
+              "why": "生命安全之后处理"
+            }
+          ],
+          "conclusion": "预先制定多路径撤离、集合点、通信和重要药物清单；警报不确定时优先采取可逆的安全行动。",
+          "redteam": "灾害现场的具体风向、道路和警报信息必须实时核验。"
+        },
+        {
+          "role": "地方政府/救援机构",
+          "goal": "降低伤亡并公平分配稀缺资源",
+          "factors": [
+            {
+              "name": "预警与响应速度",
+              "weight": 30,
+              "why": "延迟可能造成不可逆伤亡"
+            },
+            {
+              "name": "信息覆盖/通信韧性",
+              "weight": 25,
+              "why": "警报必须到达所有人"
+            },
+            {
+              "name": "弱势群体可达性",
+              "weight": 20,
+              "why": "老年、残障、游客等"
+            },
+            {
+              "name": "医疗/避难资源",
+              "weight": 15,
+              "why": "灾后连续照护"
+            },
+            {
+              "name": "长期社区恢复",
+              "weight": 10,
+              "why": "住房、心理和生计"
+            }
+          ],
+          "conclusion": "建立多渠道预警、断网备份、弱势群体名单保护和灾后长期服务机制。",
+          "redteam": "事后分析需避免只凭结果推断当时决策者掌握的信息。"
+        }
+      ],
+      "limits": "JAMA 2025 后续研究是事后健康影响证据，不可伪装成 2023 年当时可知信息。",
+      "record_status": "research_seed",
+      "analysis_status": "structured_hypotheses_not_blind_tested"
+    },
+    {
+      "id": "LIF-2023-03",
+      "domain": "life",
+      "date": "2023-06",
+      "title": "美国 Surgeon General 发布青少年社交媒体与心理健康警示",
+      "question": "数字工具带来连接和学习收益时，如何管理青少年长期心理与注意力风险？",
+      "facts": "美国卫生总监 2023 年发布咨询报告，指出青少年社交媒体使用广泛，现有证据提示有潜在风险与益处并存，尚不能确认其对儿童青少年足够安全。",
+      "source": "https://www.hhs.gov/surgeongeneral/reports-and-publications/youth-mental-health/social-media/index.html",
+      "models": [
+        "预防原则",
+        "证据等级/因果识别",
+        "激励机制",
+        "发展阶段适配"
+      ],
+      "actors": [
+        {
+          "role": "青少年/家庭",
+          "goal": "在自主、社交连接与心理健康之间建立边界",
+          "factors": [
+            {
+              "name": "心理与睡眠健康",
+              "weight": 30,
+              "why": "长期发展基础"
+            },
+            {
+              "name": "自主与社交连接",
+              "weight": 20,
+              "why": "数字生活也有真实收益"
+            },
+            {
+              "name": "内容暴露与平台设计",
+              "weight": 20,
+              "why": "推荐算法影响注意力"
+            },
+            {
+              "name": "家庭沟通与信任",
+              "weight": 15,
+              "why": "避免单纯监控引发对抗"
+            },
+            {
+              "name": "学习/创造价值",
+              "weight": 15,
+              "why": "区分被动刷屏与主动使用"
+            }
+          ],
+          "conclusion": "制定共同协商的使用边界、睡眠保护和内容规则，定期复盘实际影响；避免只用屏幕时长作为唯一指标。",
+          "redteam": "相关性不等于单一因果；个体差异、内容类型和使用方式重要。"
+        },
+        {
+          "role": "平台/监管者",
+          "goal": "降低系统性风险并保留有益使用",
+          "factors": [
+            {
+              "name": "未成年人安全设计",
+              "weight": 30,
+              "why": "年龄适配与保护默认值"
+            },
+            {
+              "name": "推荐系统透明",
+              "weight": 20,
+              "why": "风险可审计"
+            },
+            {
+              "name": "隐私与自主",
+              "weight": 20,
+              "why": "减少过度收集"
+            },
+            {
+              "name": "有益内容可达性",
+              "weight": 15,
+              "why": "避免简单封禁"
+            },
+            {
+              "name": "证据与评估",
+              "weight": 15,
+              "why": "独立研究和持续改进"
+            }
+          ],
+          "conclusion": "采用隐私保护的年龄适配、默认安全、风险评估和独立审计，不能只把责任推给家长。",
+          "redteam": "研究证据仍在发展，过度限制也可能伤害弱势青少年社交支持。"
+        }
+      ],
+      "limits": "公共卫生咨询报告是风险提示，不等同于证明所有社交媒体使用都会造成精神疾病。",
+      "record_status": "research_seed",
+      "analysis_status": "structured_hypotheses_not_blind_tested"
+    },
+    {
+      "id": "LIF-2024-04",
+      "domain": "life",
+      "date": "2024-12",
+      "title": "2024 全球高温纪录与热应激风险",
+      "question": "个人、雇主和城市如何把慢变量气候风险转化为日常防护与韧性投资？",
+      "facts": "WMO 报告称 2024 年为有记录以来最热年份，全球平均温度约比工业化前高 1.55°C；极端热应激影响工作、健康和基础设施。",
+      "source": "https://wmo.int/publication-series/state-of-global-climate/state-of-global-climate-2024",
+      "models": [
+        "长期趋势/基准率",
+        "系统韧性",
+        "预防性投资",
+        "风险暴露分层"
+      ],
+      "actors": [
+        {
+          "role": "个人/家庭/劳动者",
+          "goal": "降低高温暴露并保持工作生活可持续",
+          "factors": [
+            {
+              "name": "生命健康风险",
+              "weight": 35,
+              "why": "热相关急症不可逆"
+            },
+            {
+              "name": "暴露时间/工作条件",
+              "weight": 25,
+              "why": "暴露决定风险"
+            },
+            {
+              "name": "降温与补水资源",
+              "weight": 15,
+              "why": "可操作保护措施"
+            },
+            {
+              "name": "经济与工作连续性",
+              "weight": 15,
+              "why": "不能忽视生计"
+            },
+            {
+              "name": "信息预警",
+              "weight": 10,
+              "why": "及时调整活动"
+            }
+          ],
+          "conclusion": "根据当地预警、工作环境和个体脆弱性调整户外活动与劳动安排，准备降温和应急方案。",
+          "redteam": "全球均温不是某地当天温度；必须用本地天气和热指数。"
+        },
+        {
+          "role": "雇主/城市治理者",
+          "goal": "保护劳动者并提升基础设施适应能力",
+          "factors": [
+            {
+              "name": "劳动者安全",
+              "weight": 30,
+              "why": "雇主义务和生命保护"
+            },
+            {
+              "name": "热风险预警/停工规则",
+              "weight": 25,
+              "why": "提前触发行动"
+            },
+            {
+              "name": "城市降温/电力韧性",
+              "weight": 20,
+              "why": "系统基础设施"
+            },
+            {
+              "name": "弱势群体公平",
+              "weight": 15,
+              "why": "资源差异"
+            },
+            {
+              "name": "成本与生产率",
+              "weight": 10,
+              "why": "长期损失远高于预防成本"
+            }
+          ],
+          "conclusion": "建立热健康行动计划、工作休息制度、遮阴降温和电力应急安排，将热风险纳入年度预算。",
+          "redteam": "不同地区的湿度、建筑、职业和适应能力差异巨大。"
+        }
+      ],
+      "limits": "WMO 的全球年度指标不能直接代替本地天气预报或个体医学判断。",
+      "record_status": "research_seed",
+      "analysis_status": "structured_hypotheses_not_blind_tested"
+    }
+  ]
+}
