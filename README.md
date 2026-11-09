@@ -67,3 +67,8 @@ The optional browser-side AI adapter supports OpenAI-compatible Chat Completions
 
 
 **Local-first guarantee:** core decision workflows run without an AI account, API key, or external model provider. AI is an optional, separately navigable second-opinion extension. See [web/README.md](web/README.md).
+
+
+## Personal expression and video workflow
+
+A Mac-first workflow for turning Chinese spoken reflections into polished Chinese–English videos is documented in [media-workflow/README.md](media-workflow/README.md). It covers local transcription with MacWhisper, natural English subtitle translation, timestamp-validated bilingual SRT merging, reusable subtitle styling in CapCut / 剪映专业版 or Final Cut Pro, and a privacy/quality checklist. The SRT merger and translation prompt are included under `media-workflow/`.
