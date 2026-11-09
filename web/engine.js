@@ -115,7 +115,7 @@ function buildScoreTable(options,factors){
  html+='<label class="engine-label">该方案的关键证据 / 假设<textarea class="field" rows="2" data-evidence="'+i+'" placeholder="说明评分依据；没有证据请明确写假设"></textarea></label><label class="engine-label">证据可信度（独立于因素权重与表现分）<select class="field" data-confidence="'+i+'"><option value="unknown">未知 / 尚无证据</option><option value="low">低 · 单一来源或弱推断</option><option value="medium">中 · 多项一致但仍有混杂</option><option value="high">高 · 可核验、多来源或强设计</option></select></label></div>';
  });
  host.innerHTML=html;
- host.querySelectorAll("select[data-score],select[data-gate]").forEach(el=>el.addEventListener("change",()=>calculateScores(options,factors)));
+ host.querySelectorAll("select[data-score],select[data-gate],select[data-confidence]").forEach(el=>el.addEventListener("change",()=>calculateScores(options,factors)));
 }
 function calculateScores(options,factors){
  const host=$("engineResults"),rows=[];
@@ -143,8 +143,8 @@ function calculateScores(options,factors){
  const calc=r=>r.scores.reduce((s,v,k)=>s+(v===null?0:v*alt[k]/total/5),0);
  return calc(runner)>calc(winner);
  }).length;
- sensitivity=flips===0?"逐项将因素权重上下扰动约 20% 时，领先方案未发生反转（仅是简化敏感性检查）。":"逐项扰动权重时，有 "+flips+" 个因素可能使排序反转；结论对权重较敏感。";
- conclusion+='<div class="engine-conclusion"><b>暂定优先方案：</b>'+esc(winner.opt)+'（表现加权分 '+winner.score.toFixed(1)+'/100）<br><b>与次优方案差距：</b>'+gap.toFixed(1)+' 分。<br><b>稳健性：</b>'+esc(sensitivity)+'<br><span class="engine-muted">此排序只反映你输入的表现评分和当前权重，不是客观预测或自动替你作出的最终决定。</span></div>';
+ sensitivity=flips===0?"逐项将因素权重上调或下调 20% 时，领先方案未发生反转（仅是简化敏感性检查）。":"逐项将权重上调或下调 20% 时，有 "+flips+" 个因素可能使排序反转；结论对权重较敏感。";
+ conclusion+='<div class="engine-conclusion"><b>在已通过门槛且完成评分的方案中，暂定优先：</b>'+esc(winner.opt)+'（表现加权分 '+winner.score.toFixed(1)+'/100）<br><b>与次优方案差距：</b>'+gap.toFixed(1)+' 分。<br><b>稳健性：</b>'+esc(sensitivity)+'<br><span class="engine-muted">此排序只反映你输入的表现评分和当前权重，不是客观预测或自动替你作出的最终决定。</span></div>';
  }else conclusion+='<div class="engine-conclusion"><b>唯一通过门槛且完成评分的方案：</b>'+esc(winner.opt)+'（'+winner.score.toFixed(1)+'/100）。尚无第二个完整方案用于比较，因此不能称为最优方案。</div>';
  }
  rows.forEach(r=>{conclusion+='<div class="engine-factor"><span>'+esc(r.opt)+' · '+(r.gate==="pass"?"通过门槛":r.gate==="fail"?"门槛否决":"门槛未核实")+'<br><small>证据可信度：'+esc(({unknown:"未知",low:"低",medium:"中",high:"高"})[r.confidence])+'</small></span><strong>'+(r.score===null?"待评分":r.score.toFixed(1)+"/100")+'</strong></div>';});
